@@ -1,0 +1,1622 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
+<html lang="nl" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-yomeom5PRB/NkEVhN/m7dboHIJP+2/h/u/G69qmjt18=' https://cdnjs.cloudflare.com; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src data: blob:; connect-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>H8XL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F3F5F8; --surface:#FFFFFF; --raised:#FFFFFF; --phase:#F7F8FB; --ink:#121722; --muted:#5D6876; --line:#E1E6ED; --line-strong:#CBD3DD;
+  --weekend:#F1F3F7; --holiday:#E7EAF3; --sel:#EEF0FD; --today:#E0533F; --focus:#4F5BD5; --hover:#F1F3F7; --pn:#6E7987; --amber:#B7791F;
+  --p0:#4F5BD5; --p1:#1E9C77; --p2:#C98A12; --p3:#9A55D8; --p4:#1E8FB8; --p5:#D9594A;
+  --shadow:0 1px 2px rgba(18,23,34,.06),0 12px 32px rgba(18,23,34,.10); --glow:0;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0D1015; --surface:#141921; --raised:#1A2029; --phase:#171C24; --ink:#E7ECF2; --muted:#919DAB; --line:#232B36; --line-strong:#2E3845;
+    --weekend:#181D25; --holiday:#1E2431; --sel:#1C2136; --today:#FF7A66; --focus:#8A98FF; --hover:#202733; --pn:#7D8896; --amber:#F2B653;
+    --p0:#8A98FF; --p1:#45C7A0; --p2:#F2B653; --p3:#C98CFA; --p4:#5BC0EB; --p5:#FF8F7A;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 20px 50px rgba(0,0,0,.45); --glow:1;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0D1015; --surface:#141921; --raised:#1A2029; --phase:#171C24; --ink:#E7ECF2; --muted:#919DAB; --line:#232B36; --line-strong:#2E3845;
+  --weekend:#181D25; --holiday:#1E2431; --sel:#1C2136; --today:#FF7A66; --focus:#8A98FF; --hover:#202733; --pn:#7D8896; --amber:#F2B653;
+  --p0:#8A98FF; --p1:#45C7A0; --p2:#F2B653; --p3:#C98CFA; --p4:#5BC0EB; --p5:#FF8F7A;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 20px 50px rgba(0,0,0,.45); --glow:1;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Geist",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:15px;line-height:1.45;overflow-x:hidden;font-variant-numeric:tabular-nums}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+
+/* Top bar */
+.top{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;padding:16px 24px 14px}
+.brand{display:flex;align-items:center;gap:9px;font-family:"Geist Mono",ui-monospace,Menlo,monospace;font-weight:500;font-size:14px;letter-spacing:.06em;white-space:nowrap}
+.brand .glyph{width:18px;height:18px;border-radius:5px;background:var(--focus);box-shadow:0 0 calc(var(--glow)*16px) color-mix(in srgb,var(--focus) 60%,transparent)}
+.top .vsep{width:1px;height:20px;background:var(--line)}
+.title-in{flex:1 1 260px;min-width:0;border:1px solid transparent;border-radius:9px;background:transparent;padding:4px 8px;font-size:19px;font-weight:600;letter-spacing:-.01em}
+.title-in:hover{border-color:var(--line)}
+.title-in:focus{border-color:var(--line-strong);outline:none;background:var(--paper)}
+.tools{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.btn{height:34px;padding:0 12px;border:1px solid var(--line);border-radius:9px;background:var(--raised);cursor:pointer;font-size:13.5px;font-weight:500;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;color:var(--ink);transition:background .12s,border-color .12s}
+.btn:hover{background:var(--hover);border-color:var(--line-strong)}
+.btn.primary{background:var(--focus);color:var(--paper);border-color:var(--focus);font-weight:600}
+.btn.primary:hover{background:var(--focus);filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--muted)}
+.btn.ghost:hover{color:var(--ink)}
+.seg{display:inline-flex;gap:2px;padding:3px;border:1px solid var(--line);border-radius:11px;background:var(--surface);height:34px}
+.seg button{border:0;border-radius:8px;background:transparent;padding:0 11px;cursor:pointer;font-size:13px;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--raised);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.25)}
+.menu-wrap{position:relative}
+.menu{position:absolute;right:0;top:40px;min-width:240px;background:var(--raised);border:1px solid var(--line-strong);border-radius:10px;box-shadow:var(--shadow);padding:6px;z-index:50;display:none}
+.menu.open{display:block}
+.menu button,.menu label{display:flex;width:100%;align-items:center;gap:10px;padding:8px 10px;border:0;background:none;border-radius:6px;cursor:pointer;text-align:left;font-size:14px}
+.menu button:hover,.menu label:hover{background:var(--hover)}
+.menu small{display:block;color:var(--muted);font-size:12px}
+.menu input[type=checkbox]{width:16px;height:16px;accent-color:var(--ink);margin:0}
+.sep{width:1px;height:22px;background:var(--line-strong);margin:0 2px}
+
+main{padding:4px 24px 40px;max-width:100%}
+.board{position:relative;display:flex;gap:16px;align-items:flex-start}
+.board .gantt{flex:1;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:16px}
+.panel{width:330px;flex:none;border:1px solid var(--line);border-radius:16px;background:var(--raised);box-shadow:var(--shadow);overflow:auto;max-height:calc(100vh - 150px);min-height:260px;display:none;padding:16px 18px 18px}
+.mode-panel .panel{display:block}
+.panel{transition:width .18s ease,padding .18s ease}
+.panel.collapsed{width:48px;padding:6px;min-height:0;overflow:hidden}
+.p-tools{display:flex;gap:2px}
+.p-x{display:inline-flex;align-items:center;justify-content:center}
+.p-rail{width:100%;min-height:180px;border:0;background:transparent;color:var(--muted);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:12px;padding:10px 0;border-radius:10px}
+.p-rail:hover{background:var(--hover);color:var(--ink)}
+.p-rail-txt{writing-mode:vertical-rl;font-size:13px;font-weight:500;max-height:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.p-rail-dot{width:8px;height:8px;border-radius:50%;flex:none;background:currentColor;box-shadow:0 0 calc(var(--glow)*8px) currentColor}
+.p-kind{display:inline-flex;align-items:center;gap:8px}
+.p-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px}
+.p-kind{font-size:12px;color:var(--muted);font-weight:500}
+.p-x{border:0;background:none;font-size:18px;color:var(--muted);cursor:pointer;width:28px;height:28px;border-radius:6px}
+.p-x:hover{background:var(--hover);color:var(--ink)}
+.p-name{width:calc(100% + 6px);font-size:18px;font-weight:600;letter-spacing:-.01em;border:1px solid transparent;border-radius:8px;padding:4px 6px;background:transparent;margin:0 0 8px -6px}
+.p-name:hover{border-color:var(--line)}
+.p-name:focus{border-color:var(--line-strong);outline:none;background:var(--paper)}
+.p-sec{border-top:1px solid var(--line);padding:12px 0;display:flex;flex-direction:column;gap:10px}
+.p-sec h4{margin:0;font-size:12px;font-weight:600;color:var(--muted)}
+.p-row{display:flex;flex-direction:column;gap:4px;min-width:0}
+.p-row label{font-size:12px;color:var(--muted)}
+.panel input[type=text],.panel input[type=date],.panel input[type=number],.panel select{width:100%;height:36px;border:1px solid var(--line);border-radius:9px;background:var(--paper);padding:0 8px;font-size:14px;min-width:0}
+.panel input:focus,.panel select:focus{outline:none;border-color:var(--focus)}
+.p-two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.p-ro{font-size:13px;color:var(--muted)}
+.p-check{display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;width:max-content}
+.p-check input{width:16px;height:16px;accent-color:var(--ink);margin:0}
+.p-inline{display:flex;gap:6px}
+.btn.sm{height:34px;padding:0 10px;font-size:13px;flex:none}
+.btn.danger{color:var(--today)}
+.p-gap{margin:0;font-size:13px;color:var(--muted)}
+.p-gap.over{color:var(--amber);font-weight:500;padding:9px 11px;border-radius:10px;background:color-mix(in srgb,var(--amber) 11%,transparent);border:1px solid color-mix(in srgb,var(--amber) 32%,transparent)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 3px 0 10px;border:1px solid var(--line);background:var(--paper);border-radius:14px;font-size:13px;max-width:100%}
+.chip-n{color:var(--muted);font-size:12px}
+.chip .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:180px}
+.chip button{border:0;background:none;width:22px;height:22px;border-radius:11px;cursor:pointer;color:var(--muted);font-size:14px;padding:0}
+.chip button:hover{background:var(--hover);color:var(--ink)}
+.p-acts{display:flex;flex-wrap:wrap;gap:8px;border-top:1px solid var(--line);padding-top:12px}
+.p-empty{color:var(--muted);font-size:14px;padding:6px 2px}
+.p-empty strong{display:block;color:var(--ink);font-size:15px;font-weight:600;margin-bottom:4px}
+.p-empty p{margin:0}
+.nw{position:relative;flex:1;min-width:0;display:flex;align-items:center}
+.lr.selected{background:var(--sel)}
+.lr.selected .num{color:var(--focus)}
+.mode-panel .labels .del,.mode-panel .labels .mini{display:none}
+@media (max-width:720px){
+  .mode-panel .panel{position:fixed;left:0;right:0;bottom:0;width:auto;max-height:64vh;min-height:0;border-left:0;border-top:1px solid var(--line-strong);border-radius:16px 16px 0 0;box-shadow:var(--shadow);z-index:60;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+  .mode-panel .panel.empty{display:none}
+  .mode-panel .panel.collapsed{left:auto;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));width:auto;max-height:none;border-radius:22px;padding:0;border:1px solid var(--line-strong)}
+  .p-rail{flex-direction:row;min-height:44px;padding:0 16px;gap:8px}
+  .p-rail-txt{writing-mode:horizontal-tb;max-width:200px}
+}
+
+/* Gantt grid */
+.gantt{display:grid;grid-template-rows:48px auto;overflow:auto;max-height:calc(100vh - 230px);min-height:260px;position:relative;overscroll-behavior:contain}
+.corner{position:sticky;top:0;left:0;z-index:4;background:var(--surface);border-right:1px solid var(--line);border-bottom:1px solid var(--line-strong);display:flex;align-items:flex-end;gap:8px;padding:0 8px 8px 14px;overflow:hidden;font-size:13px;color:var(--muted);font-weight:500}
+.hdr{position:sticky;top:0;z-index:3;background:var(--surface);display:block}
+.labels{position:sticky;left:0;z-index:2;background:var(--surface);border-right:1px solid var(--line)}
+#body{display:block;user-select:none;-webkit-user-select:none}
+.lr{position:relative;display:flex;align-items:center;gap:8px;padding:0 8px 0 14px;border-bottom:1px solid var(--line)}
+.r-phase{height:32px;background:var(--phase)}
+.r-task{height:36px}
+.r-sub{height:30px;gap:6px}
+.r-sub .num{width:30px}
+.r-sub .name-in{font-size:13.5px;color:var(--muted)}
+.r-sub .name-in:focus{color:var(--ink)}
+.tg{flex:none;width:18px;height:22px;border:0;background:none;color:var(--muted);cursor:pointer;border-radius:5px;font-size:12px;padding:0;margin-right:-4px}
+.tg:hover{background:var(--hover);color:var(--ink)}
+.tg-sp{flex:none;width:14px}
+.r-task:not(.r-sub) .tg-sp{width:18px;margin-right:-4px}
+.cnt{flex:none;font-size:11px;color:var(--muted);background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:0 6px;line-height:16px}
+.mini{flex:none;width:22px;height:22px;border:1px solid var(--line-strong);border-radius:6px;background:var(--surface);color:var(--ink);cursor:pointer;opacity:0;font-size:14px;line-height:1;padding:0}
+.lr.selected .mini,.mini:focus-visible{opacity:1}
+.mini:hover{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.mini.on{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+
+.r-empty{height:72px;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px;font-size:13px;color:var(--muted)}
+.r-empty strong{color:var(--ink);font-weight:600;font-size:14px}
+.r-add{height:48px;border-bottom:0;gap:0;padding-left:6px;overflow:hidden}
+.sw{width:8px;height:8px;border-radius:50%;flex:none;box-shadow:0 0 calc(var(--glow)*10px) currentColor}
+.num{width:22px;flex:none;color:var(--muted);font-size:11px;text-align:right;font-family:"Geist Mono",ui-monospace,Menlo,monospace}
+.name-in,.phase-in{flex:1;min-width:0;border:1px solid transparent;border-radius:6px;background:transparent;padding:3px 6px;font-size:14px}
+.phase-in{font-weight:600;font-size:13px}
+.name-in:hover,.phase-in:hover{border-color:var(--line)}
+.name-in:focus,.phase-in:focus{border-color:var(--line-strong);background:var(--surface);outline:none}
+.name-in::placeholder{color:var(--muted);opacity:.8}
+.del{flex:none;width:24px;height:24px;border:0;border-radius:6px;background:none;color:var(--muted);cursor:pointer;opacity:0;font-size:16px;line-height:1}
+.labels .del,.labels .mini{position:absolute;top:50%;transform:translateY(-50%);pointer-events:none}
+.labels .del{right:2px;background:var(--sel)}
+.labels .mini{right:30px}
+.labels .lr.selected .del,.labels .lr.selected .mini{pointer-events:auto}
+.labels .lr.selected .name-in{padding-right:58px}
+.lr.selected .del,.del:focus-visible{opacity:1}
+.del:hover{background:var(--hover);color:var(--today)}
+
+.add{border:0;background:none;padding:6px 8px;white-space:nowrap;border-radius:7px;cursor:pointer;font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:6px}
+.add:hover{background:var(--hover)}
+.add .plus{width:22px;height:22px;border-radius:6px;background:var(--ink);color:var(--surface);display:inline-flex;align-items:center;justify-content:center;font-size:16px;line-height:1}
+.add.sub{font-weight:500;color:var(--muted)}
+
+/* SVG parts */
+.bar{cursor:grab;touch-action:none}
+.task.dragging .bar{cursor:grabbing}
+.handle{cursor:ew-resize;touch-action:none}
+.dot{cursor:crosshair;opacity:0;transition:opacity .12s;touch-action:none}
+.task:hover .dot,.task.dragging .dot,.task.sel .dot{opacity:1}
+@media (hover:none){.dot{opacity:.75}}
+.task.snapped .bar{stroke:var(--ink);stroke-width:2}
+.task.link-target .bar{stroke:var(--focus);stroke-width:2.5}
+.arrow{cursor:pointer}
+.flag{cursor:ew-resize;touch-action:none}
+.flag:hover line,.flag:hover path{stroke:var(--focus);fill:var(--focus)}
+.arrow .hit{stroke:transparent;stroke-width:12;fill:none}
+.arrow:hover .vis{stroke:var(--today)!important;stroke-width:2}
+.tmp{pointer-events:none}
+
+.tip{position:absolute;z-index:20;pointer-events:none;background:var(--ink);color:var(--surface);font-size:12.5px;padding:6px 9px;border-radius:7px;white-space:nowrap;display:none;box-shadow:var(--shadow)}
+.tip b{font-weight:600}
+.tip .warn{display:block;opacity:.85;margin-top:2px}
+
+.hint{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 20px;margin:12px 2px 0;color:var(--muted);font-size:13px}
+.hint p{margin:0;max-width:78ch}
+.hint a{color:var(--muted);text-underline-offset:3px}
+.hint a:hover{color:var(--ink)}
+.fb-kinds{display:flex;flex-wrap:wrap;gap:8px;border:0;margin:0 0 14px;padding:0}
+.fb-kinds legend{font-size:12px;color:var(--muted);margin-bottom:6px;padding:0}
+.fb-kinds label{position:relative}
+.fb-kinds input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.fb-kinds span{display:inline-flex;align-items:center;height:32px;padding:0 14px;border:1px solid var(--line);border-radius:16px;font-size:13.5px;cursor:pointer;background:var(--paper)}
+.fb-kinds input:checked+span{border-color:var(--focus);color:var(--ink);background:var(--sel)}
+.fb-kinds input:focus-visible+span{outline:2px solid var(--focus);outline-offset:2px}
+.fb-field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;font-size:12px;color:var(--muted)}
+.fb-field input,.fb-field textarea{width:100%;border:1px solid var(--line);border-radius:9px;background:var(--paper);padding:8px 10px;font-size:14px;color:var(--ink)}
+.modal .fb-field textarea{min-height:130px;resize:vertical;font-family:inherit;white-space:pre-wrap;font-size:14px;background:var(--paper)}
+.fb-field input:focus,.fb-field textarea:focus{outline:none;border-color:var(--focus)}
+.fb-note{font-size:12.5px;color:var(--muted);margin:2px 0 0}
+
+
+/* Modal & toast */
+.ov{position:fixed;inset:0;background:rgba(10,14,20,.45);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+.ov.open{display:flex}
+.modal{background:var(--raised);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);width:min(560px,100%);padding:22px;max-height:90%;overflow:auto}
+.modal h3{margin:0 0 6px;font-size:18px;font-weight:600;letter-spacing:-.01em}
+.modal p{margin:0 0 14px;color:var(--muted);font-size:14px;max-width:62ch}
+.modal textarea{width:100%;min-height:180px;border:1px solid var(--line-strong);border-radius:8px;padding:10px;font-size:13px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--paper);resize:vertical;white-space:pre;tab-size:16}
+.modal .acts{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px;margin-top:16px}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--surface);padding:10px 16px;border-radius:9px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;z-index:200;max-width:min(560px,calc(100% - 32px))}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+@media (max-width:720px){
+  .top{padding:12px 14px}
+  main{padding:14px 12px 32px}
+  .title-in{font-size:19px;flex-basis:100%;order:2}
+  .brand{order:1}
+  .tools{order:3}
+  .gantt{max-height:calc(100vh - 300px)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand" aria-label="H8XL"><span class="glyph" aria-hidden="true"></span>H8XL</div>
+  <span class="vsep" aria-hidden="true"></span>
+  <input class="title-in" id="title" aria-label="Titel">
+  <div class="tools">
+    <div class="seg" role="group" aria-label="Zoom">
+      <button data-zoom="day" data-i="day"></button><button data-zoom="week" data-i="week"></button>
+    </div>
+    <div class="menu-wrap">
+      <button class="btn" data-menu="viewMenu" aria-haspopup="true" aria-expanded="false"><span data-i="view"></span> ▾</button>
+      <div class="menu" id="viewMenu">
+        <label><input type="checkbox" id="optHol"><span data-i="holidays"></span></label>
+        <label><input type="checkbox" id="optOwner"><span data-i="ownerCol"></span></label>
+        <label><input type="checkbox" id="optProg"><span data-i="progressCol"></span></label>
+        <label><input type="checkbox" id="optLight"><span data-i="lightTheme"></span></label>
+      </div>
+    </div>
+    <span class="sep" aria-hidden="true"></span>
+    <button class="btn" id="btnNew" data-i="new"></button>
+    <button class="btn" id="btnOpen" data-i="open"></button>
+    <button class="btn" id="btnPaste" data-i="paste"></button>
+    <div class="menu-wrap">
+      <button class="btn primary" data-menu="exportMenu" aria-haspopup="true" aria-expanded="false"><span data-i="export"></span> ▾</button>
+      <div class="menu" id="exportMenu">
+        <button data-export="xlsx"><span><span data-i="xlsx"></span><small data-i="xlsxSub"></small></span></button>
+        <button data-export="pdf"><span><span data-i="pdf"></span><small data-i="pdfSub"></small></span></button>
+        <button data-export="png"><span><span data-i="png"></span><small data-i="pngSub"></small></span></button>
+      </div>
+    </div>
+    <button class="btn ghost" id="btnFeedback" data-i="feedback"></button>
+    <div class="seg" role="group" aria-label="Taal / Language">
+      <button data-lang="nl">NL</button><button data-lang="en">EN</button>
+    </div>
+  </div>
+  <input type="file" id="file" accept=".xlsx,.xls,.csv" hidden>
+</header>
+
+<main>
+  <div class="board mode-panel" id="board">
+    <div class="gantt" id="gantt">
+      <div class="corner" id="corner"></div>
+      <svg class="hdr" id="hdr" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div class="labels" id="labels"></div>
+      <svg id="body" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+    <aside class="panel" id="panel" aria-label="Details"></aside>
+    <div class="tip" id="tip"></div>
+  </div>
+  <div class="hint"><p data-i="hint"></p><p><span data-i="autosave"></span> · <a id="lnkSource" target="_blank" rel="noopener" data-i="source"></a> · <a id="lnkPrivacy" target="_blank" rel="noopener" data-i="privacy"></a></p></div>
+
+</main>
+
+<div class="ov" id="ovPaste" role="dialog" aria-modal="true" aria-labelledby="pasteH">
+  <div class="modal">
+    <h3 id="pasteH" data-i="pasteTitle"></h3>
+    <p data-i="pasteHelp"></p>
+    <textarea id="pasteTa" spellcheck="false"></textarea>
+    <div class="acts">
+      <button class="btn" data-close data-i="cancel"></button>
+      <button class="btn" id="pasteAppend" data-i="append"></button>
+      <button class="btn primary" id="pasteReplace" data-i="replace"></button>
+    </div>
+  </div>
+</div>
+<div class="ov" id="ovNew" role="dialog" aria-modal="true" aria-labelledby="newH">
+  <div class="modal">
+    <h3 id="newH" data-i="newTitle"></h3>
+    <p data-i="newBody"></p>
+    <div class="acts">
+      <button class="btn" data-close data-i="cancel"></button>
+      <button class="btn" id="newSave" data-i="saveFirst"></button>
+      <button class="btn primary" id="newClear" data-i="clear"></button>
+    </div>
+  </div>
+</div>
+<div class="ov" id="ovFeedback" role="dialog" aria-modal="true" aria-labelledby="fbH">
+  <div class="modal">
+    <h3 id="fbH" data-i="fbTitle"></h3>
+    <p data-i="fbIntro"></p>
+    <fieldset class="fb-kinds">
+      <legend data-i="fbKind"></legend>
+      <label><input type="radio" name="fbkind" value="idea" checked><span data-i="fbIdea"></span></label>
+      <label><input type="radio" name="fbkind" value="bug"><span data-i="fbBug"></span></label>
+      <label><input type="radio" name="fbkind" value="question"><span data-i="fbQuestion"></span></label>
+    </fieldset>
+    <label class="fb-field"><span data-i="fbSubject"></span><input type="text" id="fbSubject"></label>
+    <label class="fb-field"><span data-i="fbMessage"></span><textarea id="fbBody"></textarea></label>
+    <label class="p-check"><input type="checkbox" id="fbTech" checked><span data-i="fbTech"></span></label>
+    <p class="fb-note" data-i="fbNote"></p>
+    <div class="acts">
+      <a class="btn ghost" id="fbIssue" target="_blank" rel="noopener" data-i="fbGithub"></a>
+      <button class="btn" id="fbCopy" data-i="fbCopy"></button>
+      <a class="btn primary" id="fbMail" data-i="fbMail"></a>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- config: pas dit aan voor je eigen installatie ---------- */
+const H8XL = {
+  version: "0.9.0",
+  contactEmail: "cid.rollocks@gmail.com",
+  repoUrl: "https://github.com/AsobiSoftware/h8xl"
+};
+
+/* ---------- i18n ---------- */
+const I = {
+nl:{
+  untitled:"Naamloze planning", noPhase:"Zonder fase", day:"Dag", week:"Week", view:"Weergave",
+  holidays:"Nederlandse feestdagen", ownerCol:"Eigenaar tonen", progressCol:"Voortgang tonen",
+  new:"Nieuw", open:"Openen", paste:"Plakken", export:"Exporteren",
+  xlsx:"Excel (.xlsx)", xlsxSub:"Om te delen en later weer te openen", pdf:"PDF", pdfSub:"Voor een offerte of stuurgroep", png:"Afbeelding (.png)", pngSub:"Voor een presentatie of mail",
+  task:"Activiteit", tasksN:n=>n===1?"1 activiteit":n+" activiteiten",
+  addTask:"Activiteit toevoegen", addPhase:"Fase toevoegen", newTask:"Nieuwe activiteit", newPhase:"Nieuwe fase", addSub:"Subactiviteit toevoegen", newSub:"Nieuwe subactiviteit", collapse:"Subactiviteiten verbergen", expand:"Subactiviteiten tonen",
+  details:"Details", showDetails:"Details tonen", hideDetails:"Details verbergen",
+  nr:"Nr", phase:"Fase", name:"Activiteit", start:"Start", end:"Eind", dur:"Duur", durX:"Duur (werkdagen)", after:"Na", milestone:"Mijlpaal", owner:"Eigenaar", progress:"Voortgang", progressX:"Voortgang (%)",
+  yes:"ja", no:"nee",
+  afterHelp:"Nummer van de voorgaande activiteit, bijvoorbeeld 3 of 3.1, of 3+2 voor twee werkdagen wachttijd",
+  hint:"Klik op een balk of naam om een activiteit te selecteren; dubbelklik om de details te openen. Sleep een balk om hem te verschuiven en trek aan de rechterrand om de duur te wijzigen. Trek het bolletje achter een geselecteerde balk naar een andere activiteit om ze te koppelen.",
+  autosave:"Je planning blijft in deze browser",
+  wk:"wk", workdays:n=>n===1?"1 werkdag":n+" werkdagen",
+  removeLink:"Klik om deze koppeling te verwijderen", deleteTask:"Verwijderen", linkHandle:"Sleep naar een andere activiteit om te koppelen",
+  within:n=>"Blijft binnen \u2018"+n+"\u2019", kidsLimit:n=>"Kan niet korter: \u2018"+n+"\u2019 loopt tot hier", extended:n=>"\u2018"+n+"\u2019 is verlengd, omdat een subactiviteit door een koppeling later uitkomt",
+  waitsFor:n=>"Kan niet eerder: wacht op \u2018"+n+"\u2019",
+  cycle:"Deze koppeling kan niet: de activiteiten zouden dan op elkaar wachten.",
+  importFail:"Dit bestand kon niet worden gelezen. Gebruik een export uit H8XL of een sheet met de kolommen Activiteit, Start en Eind.",
+  imported:n=>(n===1?"1 activiteit":n+" activiteiten")+" ingelezen",
+  pasteTitle:"Plakken uit Excel",
+  pasteHelp:"Kopieer in Excel de kolommen Activiteit, Start en Eind (eventueel met Fase ervoor) en plak ze hieronder. Een kopregel mag, maar hoeft niet.",
+  pastePh:"Activiteit\tStart\tEind\nKick-off\t12-10-2026\t12-10-2026\nOntwerp\t13-10-2026\t23-10-2026",
+  replace:"Planning vervangen", append:"Toevoegen aan planning", cancel:"Annuleren",
+  pasteEmpty:"Er zijn geen activiteiten gevonden. Controleer of de kolommen Activiteit, Start en Eind gevuld zijn.",
+  newTitle:"Nieuwe planning beginnen?", newBody:"De huidige planning wordt van dit scherm gewist. Sla hem eerst op als Excel als je hem later nog wilt openen.",
+  saveFirst:"Eerst opslaan als Excel", clear:"Wissen en opnieuw beginnen",
+  saved:n=>n+" opgeslagen", dlUnavailable:"Downloaden is in deze weergave niet beschikbaar.", dlBusy:"Er staat al een download klaar. Rond die eerst af.",
+  exportFail:"Exporteren is mislukt. Probeer het opnieuw.",
+  emptyTitle:"Nog geen activiteiten", emptyBody:"Voeg een activiteit toe of plak een bestaande planning uit Excel.",
+  madeWith:"Gemaakt met H8XL", timeline:"Tijdlijn", settings:"_instellingen",
+  panelEmptyT:"Selecteer een activiteit", panelEmptyB:"Klik op een balk of een naam om de details hier te bewerken.",
+  kindAct:"Activiteit", kindSub:"Subactiviteit", kindMs:"Mijlpaal", partOf:n=>"Hoort bij \u2018"+n+"\u2019",
+  links:"Komt na", noLinks:"Nog niet gekoppeld", addLink:"Koppeling toevoegen\u2026", lockShort:"Vastleggen", clearShort:"Wissen", close:"Sluiten",
+  wd:"wd", collapsePanel:"Paneel inklappen", expandPanel:"Details tonen", lightTheme:"Licht thema", feedback:"Feedback", source:"Broncode", privacy:"Privacy",
+  fbTitle:"Feedback voor H8XL", fbIntro:"Een idee, iets dat niet werkt of een vraag? Vul het hieronder in. Daarna opent je eigen mailprogramma met het bericht klaar om te versturen.",
+  fbKind:"Soort", fbIdea:"Idee", fbBug:"Iets werkt niet", fbQuestion:"Vraag", fbSubject:"Onderwerp", fbMessage:"Bericht",
+  fbTech:"Browser en versie meesturen (nooit je planning)", fbNote:"H8XL verstuurt zelf niets: het bericht gaat alleen via je eigen mail of GitHub.",
+  fbGithub:"Liever via GitHub", fbCopy:"Kopieer bericht", fbMail:"Open in mailprogramma", fbCopied:"Bericht en adres gekopieerd",
+  fbKindLbl:{idea:"Idee",bug:"Bug",question:"Vraag"}, fbTo:"Aan",
+  deliv:"Levert op", delivPh:"Wat wordt er opgeleverd?", agreed:"Afgesproken", deliveries:"Opleveringen", expected:"Verwacht", gap:"Verschil",
+  setAgreed:"Huidige datum vastleggen als afspraak", clearAgreed:"Afgesproken datum verwijderen", agreedFlag:"Afgesproken datum, sleep om te wijzigen",
+  gapShort:{slack:n=>n+" wd speling", over:n=>n+" wd na afspraak", on:()=>"op afspraak"},
+  gapLong:{slack:n=>(n===1?"1 werkdag":n+" werkdagen")+" speling", over:n=>"planning "+(n===1?"1 werkdag":n+" werkdagen")+" na afspraak", on:()=>"planning valt op de afgesproken datum"},
+  agreedOn:d=>"Afgesproken: "+d,
+  h:{newyear:"Nieuwjaarsdag",easter1:"Eerste Paasdag",easter2:"Tweede Paasdag",kings:"Koningsdag",liberation:"Bevrijdingsdag",ascension:"Hemelvaartsdag",pent1:"Eerste Pinksterdag",pent2:"Tweede Pinksterdag",xmas1:"Eerste Kerstdag",xmas2:"Tweede Kerstdag"},
+  locale:"nl-NL"
+},
+en:{
+  untitled:"Untitled plan", noPhase:"No phase", day:"Day", week:"Week", view:"View",
+  holidays:"Dutch public holidays", ownerCol:"Show owner", progressCol:"Show progress",
+  new:"New", open:"Open", paste:"Paste", export:"Export",
+  xlsx:"Excel (.xlsx)", xlsxSub:"To share and open again later", pdf:"PDF", pdfSub:"For a proposal or steering meeting", png:"Image (.png)", pngSub:"For a slide or an email",
+  task:"Activity", tasksN:n=>n===1?"1 activity":n+" activities",
+  addTask:"Add activity", addPhase:"Add phase", newTask:"New activity", newPhase:"New phase", addSub:"Add sub-activity", newSub:"New sub-activity", collapse:"Hide sub-activities", expand:"Show sub-activities",
+  details:"Details", showDetails:"Show details", hideDetails:"Hide details",
+  nr:"No", phase:"Phase", name:"Activity", start:"Start", end:"End", dur:"Duration", durX:"Duration (workdays)", after:"After", milestone:"Milestone", owner:"Owner", progress:"Progress", progressX:"Progress (%)",
+  yes:"yes", no:"no",
+  afterHelp:"Number of the preceding activity, for example 3 or 3.1, or 3+2 for a two-workday gap",
+  hint:"Click a bar or name to select an activity; double-click to open its details. Drag a bar to move it and pull its right edge to change the duration. Drag the dot behind a selected bar onto another activity to link them.",
+  autosave:"Your plan stays in this browser",
+  wk:"wk", workdays:n=>n===1?"1 workday":n+" workdays",
+  removeLink:"Click to remove this link", deleteTask:"Delete", linkHandle:"Drag onto another activity to link",
+  within:n=>"Stays within \u2018"+n+"\u2019", kidsLimit:n=>"Can\u2019t be shorter: \u2018"+n+"\u2019 runs until here", extended:n=>"\u2018"+n+"\u2019 was extended because a linked sub-activity now ends later",
+  waitsFor:n=>"Can\u2019t start earlier: waits for \u2018"+n+"\u2019",
+  cycle:"This link isn\u2019t possible: the activities would end up waiting for each other.",
+  importFail:"This file couldn\u2019t be read. Use an H8XL export or a sheet with the columns Activity, Start and End.",
+  imported:n=>(n===1?"1 activity":n+" activities")+" imported",
+  pasteTitle:"Paste from Excel",
+  pasteHelp:"In Excel, copy the columns Activity, Start and End (optionally with Phase in front) and paste them below. A header row is fine but not required.",
+  pastePh:"Activity\tStart\tEnd\nKick-off\t12-10-2026\t12-10-2026\nDesign\t13-10-2026\t23-10-2026",
+  replace:"Replace plan", append:"Add to plan", cancel:"Cancel",
+  pasteEmpty:"No activities found. Check that the Activity, Start and End columns are filled in.",
+  newTitle:"Start a new plan?", newBody:"The current plan will be cleared from this screen. Save it as Excel first if you want to open it again later.",
+  saveFirst:"Save as Excel first", clear:"Clear and start over",
+  saved:n=>n+" saved", dlUnavailable:"Downloads aren\u2019t available in this view.", dlBusy:"A download is already waiting. Finish that one first.",
+  exportFail:"Export failed. Please try again.",
+  emptyTitle:"No activities yet", emptyBody:"Add an activity or paste an existing plan from Excel.",
+  madeWith:"Made with H8XL", timeline:"Timeline", settings:"_settings",
+  panelEmptyT:"Select an activity", panelEmptyB:"Click a bar or a name to edit its details here.",
+  kindAct:"Activity", kindSub:"Sub-activity", kindMs:"Milestone", partOf:n=>"Part of \u2018"+n+"\u2019",
+  links:"Comes after", noLinks:"Not linked yet", addLink:"Add link\u2026", lockShort:"Lock in", clearShort:"Clear", close:"Close",
+  wd:"wd", collapsePanel:"Collapse panel", expandPanel:"Show details", lightTheme:"Light theme", feedback:"Feedback", source:"Source code", privacy:"Privacy",
+  fbTitle:"Feedback for H8XL", fbIntro:"An idea, something broken or a question? Fill it in below. Your own mail app then opens with the message ready to send.",
+  fbKind:"Type", fbIdea:"Idea", fbBug:"Something\u2019s broken", fbQuestion:"Question", fbSubject:"Subject", fbMessage:"Message",
+  fbTech:"Include browser and version (never your plan)", fbNote:"H8XL sends nothing itself: the message only goes through your own email or GitHub.",
+  fbGithub:"Use GitHub instead", fbCopy:"Copy message", fbMail:"Open in mail app", fbCopied:"Message and address copied",
+  fbKindLbl:{idea:"Idea",bug:"Bug",question:"Question"}, fbTo:"To",
+  deliv:"Delivers", delivPh:"What gets delivered?", agreed:"Agreed", deliveries:"Deliverables", expected:"Expected", gap:"Difference",
+  setAgreed:"Lock current date as the agreed date", clearAgreed:"Remove agreed date", agreedFlag:"Agreed date, drag to change",
+  gapShort:{slack:n=>n+" wd slack", over:n=>n+" wd past agreed", on:()=>"on agreed date"},
+  gapLong:{slack:n=>(n===1?"1 workday":n+" workdays")+" of slack", over:n=>"plan is "+(n===1?"1 workday":n+" workdays")+" past the agreed date", on:()=>"plan matches the agreed date"},
+  agreedOn:d=>"Agreed: "+d,
+  h:{newyear:"New Year\u2019s Day",easter1:"Easter Sunday",easter2:"Easter Monday",kings:"King\u2019s Day",liberation:"Liberation Day",ascension:"Ascension Day",pent1:"Whit Sunday",pent2:"Whit Monday",xmas1:"Christmas Day",xmas2:"Boxing Day"},
+  locale:"en-GB"
+}};
+const T = k => I[S.lang][k];
+
+/* ---------- dates (day numbers, UTC) ---------- */
+const DAY = 86400000;
+const dnOf = (y,m,d) => Math.round(Date.UTC(y,m-1,d)/DAY);
+const ymd = dn => { const d = new Date(dn*DAY); return [d.getUTCFullYear(), d.getUTCMonth()+1, d.getUTCDate()]; };
+const wd = dn => (((dn+4)%7)+7)%7; // 0 = Sunday
+const todayDn = () => { const n = new Date(); return dnOf(n.getFullYear(), n.getMonth()+1, n.getDate()); };
+const monday = dn => dn - ((wd(dn)+6)%7);
+const isoDate = dn => { const [y,m,d]=ymd(dn); return y+"-"+String(m).padStart(2,"0")+"-"+String(d).padStart(2,"0"); };
+function isoWeek(dn){ const th = dn + 3 - ((wd(dn)+6)%7); const y = ymd(th)[0]; return 1 + Math.floor((th - dnOf(y,1,1))/7); }
+function easter(y){const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1;return dnOf(y,mo,da);}
+const holCache = new Map();
+function holYear(y){
+  if (holCache.has(y)) return holCache.get(y);
+  const m = new Map(), e = easter(y);
+  m.set(dnOf(y,1,1),"newyear"); m.set(e,"easter1"); m.set(e+1,"easter2");
+  let kd = dnOf(y,4,27); if (wd(kd)===0) kd -= 1; m.set(kd,"kings");
+  if (y%5===0) m.set(dnOf(y,5,5),"liberation");
+  m.set(e+39,"ascension"); m.set(e+49,"pent1"); m.set(e+50,"pent2");
+  m.set(dnOf(y,12,25),"xmas1"); m.set(dnOf(y,12,26),"xmas2");
+  holCache.set(y,m); return m;
+}
+const holKey = dn => holYear(ymd(dn)[0]).get(dn) || "";
+const holName = dn => { const k = holKey(dn); return k ? T("h")[k] : ""; };
+const isOff = dn => { const w = wd(dn); return w===0 || w===6 || (S.holidays && !!holKey(dn)); };
+const nextWork = dn => { let i=0; while (isOff(dn) && i++<60) dn++; return dn; };
+const prevWork = dn => { let i=0; while (isOff(dn) && i++<60) dn--; return dn; };
+function addWork(dn,n){ dn = nextWork(dn); while (n>0){ dn++; if(!isOff(dn)) n--; } return dn; }
+function workCount(a,b){ if (b<a) return 0; let c=0; for (let d=a; d<=b; d++) if(!isOff(d)) c++; return c; }
+const fin = t => t.ms ? t.start : addWork(t.start, Math.max(1,t.dur)-1);
+const fmt = (dn, o) => new Intl.DateTimeFormat(T("locale"), Object.assign({timeZone:"UTC"}, o||{day:"numeric",month:"short"})).format(new Date(dn*DAY));
+
+/* ---------- state ---------- */
+const KEY = "planbord.v1";
+let S = { title:"", lang:(navigator.language||"nl").toLowerCase().startsWith("nl")?"nl":"en", zoom:"day", holidays:true, showOwner:false, showProgress:false, theme:"dark", panelOpen:true, tasks:[] };
+const uid = () => Math.random().toString(36).slice(2,10);
+const byId = id => S.tasks.find(t=>t.id===id);
+
+function sample(lang){
+  const nl = lang==="nl";
+  const P = nl ? ["Voorbereiding","Ontwerp","Uitvoering","Oplevering"] : ["Preparation","Design","Build","Delivery"];
+  const N = nl ? ["Kick-off","Wensen inventariseren","Schetsontwerp","Feedbackronde klant","Akkoord ontwerp","Bouwen","Content aanleveren","Testen","Livegang","Basis opzetten","Pagina\u2019s uitwerken","Interne review"]
+               : ["Kick-off","Gather requirements","Concept design","Client feedback round","Design approved","Build","Deliver content","Testing","Go-live","Set up foundation","Build out pages","Internal review"];
+  const client = nl ? "Klant" : "Client";
+  const s0 = nextWork(monday(todayDn())+7);
+  const ids = N.map(()=>uid());
+  const mk = (i,ph,dur,ms,after,owner,prog,start,parent) => ({id:ids[i],name:N[i],phase:P[ph],start:start??s0,dur,ms,deps:after==null?[]:[{id:ids[after],lag:0}],owner,progress:prog,parent:parent==null?null:ids[parent],collapsed:false});
+  return [
+    mk(0,0,1,false,null,"Sanne",100),
+    mk(1,0,4,false,0,"Sanne",60),
+    mk(2,1,5,false,1,"Daan",0),
+    mk(3,1,3,false,2,client,0),
+    mk(4,1,1,true,3,"",0),
+    mk(5,2,10,false,4,"Daan",0),
+    mk(9,2,3,false,null,"Daan",0,null,5),
+    mk(10,2,5,false,9,"Daan",0,null,5),
+    mk(11,2,2,false,10,"Sanne",0,null,5),
+    mk(6,2,8,false,null,client,0,nextWork(s0+14)),
+    mk(7,3,4,false,5,"Sanne",0),
+    mk(8,3,1,true,7,"",0)
+  ];
+}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }
+function load(){
+  let raw=null; try { raw = localStorage.getItem(KEY); } catch(e){}
+  if (raw){ try { const o = JSON.parse(raw); if (o && Array.isArray(o.tasks)) { S = Object.assign(S, o); return; } } catch(e){} }
+  S.tasks = sample(S.lang);
+  normalize(); schedule();
+  const ms = S.tasks.filter(t=>t.ms);
+  const nl = S.lang==="nl";
+  if (ms[0]){ ms[0].deliv = nl?"Goedgekeurd schetsontwerp":"Approved concept design"; ms[0].agreed = addWork(ms[0].start,2); }
+  if (ms[1]){ ms[1].deliv = nl?"Werkende website":"Working website"; ms[1].agreed = subWork(ms[1].start,3); }
+}
+
+/* ---------- model ---------- */
+function kidsOf(id){ return S.tasks.filter(t=>t.parent===id); }
+function subWork(dn,n){ dn = prevWork(dn); while (n>0){ dn--; if(!isOff(dn)) n--; } return dn; }
+function normalize(){
+  const ids = new Set(S.tasks.map(t=>t.id));
+  for (const t of S.tasks){
+    if (!t.parent || t.parent===t.id || !ids.has(t.parent)) t.parent = null;
+    t.collapsed = !!t.collapsed;
+  }
+  for (let i=0;i<3;i++) for (const t of S.tasks) if (t.parent){ const p=byId(t.parent); if (p.parent) t.parent=p.parent; }
+  const kidMap = new Map();
+  for (const t of S.tasks) if (t.parent){ if (!kidMap.has(t.parent)) kidMap.set(t.parent,[]); kidMap.get(t.parent).push(t); }
+  for (const t of S.tasks){
+    if (t.parent) t.phase = byId(t.parent).phase;
+    t.phase = (t.phase||"").trim();
+    t.deps = (t.deps||[]).filter(d=>d && d.id!==t.id && ids.has(d.id) && d.id!==t.parent && byId(d.id).parent!==t.id);
+    t.dur = Math.max(1, parseInt(t.dur)||1); t.progress = Math.max(0, Math.min(100, Math.round(+t.progress||0)));
+    if (kidMap.has(t.id)) t.ms = false;
+    t.deliv = t.deliv ? String(t.deliv) : "";
+    t.agreed = (typeof t.agreed==="number" && isFinite(t.agreed)) ? nextWork(t.agreed) : null;
+  }
+  const order=[], groups=new Map();
+  for (const t of S.tasks){
+    if (t.parent) continue;
+    if (!groups.has(t.phase)){ groups.set(t.phase,[]); order.push(t.phase); }
+    groups.get(t.phase).push(t);
+  }
+  S.tasks = order.flatMap(k=>groups.get(k).flatMap(p=>[p, ...(kidMap.get(p.id)||[])]));
+}
+function baseAfter(p, tMs){ const f = fin(p); return (tMs && !p.ms) ? f : nextWork(f+1); }
+// returns list of activities that had to be extended for their sub-activities
+function schedule(){
+  const sDone=new Map(), fDone=new Set(), vis=new Set(), ext=[];
+  const startOf = t => {
+    if (sDone.has(t.id)) return sDone.get(t.id);
+    if (vis.has(t.id)) return t.start;
+    vis.add(t.id);
+    let s = t.deps.length ? -Infinity : nextWork(t.start);
+    for (const d of t.deps){ const p=byId(d.id); full(p); const e=addWork(baseAfter(p,t.ms), d.lag||0); if (e>s) s=e; }
+    if (t.parent){ const ps = startOf(byId(t.parent)); if (s<ps) s=ps; }
+    vis.delete(t.id); sDone.set(t.id,s); t.start=s; return s;
+  };
+  const full = t => {
+    if (fDone.has(t.id)) return;
+    startOf(t); fDone.add(t.id);
+    const ch = kidsOf(t.id);
+    if (ch.length){
+      let mx=-Infinity; for (const c of ch){ full(c); mx=Math.max(mx, fin(c)); }
+      if (mx>fin(t)){ t.dur = workCount(t.start, mx); ext.push(t); }
+    }
+  };
+  for (const t of S.tasks) full(t);
+  return ext;
+}
+// limits for a start date: lower bound (predecessors / activity start) and upper bound (activity end)
+function limits(t){
+  let lo=-Infinity, loBy=null, loKind=null, hi=Infinity, par=null;
+  for (const d of t.deps){ const p=byId(d.id); const b=baseAfter(p,t.ms); if (b>lo){ lo=b; loBy=p; loKind="dep"; } }
+  if (t.parent){
+    par = byId(t.parent);
+    if (par.start>lo){ lo=par.start; loBy=par; loKind="within"; }
+    hi = t.ms ? fin(par) : subWork(fin(par), Math.max(1,t.dur)-1);
+    if (hi<par.start) hi=par.start;
+  }
+  return {lo,loBy,loKind,hi,par};
+}
+// set a desired start; returns {kind, by} when it had to snap to a limit
+function setStart(t, D){
+  D = nextWork(D);
+  const c = limits(t); let info=null;
+  if (D<c.lo){ D=c.lo; info={kind:c.loKind, by:c.loBy}; }
+  if (D>c.hi){ D=c.hi; info={kind:"within", by:c.par}; }
+  if (!t.deps.length){ t.start = D; return info; }
+  const pinnedByParent = c.par && D===c.par.start;
+  for (const d of t.deps){
+    const p = byId(d.id); const b = baseAfter(p, t.ms);
+    d.lag = (!pinnedByParent && D>=b) ? workCount(b,D)-1 : 0;
+  }
+  return info;
+}
+// move an activity and carry its sub-activities along
+function kidOffsets(t){ return kidsOf(t.id).filter(c=>!c.deps.length).map(c=>[c, Math.max(0, workCount(t.start, c.start)-1)]); }
+function moveActivity(t, D, offs){
+  const info = setStart(t, D); schedule();
+  if (offs && offs.length){ for (const [c,o] of offs) c.start = addWork(t.start, o); schedule(); }
+  return info;
+}
+// would linking src -> tgt create a loop? (start/finish graph incl. activity–sub-activity relations)
+function wouldCycle(src, tgt){
+  if (src.id===tgt.id || src.parent===tgt.id || tgt.parent===src.id) return true;
+  const seen=new Set(), st=[["F",src.id]];
+  while (st.length){
+    const [k,id]=st.pop(), key=k+id; if (seen.has(key)) continue; seen.add(key);
+    if (k==="S" && id===tgt.id) return true;
+    const t=byId(id); if (!t) continue;
+    if (k==="F"){ st.push(["S",id]); for (const c of S.tasks) if (c.parent===id) st.push(["F",c.id]); }
+    else { for (const d of t.deps) st.push(["F",d.id]); if (t.parent) st.push(["S",t.parent]); }
+  }
+  return false;
+}
+function addDep(src, tgt){
+  if (src.id===tgt.id || tgt.deps.some(d=>d.id===src.id)) return;
+  if (wouldCycle(src, tgt)) { toast(T("cycle")); return; }
+  const D = tgt.start; tgt.deps.push({id:src.id, lag:0}); setStart(tgt, D);
+}
+function gapInfo(t){
+  if (!t.ms || t.agreed==null) return null;
+  const a=t.agreed, f=t.start;
+  if (f===a) return {k:"on",n:0};
+  return f<a ? {k:"slack",n:workCount(f+1,a)} : {k:"over",n:workCount(a+1,f)};
+}
+function depsStr(t, num){ return t.deps.map(d=>num.get(d.id)+(d.lag?"+"+d.lag:"")).join(", "); }
+
+/* ---------- layout ---------- */
+let L = null;
+const isMob = () => matchMedia("(max-width:720px)").matches;
+function LW(){ return isMob()?170:300; }
+
+function buildRows(){
+  const rows=[], num=new Map(); let n=0, pi=-1, cur=null, ph=null, k=0, parentRow=null;
+  const hasPhases = S.tasks.some(t=>t.phase!=="");
+  const kidCount = new Map(); for (const t of S.tasks) if (t.parent) kidCount.set(t.parent,(kidCount.get(t.parent)||0)+1);
+  const hidden = new Map();
+  for (const t of S.tasks){
+    if (!t.parent && t.phase!==cur){
+      cur=t.phase; ph=null;
+      if (cur!==""){ pi++; ph={type:"phase",name:cur,ci:pi%6,tasks:[]}; rows.push(ph); }
+      else if (hasPhases){ ph={type:"phase",name:"",ci:null,tasks:[]}; rows.push(ph); }
+    }
+    const ci = cur==="" ? null : pi%6;
+    if (ph) ph.tasks.push(t);
+    if (!t.parent){
+      n++; k=0; num.set(t.id,String(n));
+      parentRow = {type:"task",t,n:String(n),ci,sub:false,kids:kidCount.get(t.id)||0};
+      rows.push(parentRow);
+    } else {
+      k++; const nn = n+"."+k; num.set(t.id,nn);
+      const p = byId(t.parent);
+      if (p.collapsed) hidden.set(t.id, p.id);
+      else rows.push({type:"task",t,n:nn,ci,sub:true,kids:0});
+    }
+  }
+  return {rows,num,hidden};
+}
+function computeLayout(keepRange){
+  const {rows,num,hidden} = buildRows(); const px = S.zoom==="day" ? 34 : 14;
+  let rs, re;
+  if (keepRange && L){ rs=L.rs; re=L.re; }
+  else {
+    if (S.tasks.length){ let mn=Infinity,mx=-Infinity; for (const t of S.tasks){ mn=Math.min(mn,t.start); mx=Math.max(mx,fin(t)); if (t.ms && t.agreed!=null){ mn=Math.min(mn,t.agreed); mx=Math.max(mx,t.agreed); } } rs=monday(mn)-7; re=monday(mx)+6+21; }
+    else { const td=todayDn(); rs=monday(td)-7; re=monday(td)+6+42; }
+    const g = document.getElementById("gantt"); const minW = (g.clientWidth||1000) - LW() - 2;
+    while ((re-rs+1)*px < minW) re += 7;
+  }
+  let y=0; const pos=new Map();
+  for (const r of rows){ r.y=y; r.h = r.type==="phase"?32:(r.sub?30:36); if (r.type==="task") pos.set(r.t.id,r); y+=r.h; }
+  for (const [id,pid] of hidden) pos.set(id, pos.get(pid));
+  const rowsH = y, emptyH = S.tasks.length?0:72;
+  L = {rows,num,rs,re,px,W:(re-rs+1)*px,rowsH,H:rowsH+emptyH+48,pos};
+}
+
+/* ---------- SVG rendering (screen + export share this) ---------- */
+const LIT = {amber:"#B7791F",ink:"#16202A",muted:"#5F6B78",line:"#E3E8EE","line-strong":"#C7D0DA",weekend:"#F0F2F6",holiday:"#E2E6F1",today:"#C2412D",surface:"#FFFFFF",paper:"#F4F6F8",pn:"#6B7785",p0:"#3559C7",p1:"#3D8753",p2:"#C68612",p3:"#8A4F9E",p4:"#1E8585",p5:"#B4493B"};
+const colFn = mode => mode==="export" ? (k=>LIT[k]) : (k=>"var(--"+k+")");
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+
+function headerSVG(mode, rs, re, px, x0, y0){
+  const C = colFn(mode); x0=x0||0; y0=y0||0; let s="";
+  const W = (re-rs+1)*px;
+  for (let d=rs; d<=re; d++) if (isOff(d)){
+    const hol = S.holidays && holKey(d);
+    s += `<rect x="${x0+(d-rs)*px}" y="${y0+24}" width="${px}" height="24" style="fill:${C(hol?"holiday":"weekend")}">${hol?`<title>${esc(holName(d))}</title>`:""}</rect>`;
+  }
+  let d=rs;
+  while (d<=re){
+    const [y,m] = ymd(d); const nx = Math.min(re+1, dnOf(m===12?y+1:y, m===12?1:m+1, 1));
+    const x = x0+(d-rs)*px, w=(nx-d)*px;
+    if (d!==rs) s += `<line x1="${x}" y1="${y0}" x2="${x}" y2="${y0+48}" style="stroke:${C("line-strong")}"/>`;
+    if (w>36) s += `<text x="${x+8}" y="${y0+16}" font-size="12" font-weight="600" style="fill:${C("ink")}">${esc(fmt(d, w>120?{month:"long",year:"numeric"}:{month:"short"}))}</text>`;
+    d = nx;
+  }
+  if (px>=28){
+    for (let d=rs; d<=re; d++){
+      const x = x0+(d-rs)*px;
+      s += `<text x="${x+px/2}" y="${y0+41}" text-anchor="middle" font-size="11" style="fill:${C(isOff(d)?"muted":"ink")}">${ymd(d)[2]}</text>`;
+    }
+  } else {
+    for (let d=monday(rs); d<=re; d+=7){
+      if (d<rs) continue; const x = x0+(d-rs)*px;
+      s += `<line x1="${x}" y1="${y0+24}" x2="${x}" y2="${y0+48}" style="stroke:${C("line")}"/>`;
+      if (d+7<=re+1) s += `<text x="${x+5}" y="${y0+41}" font-size="11" style="fill:${C("muted")}">${T("wk")} ${isoWeek(d)}</text>`;
+    }
+  }
+  s += `<line x1="${x0}" y1="${y0+24.5}" x2="${x0+W}" y2="${y0+24.5}" style="stroke:${C("line")}"/>`;
+  s += `<line x1="${x0}" y1="${y0+47.5}" x2="${x0+W}" y2="${y0+47.5}" style="stroke:${C("line-strong")}"/>`;
+  const td = todayDn();
+  if (td>=rs && td<=re && mode!=="export") s += `<circle cx="${x0+(td-rs)*px+px/2}" cy="${y0+45}" r="2.5" style="fill:${C("today")}"/>`;
+  return s;
+}
+
+function arrowPath(p, t, X, px, y0){
+  const pr=L.pos.get(p.id), tr=L.pos.get(t.id);
+  const sy=y0+pr.y+pr.h/2, ty=y0+tr.y+tr.h/2;
+  const sx = p.ms ? X(p.start)+px/2+7 : X(fin(p))+px-2;
+  const tx = t.ms ? X(t.start)+px/2-8 : X(t.start)+2;
+  if (tx-sx>=12){ const mx=sx+6; return `M${sx} ${sy} H${mx} V${ty} H${tx-1}`; }
+  const my = ty>sy ? ty-18 : ty+18;
+  return `M${sx} ${sy} H${sx+6} V${my} H${tx-10} V${ty} H${tx-1}`;
+}
+
+function bodySVG(mode, o){
+  const C = colFn(mode), {rs,re,px} = o, x0=o.x0||0, y0=o.y0||0, H=o.H, ia=!!o.interactive;
+  const X = d => x0+(d-rs)*px; const W=(re-rs+1)*px; const mid = ia?"arw":"arwx";
+  let s = `<defs><marker id="${mid}" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L8,4 L0,8 z" style="fill:${C(ia?"muted":"ink")}"/></marker>${ia?`<filter id="glow" x="-30%" y="-150%" width="160%" height="400%"><feGaussianBlur stdDeviation="5"/></filter>`:""}</defs>`;
+  for (let d=rs; d<=re; d++) if (isOff(d)){
+    const hol = S.holidays && holKey(d);
+    s += `<rect x="${X(d)}" y="${y0}" width="${px}" height="${H}" style="fill:${C(hol?"holiday":"weekend")}">${hol?`<title>${esc(holName(d))}</title>`:""}</rect>`;
+  }
+  for (let d=monday(rs)+7; d<=re; d+=7) s += `<line x1="${X(d)}" y1="${y0}" x2="${X(d)}" y2="${y0+H}" style="stroke:${C("line")}"/>`;
+  for (const r of L.rows){
+    if (r.type==="phase") s += `<rect x="${x0}" y="${y0+r.y}" width="${W}" height="${r.h}" style="fill:${C("paper")};fill-opacity:.55"/>`;
+    else if (ia && r.t.id===selId) s += `<rect x="${x0}" y="${y0+r.y}" width="${W}" height="${r.h}" style="fill:var(--sel)"/>`;
+    s += `<line x1="${x0}" y1="${y0+r.y+r.h-.5}" x2="${x0+W}" y2="${y0+r.y+r.h-.5}" style="stroke:${C("line")}"/>`;
+  }
+  const td = todayDn();
+  if (td>=rs && td<=re && mode!=="export") s += `<line x1="${X(td)+px/2}" y1="${y0}" x2="${X(td)+px/2}" y2="${y0+H}" style="stroke:${C("today")}" stroke-width="1.5" stroke-dasharray="3 3"/>`;
+  // phase summaries
+  for (const r of L.rows) if (r.type==="phase" && r.tasks.length){
+    let mn=Infinity,mx=-Infinity; for (const t of r.tasks){ mn=Math.min(mn,t.start); mx=Math.max(mx,fin(t)); }
+    const x=X(mn)+2, w=(mx-mn+1)*px-4, yc=y0+r.y+r.h/2, pc=C(r.ci==null?"pn":"p"+r.ci);
+    s += `<rect x="${x}" y="${yc-2}" width="${Math.max(w,4)}" height="4" rx="2" style="fill:${pc};fill-opacity:.38"/>`;
+  }
+  // arrows
+  for (const t of S.tasks) for (const d of t.deps){
+    const p = byId(d.id); if (!p || !L.pos.get(p.id) || !L.pos.get(t.id) || L.pos.get(p.id)===L.pos.get(t.id)) continue;
+    const dp = arrowPath(p,t,X,px,y0);
+    s += `<g class="arrow" data-dep="${t.id}|${p.id}">${ia?`<path class="hit" d="${dp}"/>`:""}<path class="vis" d="${dp}" style="stroke:${C(ia?"muted":"ink")};fill:none" stroke-width="1.25" marker-end="url(#${mid})"/>${ia?`<title>${esc(T("removeLink"))}</title>`:""}</g>`;
+  }
+  // bars
+  for (const r of L.rows){
+    if (r.type!=="task") continue;
+    const t=r.t, yc=y0+r.y+r.h/2, sx=X(t.start), bh=r.sub?10:18, br=r.sub?5:6, isSel = ia && selId===t.id;
+    const cls = "task"+(ia&&dragId===t.id?" dragging":"")+(ia&&snapId===t.id?" snapped":"")+(ia&&selId===t.id?" sel":"");
+    const dot = cx => ia ? `<circle data-role="link" class="dot" cx="${cx}" cy="${yc}" r="5" style="fill:${C("surface")};stroke:${C("ink")}" stroke-width="1.5"><title>${esc(T("linkHandle"))}</title></circle>` : "";
+    let endX;
+    s += `<g class="${cls}" data-id="${t.id}">`;
+    if (t.ms){
+      const cx=sx+px/2, k=r.sub?6:7.5; endX=cx+k;
+      if (isSel){ const kk=k+4.5; s += `<path pointer-events="none" d="M${cx} ${yc-kk} L${cx+kk} ${yc} L${cx} ${yc+kk} L${cx-kk} ${yc} Z" style="fill:none;stroke:var(--focus)" stroke-width="2"/><path pointer-events="none" filter="url(#glow)" d="M${cx} ${yc-kk} L${cx+kk} ${yc} L${cx} ${yc+kk} L${cx-kk} ${yc} Z" style="fill:none;stroke:var(--focus);opacity:calc(var(--glow)*.8)" stroke-width="3"/>`; }
+      s += `<path data-role="move" class="bar" d="M${cx} ${yc-k} L${cx+k} ${yc} L${cx} ${yc+k} L${cx-k} ${yc} Z" style="fill:${C("ink")}">${ia&&t.deliv?`<title>${esc(T("deliv"))}: ${esc(t.deliv)}</title>`:""}</path>`;
+      s += dot(cx+k+9);
+    } else {
+      const x=sx+2, w=(fin(t)-t.start+1)*px-4, fc=C(r.ci==null?"pn":"p"+r.ci); endX=x+w;
+      const op = S.showProgress ? .38 : (r.sub ? .62 : 1);
+      if (isSel) s += `<rect pointer-events="none" filter="url(#glow)" x="${x-3}" y="${yc-bh/2-3}" width="${w+6}" height="${bh+6}" rx="${br+3}" style="fill:none;stroke:var(--focus);opacity:calc(var(--glow)*.75)" stroke-width="3"/><rect pointer-events="none" x="${x-3.5}" y="${yc-bh/2-3.5}" width="${w+7}" height="${bh+7}" rx="${br+3}" style="fill:none;stroke:var(--focus)" stroke-width="2"/>`;
+      s += `<rect data-role="move" class="bar" x="${x}" y="${yc-bh/2}" width="${w}" height="${bh}" rx="${br}" style="fill:${fc};fill-opacity:${op}"/>`;
+      if (ia && !r.sub && w>14) s += `<line pointer-events="none" x1="${x+br}" y1="${yc-bh/2+1}" x2="${x+w-br}" y2="${yc-bh/2+1}" style="stroke:#FFFFFF;stroke-opacity:.32"/>`;
+      if (S.showProgress && t.progress>0) s += `<rect pointer-events="none" x="${x}" y="${yc-bh/2}" width="${Math.max(6,w*t.progress/100)}" height="${bh}" rx="${br}" style="fill:${fc};fill-opacity:${r.sub?.85:1}"/>`;
+      if (ia) s += `<rect data-role="resize" class="handle" x="${x+w-8}" y="${yc-bh/2}" width="11" height="${bh}" style="fill:transparent"/>`;
+      s += dot(x+w+9);
+    }
+    let lx = endX+(ia?20:8);
+    const gi = gapInfo(t);
+    if (gi){
+      const cx = sx+px/2, ax = X(t.agreed)+px/2, k = r.sub?6:7.5;
+      if (ax!==cx){ const x1 = ax>cx ? cx+k+2 : ax+2, x2 = ax>cx ? ax-2 : cx-k-2; s += `<line pointer-events="none" x1="${x1}" y1="${yc}" x2="${x2}" y2="${yc}" style="stroke:${C("muted")}" stroke-width="1.25" stroke-dasharray="2 3"/>`; }
+      s += `<g ${ia?'data-role="agreed" class="flag"':""}>${ia?`<rect x="${ax-7}" y="${yc-13}" width="14" height="26" style="fill:transparent"/>`:""}<line x1="${ax}" y1="${yc-11}" x2="${ax}" y2="${yc+10}" style="stroke:${C("amber")}" stroke-width="1.5"/><path d="M${ax} ${yc-11} h9 a1.5 1.5 0 0 1 1.5 1.5 v4 a1.5 1.5 0 0 1 -1.5 1.5 h-9 Z" style="fill:${C("amber")}"/>${ia?`<title>${esc(T("agreedFlag"))}</title>`:""}</g>`;
+      lx = Math.max(endX, ax+10) + (ia?14:8);
+      const gt = T("gapShort")[gi.k](gi.n);
+      if (gi.k==="over") s += `<rect pointer-events="none" x="${lx-8}" y="${yc-10}" width="${gt.length*6.4+16}" height="20" rx="10" style="fill:${C("amber")};fill-opacity:.12;stroke:${C("amber")};stroke-opacity:.38"/>`;
+      s += `<text pointer-events="none" x="${lx}" y="${yc+4}" font-size="11.5" font-family="Geist Mono, ui-monospace, monospace" style="fill:${C(gi.k==="over"?"amber":"muted")}">${esc(gt)}</text>`;
+      lx += gt.length*6.4 + 22;
+    }
+    if (S.showOwner && t.owner) s += `<text pointer-events="none" x="${lx}" y="${yc+4}" font-size="11.5" style="fill:${C("muted")}">${esc(t.owner)}</text>`;
+    s += `</g>`;
+  }
+  if (!S.tasks.length && ia) s += "";
+  if (ia) s += `<line id="tmpLink" class="tmp" x1="0" y1="0" x2="0" y2="0" style="stroke:${C("focus")};display:none" stroke-width="2" stroke-dasharray="4 3"/>`;
+  return s;
+}
+
+/* ---------- screen painting ---------- */
+const $ = id => document.getElementById(id);
+let dragId=null, snapId=null, selId=null;
+function paintBody(){
+  const b=$("body"); b.setAttribute("width",L.W); b.setAttribute("height",L.H);
+  b.innerHTML = bodySVG("screen",{rs:L.rs,re:L.re,px:L.px,H:L.H,interactive:true});
+}
+function paintGantt(){
+  $("gantt").style.gridTemplateColumns = LW()+"px "+L.W+"px";
+  const h=$("hdr"); h.setAttribute("width",L.W); h.setAttribute("height",48);
+  h.innerHTML = headerSVG("screen",L.rs,L.re,L.px);
+  const tops = S.tasks.filter(t=>!t.parent).length;
+  $("corner").textContent = tops ? T("tasksN")(tops) : T("task");
+  let html="";
+  for (const r of L.rows){
+    if (r.type==="phase") html += `<div class="lr r-phase"><span class="sw" style="background:var(--${r.ci==null?"pn":"p"+r.ci});color:var(--${r.ci==null?"pn":"p"+r.ci})"></span><input class="phase-in" data-f="phase:${esc(r.name)}" value="${esc(r.name)}" placeholder="${esc(T("noPhase"))}" aria-label="${esc(T("phase"))}"></div>`;
+    else {
+      const t=r.t;
+      const tg = r.kids ? `<button class="tg" data-toggle="${t.id}" aria-expanded="${!t.collapsed}" title="${esc(T(t.collapsed?"expand":"collapse"))}" aria-label="${esc(T(t.collapsed?"expand":"collapse"))}">${t.collapsed?"\u25B8":"\u25BE"}</button>` : `<span class="tg-sp"></span>`;
+      const addSub = (!r.sub && !t.ms) ? `<button class="mini" data-addsub="${t.id}" title="${esc(T("addSub"))}" aria-label="${esc(T("addSub"))}">+</button>`
+        : t.ms ? `<button class="mini${t.agreed!=null?" on":""}" data-agree="${t.id}" title="${esc(T(t.agreed!=null?"clearAgreed":"setAgreed"))}" aria-label="${esc(T(t.agreed!=null?"clearAgreed":"setAgreed"))}" aria-pressed="${t.agreed!=null}">\u2691</button>` : "";
+      html += `<div class="lr r-task${r.sub?" r-sub":""}${t.id===selId?" selected":""}" data-sel="${t.id}">${r.sub?`<span class="tg-sp"></span>`:""}<span class="num">${r.n}</span>${r.sub?"":tg}<span class="nw"><input class="name-in" data-f="name:${t.id}" value="${esc(t.name)}" placeholder="${esc(T(r.sub?"newSub":"newTask"))}" aria-label="${esc(T("name"))} ${r.n}">${r.kids&&t.collapsed?`<span class="cnt">${r.kids}</span>`:""}${addSub}<button class="del" data-del="${t.id}" title="${esc(T("deleteTask"))}" aria-label="${esc(T("deleteTask"))}">×</button></span></div>`;
+    }
+  }
+  if (!S.tasks.length) html += `<div class="lr r-empty"><strong>${esc(T("emptyTitle"))}</strong><span>${esc(T("emptyBody"))}</span></div>`;
+  html += `<div class="lr r-add"><button class="add" data-act="addTask"><span class="plus" aria-hidden="true">+</span>${esc(T("addTask"))}</button><button class="add sub" data-act="addPhase" title="${esc(T("addPhase"))}">+ ${esc(T("phase"))}</button></div>`;
+  $("labels").innerHTML = html;
+  paintBody();
+}
+function paintPanel(){
+  const el=$("panel");
+  const t = selId && byId(selId);
+  el.classList.toggle("empty", !t);
+  el.classList.toggle("collapsed", !S.panelOpen);
+  let pcol = "var(--pn)";
+  if (t){ const pr = L.rows.find(r=>r.type==="phase" && r.name===t.phase && t.phase!==""); if (pr && pr.ci!=null) pcol = `var(--p${pr.ci})`; }
+  const dot = t ? `<span class="p-rail-dot" style="color:${pcol}" aria-hidden="true"></span>` : "";
+  if (!S.panelOpen){
+    el.innerHTML = `<button class="p-rail" data-ptoggle aria-expanded="false" title="${esc(T("expandPanel"))}" aria-label="${esc(T("expandPanel"))}"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5 5.5 8 10 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>${dot}<span class="p-rail-txt">${esc(t ? (t.name||T(t.parent?"newSub":"newTask")) : T("details"))}</span></button>`;
+    return;
+  }
+  const collapseBtn = `<button class="p-x" data-ptoggle aria-expanded="true" title="${esc(T("collapsePanel"))}" aria-label="${esc(T("collapsePanel"))}"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`;
+  if (!t){ el.innerHTML = `<div class="p-head"><span></span><span class="p-tools">${collapseBtn}</span></div><div class="p-empty"><strong>${esc(T("panelEmptyT"))}</strong><p>${esc(T("panelEmptyB"))}</p></div>`; return; }
+  const id=t.id, n=L.num.get(id), par=t.parent?byId(t.parent):null, kids=kidsOf(id).length;
+  const kind = t.ms ? T("kindMs") : par ? T("kindSub") : T("kindAct");
+  const range = t.ms ? fmt(t.start,{weekday:"short",day:"numeric",month:"long"}) : `${fmt(t.start,{weekday:"short",day:"numeric",month:"short"})} – ${fmt(fin(t),{weekday:"short",day:"numeric",month:"short"})}, ${T("workdays")(t.dur)}`;
+  const phases = [...new Set(S.tasks.map(x=>x.phase).filter(Boolean))];
+  let h = `<div class="p-head"><span class="p-kind">${dot}${esc(kind)} ${esc(n)}</span><span class="p-tools">${collapseBtn}</span></div>`;
+  h += `<input class="p-name" data-f="tname:${id}" value="${esc(t.name)}" placeholder="${esc(T(par?"newSub":"newTask"))}" aria-label="${esc(T("name"))}">`;
+  h += `<div class="p-sec">`;
+  h += par ? `<div class="p-row"><label>${esc(T("phase"))}</label><span class="p-ro">${esc(T("partOf")(par.name||T("newTask")))}</span></div>`
+           : `<div class="p-row"><label for="pf-phase">${esc(T("phase"))}</label><input id="pf-phase" type="text" list="pf-phases" data-f="tphase:${id}" value="${esc(t.phase)}" placeholder="${esc(T("noPhase"))}"><datalist id="pf-phases">${phases.map(p=>`<option value="${esc(p)}">`).join("")}</datalist></div>`;
+  h += `<div class="p-two"><div class="p-row"><label for="pf-start">${esc(T("start"))}</label><input id="pf-start" type="date" data-f="tstart:${id}" value="${isoDate(t.start)}"></div>`;
+  h += t.ms ? `<div></div>` : `<div class="p-row"><label for="pf-dur">${esc(T("durX"))}</label><input id="pf-dur" type="number" min="1" data-f="tdur:${id}" value="${t.dur}"></div>`;
+  h += `</div><span class="p-ro">${esc(range)}</span>`;
+  if (!kids) h += `<label class="p-check"><input type="checkbox" data-f="tms:${id}" ${t.ms?"checked":""}>${esc(T("milestone"))}</label>`;
+  h += `</div>`;
+  if (t.ms){
+    const g = gapInfo(t);
+    h += `<div class="p-sec"><div class="p-row"><label for="pf-deliv">${esc(T("deliv"))}</label><input id="pf-deliv" type="text" data-f="tdeliv:${id}" value="${esc(t.deliv)}" placeholder="${esc(T("delivPh"))}"></div>`;
+    h += `<div class="p-row"><label for="pf-agreed">${esc(T("agreed"))}</label><div class="p-inline"><input id="pf-agreed" type="date" data-f="tagreed:${id}" value="${t.agreed!=null?isoDate(t.agreed):""}"><button class="btn sm" data-agree="${id}">${esc(T(t.agreed!=null?"clearShort":"lockShort"))}</button></div></div>`;
+    if (g) h += `<p class="p-gap ${g.k}">${esc(T("gapLong")[g.k](g.n))}</p>`;
+    h += `</div>`;
+  }
+  h += `<div class="p-sec"><h4>${esc(T("links"))}</h4>`;
+  h += t.deps.length ? `<div class="chips">${t.deps.map(d=>{ const p=byId(d.id); return `<span class="chip"><span class="chip-n">${esc(L.num.get(p.id))}</span><span class="nm">${esc(p.name||T("newTask"))}</span>${d.lag?`<span class="chip-n">+${d.lag} ${esc(T("wd"))}</span>`:""}<button data-undep="${id}|${p.id}" title="${esc(T("removeLink"))}" aria-label="${esc(T("removeLink"))}">×</button></span>`; }).join("")}</div>` : `<span class="p-ro">${esc(T("noLinks"))}</span>`;
+  const opts = S.tasks.filter(x=>x.id!==id && !t.deps.some(d=>d.id===x.id) && !wouldCycle(x,t));
+  if (opts.length) h += `<select data-adddep="${id}" aria-label="${esc(T("addLink"))}"><option value="">${esc(T("addLink"))}</option>${opts.map(x=>`<option value="${x.id}">${esc(L.num.get(x.id))}  ${esc(x.name||T(x.parent?"newSub":"newTask"))}</option>`).join("")}</select>`;
+  h += `</div>`;
+  h += `<div class="p-sec"><div class="p-two"><div class="p-row"><label for="pf-owner">${esc(T("owner"))}</label><input id="pf-owner" type="text" data-f="towner:${id}" value="${esc(t.owner)}"></div><div class="p-row"><label for="pf-prog">${esc(T("progressX"))}</label><input id="pf-prog" type="number" min="0" max="100" step="5" data-f="tprog:${id}" value="${t.progress}"></div></div></div>`;
+  h += `<div class="p-acts">${(!par && !t.ms)?`<button class="btn" data-addsub="${id}">+ ${esc(T("addSub"))}</button>`:""}<button class="btn danger" data-del="${id}">${esc(T("deleteTask"))}</button></div>`;
+  el.innerHTML = h;
+}
+function select(id){
+  if (selId===id) return;
+  selId = id;
+  document.querySelectorAll(".lr.selected").forEach(n=>n.classList.remove("selected"));
+  if (id){ const row=document.querySelector(`.lr[data-sel="${CSS.escape(id)}"]`); if (row) row.classList.add("selected"); }
+  paintBody(); paintPanel();
+}
+function paintChrome(){
+  document.documentElement.lang = S.lang;
+  document.documentElement.dataset.theme = S.theme==="light" ? "light" : "dark";
+  $("optLight").checked = S.theme==="light";
+  $("lnkSource").href = H8XL.repoUrl; $("lnkPrivacy").href = H8XL.repoUrl + "/blob/main/PRIVACY.md";
+  document.querySelectorAll("[data-i]").forEach(el=>{ const v=T(el.dataset.i); if (typeof v==="string") el.textContent=v; });
+  document.querySelectorAll("[data-zoom]").forEach(b=>b.setAttribute("aria-pressed", b.dataset.zoom===S.zoom));
+  document.querySelectorAll("[data-lang]").forEach(b=>b.setAttribute("aria-pressed", b.dataset.lang===S.lang));
+  $("optHol").checked=S.holidays; $("optOwner").checked=S.showOwner; $("optProg").checked=S.showProgress; 
+  const ti=$("title"); ti.placeholder=T("untitled"); if (document.activeElement!==ti) ti.value=S.title;
+  $("pasteTa").placeholder = T("pastePh");
+  document.title = (S.title||T("untitled"))+" – H8XL";
+}
+let firstPaint = true;
+function renderAll(focusKey){
+  const ae=document.activeElement;
+  const key = focusKey || (ae && ae.dataset && ae.dataset.f) || null;
+  const sel = (!focusKey && ae && ae.type==="text") ? [ae.selectionStart, ae.selectionEnd] : null;
+  const keepVal = (!focusKey && ae && ae.type==="text" && ae.dataset && ae.dataset.f) ? ae.value : null;
+  normalize(); const ext = schedule(); computeLayout(false);
+  if (selId && !byId(selId)) selId=null;
+  paintGantt(); paintPanel(); paintChrome(); save();
+  if (ext.length && !firstPaint) toast(T("extended")(ext[0].name||T("newTask")));
+  if (key){
+    const el = document.querySelector(`[data-f="${CSS.escape(key)}"]`);
+    if (el){ if (keepVal!==null) el.value = keepVal; el.focus({preventScroll:!focusKey}); if (sel) try{ el.setSelectionRange(sel[0],sel[1]); }catch(e){} }
+  }
+  if (firstPaint){ firstPaint=false; }
+}
+const queue = () => setTimeout(()=>renderAll(),0);
+
+/* ---------- task actions ---------- */
+function newTaskAfter(ref, phase){
+  const anchor = ref && !ref.parent ? (kidsOf(ref.id).at(-1) || ref) : ref;
+  const base = ref && !ref.parent ? ref : (ref && ref.parent ? byId(ref.parent) : null);
+  const start = base ? nextWork(fin(base)+1) : nextWork(todayDn());
+  const t = {id:uid(), name:"", phase: phase!==undefined ? phase : (base?base.phase:""), start, dur:5, ms:false, deps:[], owner:"", progress:0, parent:null, collapsed:false};
+  const i = anchor ? S.tasks.indexOf(anchor)+1 : S.tasks.length;
+  S.tasks.splice(i,0,t); return t;
+}
+function newSubAfter(p, ref){
+  const sibs = kidsOf(p.id); const after = ref || sibs.at(-1) || null;
+  let start = after ? nextWork(fin(after)+1) : p.start; if (start>fin(p)) start = p.start;
+  const room = Math.max(1, workCount(start, fin(p)));
+  const t = {id:uid(), name:"", phase:p.phase, start, dur:Math.min(3,room), ms:false, deps:[], owner:"", progress:0, parent:p.id, collapsed:false};
+  const i = S.tasks.indexOf(after || p)+1; S.tasks.splice(i,0,t);
+  p.collapsed = false; p.ms = false; return t;
+}
+function addTask(){ const tops=S.tasks.filter(t=>!t.parent); const t = newTaskAfter(tops.at(-1)); selId=t.id; renderAll("name:"+t.id); }
+function addSub(id){ const p=byId(id); if (!p) return; const t=newSubAfter(p); selId=t.id; renderAll("name:"+t.id); }
+function addPhase(){
+  const names = new Set(S.tasks.map(t=>t.phase)); let nm=T("newPhase"), i=2;
+  while (names.has(nm)) nm = T("newPhase")+" "+(i++);
+  const last = S.tasks.filter(t=>!t.parent).at(-1);
+  const t = newTaskAfter(last, nm); S.tasks.splice(S.tasks.indexOf(t),1); S.tasks.push(t);
+  selId=t.id; renderAll("name:"+t.id);
+}
+function deleteTask(id){
+  const gone = new Set([id, ...kidsOf(id).map(c=>c.id)]);
+  S.tasks = S.tasks.filter(t=>!gone.has(t.id));
+  for (const t of S.tasks) t.deps = t.deps.filter(d=>!gone.has(d.id));
+  renderAll();
+}
+function maxKidFin(t){ let mx=-Infinity; for (const c of kidsOf(t.id)) mx=Math.max(mx,fin(c)); return mx; }
+function handleField(el){
+  const [f, id] = [el.dataset.f.slice(0, el.dataset.f.indexOf(":")), el.dataset.f.slice(el.dataset.f.indexOf(":")+1)];
+  if (f==="phase"){ const nv = el.value.trim(); if (nv && nv!==id) for (const t of S.tasks) if (t.phase===id) t.phase=nv; return; }
+  const t = byId(id); if (!t) return;
+  const v = el.value;
+  switch(f){
+    case "name": case "tname": t.name = v; break;
+    case "tphase": if (!t.parent) t.phase = v.trim(); break;
+    case "tstart": { const dn = parseDate(v); if (dn!=null) { const info = moveActivity(t, dn, kidOffsets(t)); if (info) toast(infoText(info)); } break; }
+    case "tdur": {
+      let n=parseInt(v);
+      if (!(n>=1)) break;
+      if (t.ms) t.ms = false;
+      const mk = maxKidFin(t);
+      if (mk>-Infinity && addWork(t.start,n-1)<mk){ n = workCount(t.start,mk); toast(T("kidsLimit")(kidsOf(t.id).find(c=>fin(c)===mk).name||T("newSub"))); }
+      if (t.parent){ const pf=fin(byId(t.parent)); if (addWork(t.start,n-1)>pf){ n=Math.max(1,workCount(t.start,pf)); toast(T("within")(byId(t.parent).name||T("newTask"))); } }
+      t.dur=n; break;
+    }
+    case "tms": if (!kidsOf(t.id).length) t.ms = el.checked; break;
+    case "towner": t.owner = v.trim(); break;
+    case "tdeliv": t.deliv = v.trim(); break;
+    case "tagreed": { const dn = parseDate(v); t.agreed = dn!=null ? nextWork(dn) : null; break; }
+    case "tprog": t.progress = Math.max(0,Math.min(100,parseInt(v)||0)); break;
+    case "tafter": {
+      const inv = new Map([...L.num].map(([k,n])=>[String(n),k])); const deps=[];
+      const D = t.start; t.deps = [];
+      for (const part of v.split(/[,;\s]+/)){
+        const m = part.trim().match(/^(\d+(?:\.\d+)?)(?:\+(\d+))?$/); if (!m) continue;
+        const sid = inv.get(m[1]); const src = sid && byId(sid);
+        if (!src || src.id===t.id || deps.some(d=>d.id===src.id)) continue;
+        t.deps = deps; if (wouldCycle(src, t)) { toast(T("cycle")); continue; }
+        deps.push({id:src.id, lag: m[2]?+m[2]:0});
+      }
+      t.deps = deps; if (deps.length && !deps.some(d=>d.lag)) setStart(t, D); break;
+    }
+  }
+}
+function infoText(info){
+  const n = (info.by && info.by.name) || T("newTask");
+  return info.kind==="dep" ? T("waitsFor")(n) : info.kind==="kids" ? T("kidsLimit")(n) : T("within")(n);
+}
+
+/* ---------- events ---------- */
+document.addEventListener("change", e=>{
+  const el=e.target;
+  if (el.id==="title"){ S.title=el.value.trim(); save(); paintChrome(); return; }
+  if (el.dataset && el.dataset.adddep){ const t=byId(el.dataset.adddep), src=byId(el.value); if (t && src) addDep(src,t); renderAll(); return; }
+  if (el.dataset && el.dataset.f){ handleField(el); if (el.isConnected) queue(); else save(); }
+});
+document.addEventListener("keydown", e=>{
+  const el=e.target;
+  if (e.key==="Escape"){ const hadOv = document.querySelector(".ov.open, .menu.open"); closeMenus(); document.querySelectorAll(".ov.open").forEach(o=>o.classList.remove("open")); if (!hadOv && selId){ selId=null; renderAll(); } return; }
+  if (e.key!=="Enter" || !el.dataset || !el.dataset.f || el.type==="checkbox") return;
+  const k=el.dataset.f, f=k.slice(0,k.indexOf(":")), id=k.slice(k.indexOf(":")+1);
+  e.preventDefault();
+  if (f==="name"){ handleField(el); const cur=byId(id); const t = cur.parent ? newSubAfter(byId(cur.parent), cur) : newTaskAfter(cur); selId=t.id; renderAll("name:"+t.id); return; }
+  if (el.closest("#panel")){ handleField(el); renderAll(); return; }
+  if (f==="phase"){ el.blur(); return; }
+  handleField(el);
+  const ids = S.tasks.map(t=>t.id); const nxt = ids[ids.indexOf(id)+1];
+  renderAll(nxt ? f+":"+nxt : null);
+});
+$("title").addEventListener("keydown", e=>{ if (e.key==="Enter") e.target.blur(); });
+document.addEventListener("click", e=>{
+  const a = e.target.closest("[data-act]");
+  if (a){ if (a.dataset.act==="addTask") addTask(); else addPhase(); return; }
+  const d = e.target.closest("[data-del]"); if (d){ deleteTask(d.dataset.del); return; }
+  const as = e.target.closest("[data-addsub]"); if (as){ addSub(as.dataset.addsub); return; }
+  if (e.target.closest("[data-desel]")){ selId=null; renderAll(); return; }
+  if (e.target.closest("[data-ptoggle]")){ S.panelOpen=!S.panelOpen; renderAll(); const f=$("panel").querySelector("[data-ptoggle]"); if (f) f.focus(); return; }
+  const ud = e.target.closest("[data-undep]"); if (ud){ const [tid,pid]=ud.dataset.undep.split("|"); const t=byId(tid); if (t){ t.deps=t.deps.filter(d=>d.id!==pid); renderAll(); } return; }
+  const ag = e.target.closest("[data-agree]"); if (ag){ const t=byId(ag.dataset.agree); if (t){ t.agreed = t.agreed==null ? t.start : null; renderAll(); } return; }
+  const tg = e.target.closest("[data-toggle]"); if (tg){ const t=byId(tg.dataset.toggle); if (t){ t.collapsed=!t.collapsed; renderAll(); } return; }
+  const mb = e.target.closest("[data-menu]");
+  if (mb){ const m=$(mb.dataset.menu); const open=!m.classList.contains("open"); closeMenus(); if (open){ m.classList.add("open"); mb.setAttribute("aria-expanded","true"); } return; }
+  if (!e.target.closest(".menu")) closeMenus();
+  const z = e.target.closest("[data-zoom]"); if (z){ S.zoom=z.dataset.zoom; renderAll(); return; }
+  const lg = e.target.closest("[data-lang]"); if (lg){ S.lang=lg.dataset.lang; renderAll(); return; }
+  const ex = e.target.closest("[data-export]"); if (ex){ closeMenus(); doExport(ex.dataset.export); return; }
+  if (e.target.closest("[data-close]")) e.target.closest(".ov").classList.remove("open");
+  const sr = e.target.closest(".lr[data-sel]"); if (sr && !e.target.closest("button")) select(sr.dataset.sel);
+});
+function closeMenus(){ document.querySelectorAll(".menu.open").forEach(m=>m.classList.remove("open")); document.querySelectorAll("[data-menu]").forEach(b=>b.setAttribute("aria-expanded","false")); }
+$("optHol").addEventListener("change", e=>{ S.holidays=e.target.checked; renderAll(); });
+$("optOwner").addEventListener("change", e=>{ S.showOwner=e.target.checked; renderAll(); });
+$("optProg").addEventListener("change", e=>{ S.showProgress=e.target.checked; renderAll(); });
+$("optLight").addEventListener("change", e=>{ S.theme = e.target.checked ? "light" : "dark"; renderAll(); });
+/* feedback: composes a mail in the user's own mail app; H8XL itself sends nothing */
+function fbCompose(){
+  const kind = (document.querySelector('input[name="fbkind"]:checked')||{}).value || "idea";
+  const subj = $("fbSubject").value.trim();
+  const subject = `[H8XL] ${T("fbKindLbl")[kind]}${subj?": "+subj:""}`;
+  let body = $("fbBody").value.trim();
+  if ($("fbTech").checked) body += `\n\n--\nH8XL ${H8XL.version} · ${S.lang.toUpperCase()} · ${navigator.userAgent}`;
+  return {kind, subject, body};
+}
+function fbUpdate(){
+  const m = fbCompose();
+  $("fbMail").href = `mailto:${H8XL.contactEmail}?subject=${encodeURIComponent(m.subject)}&body=${encodeURIComponent(m.body)}`;
+  const lab = {idea:"enhancement", bug:"bug", question:"question"}[m.kind];
+  $("fbIssue").href = `${H8XL.repoUrl}/issues/new?labels=${lab}&title=${encodeURIComponent(m.subject.replace(/^\[H8XL\] /,""))}&body=${encodeURIComponent(m.body)}`;
+}
+$("btnFeedback").addEventListener("click", ()=>{ fbUpdate(); $("ovFeedback").classList.add("open"); setTimeout(()=>$("fbSubject").focus(),30); });
+$("ovFeedback").addEventListener("input", fbUpdate);
+$("ovFeedback").addEventListener("change", fbUpdate);
+$("fbMail").addEventListener("click", ()=>{ fbUpdate(); });
+$("fbCopy").addEventListener("click", async ()=>{
+  const m = fbCompose(); const txt = `${T("fbTo")}: ${H8XL.contactEmail}\n${T("fbSubject")}: ${m.subject}\n\n${m.body}`;
+  try { await navigator.clipboard.writeText(txt); toast(T("fbCopied")); }
+  catch(e){ const ta=document.createElement("textarea"); ta.value=txt; document.body.appendChild(ta); ta.select(); try{ document.execCommand("copy"); toast(T("fbCopied")); }catch(_){} ta.remove(); }
+});
+document.addEventListener("focusin", e=>{
+  const f = e.target.dataset && e.target.dataset.f; if (!f || e.target.closest("#panel")) return;
+  const id = f.slice(f.indexOf(":")+1); if (byId(id)) select(id);
+});
+$("btnNew").addEventListener("click", ()=>$("ovNew").classList.add("open"));
+$("newClear").addEventListener("click", ()=>{ S.tasks=[]; S.title=""; $("ovNew").classList.remove("open"); renderAll(); });
+$("newSave").addEventListener("click", async ()=>{ $("ovNew").classList.remove("open"); await doExport("xlsx"); });
+$("btnOpen").addEventListener("click", ()=>$("file").click());
+$("btnPaste").addEventListener("click", ()=>{ $("pasteTa").value=""; $("ovPaste").classList.add("open"); setTimeout(()=>$("pasteTa").focus(),30); });
+$("pasteTa").addEventListener("keydown", e=>{ if (e.key==="Tab"){ e.preventDefault(); const ta=e.target, s=ta.selectionStart; ta.value=ta.value.slice(0,s)+"\t"+ta.value.slice(ta.selectionEnd); ta.selectionStart=ta.selectionEnd=s+1; } });
+$("pasteReplace").addEventListener("click", ()=>doPaste(true));
+$("pasteAppend").addEventListener("click", ()=>doPaste(false));
+$("file").addEventListener("change", async e=>{ const f=e.target.files[0]; e.target.value=""; if (f) await importFile(f); });
+window.addEventListener("resize", ()=>{ clearTimeout(window.__rz); window.__rz=setTimeout(()=>renderAll(),150); });
+
+/* ---------- dragging ---------- */
+let drag=null, lastDragEnd=0, lastTap={};
+const body = $("body");
+const tip = $("tip");
+function showTip(e, html){
+  const br=$("board").getBoundingClientRect();
+  tip.innerHTML=html; tip.style.display="block";
+  let x=e.clientX-br.left+14, y=e.clientY-br.top-52;
+  const tw=tip.offsetWidth; if (x+tw>br.width-8) x=e.clientX-br.left-tw-14;
+  if (y<4) y=e.clientY-br.top+20;
+  tip.style.left=x+"px"; tip.style.top=y+"px";
+}
+const hideTip = () => { tip.style.display="none"; };
+function tipFor(t, info){
+  const range = t.ms ? fmt(t.start,{weekday:"short",day:"numeric",month:"short"}) : `${fmt(t.start,{weekday:"short",day:"numeric",month:"short"})} – ${fmt(fin(t),{weekday:"short",day:"numeric",month:"short"})}`;
+  return `<b>${esc(range)}</b>${t.ms?"":", "+esc(T("workdays")(t.dur))}${info?`<span class="warn">${esc(infoText(info))}</span>`:""}`;
+}
+body.addEventListener("pointerdown", e=>{
+  if (e.button!==0) return;
+  const roleEl = e.target.closest("[data-role]"); if (!roleEl) return;
+  const g = roleEl.closest("[data-id]"); const t = g && byId(g.dataset.id); if (!t) return;
+  e.preventDefault();
+  try { body.setPointerCapture(e.pointerId); } catch(_){}
+  drag = {agreed:t.agreed, mode:roleEl.dataset.role, t, x0:e.clientX, y0:e.clientY, start:t.start, end:fin(t), moved:false, info:null, offs:kidOffsets(t), minEnd:maxKidFin(t)};
+  if (drag.mode==="link"){
+    const r=L.pos.get(t.id); const X=d=>(d-L.rs)*L.px;
+    drag.sx = t.ms ? X(t.start)+L.px/2+16 : X(fin(t))+L.px+7; drag.sy = r.y+r.h/2;
+  }
+  dragId = t.id;
+});
+body.addEventListener("pointermove", e=>{
+  if (!drag) return;
+  const dx=e.clientX-drag.x0, dy=e.clientY-drag.y0;
+  if (!drag.moved && Math.abs(dx)<3 && Math.abs(dy)<3) return;
+  drag.moved = true;
+  const t = drag.t, days = Math.round(dx/L.px);
+  if (drag.mode==="move"){
+    const raw = drag.start+days; const D = days<0 ? prevWork(raw) : nextWork(raw);
+    drag.info = moveActivity(t, D, drag.offs); snapId = drag.info ? t.id : null;
+    paintBody(); showTip(e, tipFor(t, drag.info));
+  } else if (drag.mode==="resize"){
+    if (t.ms) return;
+    const raw = drag.end+days; let E = days<0 ? prevWork(raw) : nextWork(raw); if (E<t.start) E=t.start;
+    let info=null;
+    if (E<drag.minEnd){ E=drag.minEnd; info={kind:"kids", by:kidsOf(t.id).find(c=>fin(c)===drag.minEnd)}; }
+    if (t.parent){ const pf=fin(byId(t.parent)); if (E>pf){ E=pf; info={kind:"within", by:byId(t.parent)}; } }
+    t.dur = Math.max(1, workCount(t.start,E)); schedule(); snapId = info ? t.id : null; paintBody(); showTip(e, tipFor(t,info));
+  } else if (drag.mode==="agreed"){
+    const raw = drag.agreed+days; t.agreed = days<0 ? prevWork(raw) : nextWork(raw);
+    paintBody(); const g=gapInfo(t);
+    showTip(e, `<b>${esc(T("agreedOn")(fmt(t.agreed,{weekday:"short",day:"numeric",month:"short"})))}</b><span class="warn">${esc(T("gapLong")[g.k](g.n))}</span>`);
+  } else if (drag.mode==="link"){
+    const rect=body.getBoundingClientRect(); const ln=$("tmpLink");
+    ln.setAttribute("x1",drag.sx); ln.setAttribute("y1",drag.sy);
+    ln.setAttribute("x2",e.clientX-rect.left); ln.setAttribute("y2",e.clientY-rect.top); ln.style.display="";
+    body.querySelectorAll(".link-target").forEach(n=>n.classList.remove("link-target"));
+    const hit = document.elementFromPoint(e.clientX,e.clientY); const tg = hit && hit.closest && hit.closest("[data-id]");
+    if (tg && tg.dataset.id!==t.id) tg.classList.add("link-target");
+  }
+});
+function endDrag(e, cancel){
+  if (!drag) return;
+  const d = drag; drag=null; dragId=null; snapId=null; hideTip();
+  if (d.moved){ lastDragEnd = Date.now(); lastTap = {}; }
+  else if (!cancel){
+    const now = Date.now();
+    if (lastTap.id===d.t.id && now-lastTap.t<450){ lastTap = {}; openDetails(d.t.id, true); return; }
+    lastTap = {id:d.t.id, t:now}; selId = d.t.id;
+  }
+  if (!cancel && d.mode==="link" && d.moved){
+    const hit = document.elementFromPoint(e.clientX,e.clientY); const tg = hit && hit.closest && hit.closest("[data-id]");
+    const tt = tg && byId(tg.dataset.id);
+    if (tt && tt.id!==d.t.id) addDep(d.t, tt);
+  }
+  renderAll();
+}
+body.addEventListener("pointerup", e=>endDrag(e,false));
+function openDetails(id, focusName){
+  selId = id; S.panelOpen = true; renderAll();
+  if (focusName){ const n = $("panel").querySelector(".p-name"); if (n){ n.focus(); n.select(); } }
+}
+$("labels").addEventListener("dblclick", e=>{
+  const row = e.target.closest(".lr[data-sel]"); if (!row || e.target.closest("button")) return;
+  openDetails(row.dataset.sel, false);
+});
+body.addEventListener("pointercancel", e=>endDrag(e,true));
+body.addEventListener("click", e=>{
+  if (Date.now()-lastDragEnd<250) return;
+  const a = e.target.closest("[data-dep]"); if (!a) return;
+  const [tid,pid] = a.dataset.dep.split("|"); const t=byId(tid); if (!t) return;
+  t.deps = t.deps.filter(d=>d.id!==pid); renderAll();
+});
+
+/* ---------- import ---------- */
+const ALIAS = [
+  ["nr",/^(nr|#|no|id|nummer|number)\.?$/],
+  ["ms",/^(mijlpaal|milestone)/],
+  ["agreed",/^(afgesproken|agreed|toegezegd|deadline|committed)/],
+  ["deliv",/^(levert op|delivers|deliverable|oplevering|resultaat|result)/],
+  ["phase",/^(fase|phase|groep|group|onderdeel)/],
+  ["name",/^(taak|task|naam|name|activiteit|activity|omschrijving|description)/],
+  ["start",/^(start|begin|startdatum|start date|van|from)/],
+  ["end",/^(eind|einde|end|finish|einddatum|end date|tot|to)$|^(eind|einde|end|finish)/],
+  ["dur",/(duur|duration|werkdagen|workdays|dagen|days)/],
+  ["after",/^(na|after|voorganger|predecessors?|afhankelijk|depends)/],
+  ["owner",/^(eigenaar|owner|wie|who|verantwoordelijke|responsible)/],
+  ["progress",/^(voortgang|progress|%|gereed|complete)/]
+];
+function detectHeader(row){
+  const map={}; let hits=0;
+  row.forEach((c,i)=>{ const s=String(c??"").trim().toLowerCase(); if (!s) return;
+    for (const [k,re] of ALIAS) if (map[k]==null && re.test(s)){ map[k]=i; hits++; break; } });
+  return (map.name!=null && hits>=2) ? map : null;
+}
+function parseDate(v){
+  if (v==null || v==="") return null;
+  if (v instanceof Date && !isNaN(v)) return dnOf(v.getFullYear(), v.getMonth()+1, v.getDate());
+  if (typeof v==="number") return (v>20000 && v<90000) ? Math.floor(v)-25569 : null;
+  const s=String(v).trim(); let m;
+  if ((m=s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/))) return dnOf(+m[1],+m[2],+m[3]);
+  if ((m=s.match(/^(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{2,4})$/))){ let y=+m[3]; if (y<100) y+=2000; return dnOf(y,+m[2],+m[1]); }
+  if (/^\d{5}(\.\d+)?$/.test(s)) return parseDate(parseFloat(s));
+  return null;
+}
+function rowsToTasks(aoa){
+  aoa = aoa.filter(r=>Array.isArray(r) && r.some(c=>String(c??"").trim()!==""));
+  if (!aoa.length) return null;
+  let map = detectHeader(aoa[0]), rows;
+  if (map) rows = aoa.slice(1);
+  else { rows = aoa; const n = Math.max(...aoa.map(r=>r.length)); map = n>=4 ? {phase:0,name:1,start:2,end:3} : {name:0,start:1,end:2}; }
+  const out=[], nr=new Map(), pending=[];
+  const cell = (r,k) => map[k]!=null ? r[map[k]] : "";
+  for (const r of rows){
+    const name = String(cell(r,"name")??"").trim();
+    const st = parseDate(cell(r,"start")), en = parseDate(cell(r,"end"));
+    if (!name && st==null) continue;
+    const msRaw = String(cell(r,"ms")??"").trim();
+    const durRaw = cell(r,"dur"); const durN = durRaw===""||durRaw==null ? NaN : parseInt(durRaw);
+    const ms = /^(ja|yes|y|j|1|true|waar|x|✓|◆)$/i.test(msRaw) || durN===0;
+    const prev = out.at(-1);
+    let s = st!=null ? st : (en!=null ? en : (prev ? nextWork(fin(prev)+1) : nextWork(todayDn())));
+    s = nextWork(s);
+    let dur = durN>=1 ? durN : (en!=null && en>=s ? Math.max(1, workCount(s,en)) : (ms?1:5));
+    let prog = cell(r,"progress"); if (typeof prog==="number" && prog>0 && prog<=1) prog*=100; prog = parseFloat(String(prog??"").replace("%","").replace(",","."))||0;
+    const t = {id:uid(), name, phase:String(cell(r,"phase")??"").trim(), start:s, dur, ms, deps:[], owner:String(cell(r,"owner")??"").trim(), progress:Math.max(0,Math.min(100,Math.round(prog))), parent:null, collapsed:false, deliv:String(cell(r,"deliv")??"").trim(), agreed:parseDate(cell(r,"agreed"))};
+    const key = map.nr!=null && String(r[map.nr]??"").trim()!=="" ? String(r[map.nr]).trim() : String(out.length+1);
+    const pm = key.match(/^(\d+)\.\d+$/); if (pm && nr.has(pm[1])) t.parent = nr.get(pm[1]);
+    nr.set(key, t.id); out.push(t);
+    if (map.after!=null) pending.push([t, String(cell(r,"after")??"")]);
+  }
+  for (const [t,str] of pending) for (const part of str.split(/[,;]/)){
+    const m = part.trim().match(/^(\S+?)(?:\s*\+\s*(\d+))?$/); if (!m) continue;
+    const sid = nr.get(m[1]); if (sid && sid!==t.id && !t.deps.some(d=>d.id===sid)) t.deps.push({id:sid, lag:m[2]?+m[2]:0});
+  }
+  return out.length ? out : null;
+}
+function stripCycles(){
+  normalize();
+  for (const t of S.tasks){ const keep=[]; const all=t.deps; t.deps=[];
+    for (const d of all){ const p=byId(d.id); if (p && !wouldCycle(p,t)) { keep.push(d); t.deps=keep.slice(); } }
+    t.deps = keep; }
+}
+async function importFile(file){
+  try {
+    const isCsv = /\.csv$/i.test(file.name) || file.type==="text/csv";
+    let book;
+    if (isCsv){ const txt = await file.text(); book = {names:["csv"], aoa: async()=>parseCSV(txt)}; }
+    else {
+      const buf = await file.arrayBuffer();
+      try { book = await readXlsx(buf); }
+      catch(e){ book = await readWithSheetJS(buf); }
+    }
+    const names = book.names;
+    const sn = names.find(n=>/^(planning|plan)$/i.test(n)) || names.find(n=>!n.startsWith("_") && !/^(tijdlijn|timeline|opleveringen|deliverables)$/i.test(n)) || names[0];
+    const tasks = rowsToTasks(await book.aoa(sn));
+    if (!tasks){ toast(T("importFail")); return; }
+    const setN = names.find(n=>/^_(instellingen|settings)$/i.test(n));
+    let title = file.name.replace(/\.[^.]+$/,"");
+    if (setN){
+      for (const [k,v] of await book.aoa(setN)){
+        const val = String(v??"").trim(), on = /^(true|ja|yes|1)$/i.test(val);
+        if (k==="title" && val) title = val;
+        if (k==="holidays") S.holidays = on;
+        if (k==="showOwner") S.showOwner = on;
+        if (k==="showProgress") S.showProgress = on;
+        if (k==="zoom" && (val==="day"||val==="week")) S.zoom = val;
+      }
+    }
+    S.tasks = tasks; S.title = title; selId = null; stripCycles();
+    renderAll(); toast(T("imported")(tasks.length));
+  } catch(err){ console.error(err); toast(T("importFail")); }
+}
+function doPaste(replace){
+  const txt = $("pasteTa").value;
+  const lines = txt.split(/\r?\n/);
+  const useSemi = !txt.includes("\t") && txt.includes(";");
+  const aoa = lines.map(l=>l.split(useSemi?";":"\t"));
+  const tasks = rowsToTasks(aoa);
+  if (!tasks){ toast(T("pasteEmpty")); return; }
+  S.tasks = replace ? tasks : S.tasks.concat(tasks); stripCycles();
+  $("ovPaste").classList.remove("open");
+  renderAll(); toast(T("imported")(tasks.length));
+}
+
+/* ---------- export ---------- */
+const slug = s => (s||"planning").trim().replace(/[\\\/:*?"<>|]+/g,"").replace(/\s+/g," ").slice(0,80) || "planning";
+async function saveFile(filename, data){
+  if (window.claude && typeof window.claude.use==="function"){
+    let dl=null; try { dl = await window.claude.use("downloads"); } catch(e){}
+    if (!dl){ toast(T("dlUnavailable")); return false; }
+    try { await dl.save({filename, data}); toast(T("saved")(filename)); return true; }
+    catch(err){
+      const c = err && err.code;
+      if (c==="declined") return false;
+      if (c==="rate_limited") toast(T("dlBusy")); else toast(T("dlUnavailable"));
+      return false;
+    }
+  }
+  const blob = data instanceof Blob ? data : new Blob([data]);
+  const url = URL.createObjectURL(blob); const a=document.createElement("a");
+  a.href=url; a.download=filename; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),5000); toast(T("saved")(filename)); return true;
+}
+/* ---------- zip (store) + crc32 ---------- */
+const CRC_T = (()=>{ const t=new Uint32Array(256); for (let n=0;n<256;n++){ let c=n; for (let k=0;k<8;k++) c = c&1 ? 0xEDB88320^(c>>>1) : c>>>1; t[n]=c>>>0; } return t; })();
+function crc32(b){ let c=0xFFFFFFFF; for (let i=0;i<b.length;i++) c = CRC_T[(c^b[i])&255]^(c>>>8); return (c^0xFFFFFFFF)>>>0; }
+function zipStore(files, type){
+  const enc=new TextEncoder(), parts=[], central=[]; let off=0;
+  for (const f of files){
+    const nm=enc.encode(f.name), d=typeof f.data==="string"?enc.encode(f.data):f.data, crc=crc32(d);
+    const lh=new DataView(new ArrayBuffer(30));
+    lh.setUint32(0,0x04034b50,true); lh.setUint16(4,20,true); lh.setUint16(6,0x0800,true); lh.setUint16(8,0,true);
+    lh.setUint16(10,0,true); lh.setUint16(12,0x21,true); lh.setUint32(14,crc,true); lh.setUint32(18,d.length,true);
+    lh.setUint32(22,d.length,true); lh.setUint16(26,nm.length,true); lh.setUint16(28,0,true);
+    parts.push(new Uint8Array(lh.buffer), nm, d);
+    const ch=new DataView(new ArrayBuffer(46));
+    ch.setUint32(0,0x02014b50,true); ch.setUint16(4,20,true); ch.setUint16(6,20,true); ch.setUint16(8,0x0800,true);
+    ch.setUint16(10,0,true); ch.setUint16(12,0,true); ch.setUint16(14,0x21,true); ch.setUint32(16,crc,true);
+    ch.setUint32(20,d.length,true); ch.setUint32(24,d.length,true); ch.setUint16(28,nm.length,true);
+    ch.setUint32(42,off,true);
+    central.push(new Uint8Array(ch.buffer), nm);
+    off += 30+nm.length+d.length;
+  }
+  const cd = central.reduce((a,b)=>a+b.length,0);
+  const end=new DataView(new ArrayBuffer(22));
+  end.setUint32(0,0x06054b50,true); end.setUint16(8,files.length,true); end.setUint16(10,files.length,true);
+  end.setUint32(12,cd,true); end.setUint32(16,off,true);
+  return new Blob([...parts, ...central, new Uint8Array(end.buffer)], {type});
+}
+async function unzip(buf){
+  const u=new Uint8Array(buf), dv=new DataView(buf), dec=new TextDecoder();
+  let e=-1; for (let i=u.length-22; i>=Math.max(0,u.length-65558); i--) if (dv.getUint32(i,true)===0x06054b50){ e=i; break; }
+  if (e<0) throw new Error("not a zip");
+  const n=dv.getUint16(e+10,true); let p=dv.getUint32(e+16,true); const map=new Map();
+  for (let k=0;k<n;k++){
+    if (dv.getUint32(p,true)!==0x02014b50) throw new Error("bad zip");
+    const method=dv.getUint16(p+10,true), csize=dv.getUint32(p+20,true), nl=dv.getUint16(p+28,true), xl=dv.getUint16(p+30,true), cl=dv.getUint16(p+32,true), lo=dv.getUint32(p+42,true);
+    map.set(dec.decode(u.subarray(p+46,p+46+nl)), {method,csize,lo}); p += 46+nl+xl+cl;
+  }
+  return { async get(name){
+    const f=map.get(name); if (!f) return null;
+    const start=f.lo+30+dv.getUint16(f.lo+26,true)+dv.getUint16(f.lo+28,true), raw=u.subarray(start,start+f.csize);
+    if (f.method===0) return dec.decode(raw);
+    if (f.method===8) return await new Response(new Blob([raw]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).text();
+    throw new Error("unsupported zip method");
+  }};
+}
+
+/* ---------- xlsx reader ---------- */
+const colIdx = ref => { let n=0; for (const ch of ref.replace(/\d+$/,"")) n = n*26 + (ch.charCodeAt(0)-64); return n-1; };
+const colName = i => { let s=""; i++; while (i>0){ const m=(i-1)%26; s=String.fromCharCode(65+m)+s; i=Math.floor((i-1)/26); } return s; };
+async function readXlsx(buf){
+  const z = await unzip(buf);
+  const P = x => new DOMParser().parseFromString(x, "application/xml");
+  const tags = (d,n) => [...d.getElementsByTagNameNS("*", n)];
+  const wbx = await z.get("xl/workbook.xml"); if (!wbx) throw new Error("no workbook");
+  const wb = P(wbx), rels = P((await z.get("xl/_rels/workbook.xml.rels")) || "<x/>");
+  const rel = new Map(tags(rels,"Relationship").map(r=>[r.getAttribute("Id"), r.getAttribute("Target")]));
+  const ssx = await z.get("xl/sharedStrings.xml");
+  const ss = ssx ? tags(P(ssx),"si").map(si=>tags(si,"t").map(t=>t.textContent).join("")) : [];
+  const sheets = tags(wb,"sheet").map(sh=>{
+    const rid = sh.getAttributeNS("http://schemas.openxmlformats.org/officeDocument/2006/relationships","id") || sh.getAttribute("r:id");
+    let tg = rel.get(rid) || ""; tg = tg.startsWith("/") ? tg.slice(1) : "xl/"+tg.replace(/^\.\//,"");
+    return {name:sh.getAttribute("name"), path:tg};
+  });
+  return { names: sheets.map(s=>s.name), async aoa(name){
+    const sh = sheets.find(s=>s.name===name); const x = sh && await z.get(sh.path); if (!x) return [];
+    const rows=[];
+    for (const r of tags(P(x),"row")){
+      const ri = (parseInt(r.getAttribute("r"))||rows.length+1)-1, arr=[]; let ci=0;
+      for (const c of tags(r,"c")){
+        const ref=c.getAttribute("r"); if (ref) ci=colIdx(ref);
+        const t=c.getAttribute("t"), v=tags(c,"v")[0]; let val="";
+        if (t==="s") val = v ? (ss[+v.textContent] ?? "") : "";
+        else if (t==="inlineStr") val = tags(c,"t").map(e=>e.textContent).join("");
+        else if (t==="str" || t==="e") val = v ? v.textContent : "";
+        else if (t==="b") val = !!v && v.textContent==="1";
+        else val = v && v.textContent!=="" ? Number(v.textContent) : "";
+        arr[ci++] = val;
+      }
+      rows[ri] = Array.from(arr, x=>x===undefined?"":x);
+    }
+    return Array.from(rows, r=>r||[]);
+  }};
+}
+function parseCSV(txt){
+  const first = txt.split("\n")[0];
+  const d = first.includes("\t") ? "\t" : ((first.match(/;/g)||[]).length > (first.match(/,/g)||[]).length ? ";" : ",");
+  const rows=[[]]; let f="", q=false;
+  for (let i=0;i<txt.length;i++){
+    const ch=txt[i];
+    if (q){ if (ch==='"'){ if (txt[i+1]==='"'){ f+='"'; i++; } else q=false; } else f+=ch; }
+    else if (ch==='"') q=true;
+    else if (ch===d){ rows.at(-1).push(f); f=""; }
+    else if (ch==="\n"){ rows.at(-1).push(f.replace(/\r$/,"")); f=""; rows.push([]); }
+    else f+=ch;
+  }
+  rows.at(-1).push(f); return rows;
+}
+const SHEETJS = "https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js";
+const loadScript = src => new Promise((res,rej)=>{ const s=document.createElement("script"); s.src=src; s.onload=res; s.onerror=rej; document.head.appendChild(s); });
+async function readWithSheetJS(buf){
+  if (!window.XLSX) await loadScript(SHEETJS);
+  const wb = XLSX.read(buf, {type:"array"});
+  return { names: wb.SheetNames, aoa: async n => XLSX.utils.sheet_to_json(wb.Sheets[n], {header:1, raw:true, defval:""}) };
+}
+
+/* ---------- xlsx writer ---------- */
+const xesc = s => String(s).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g,"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const XL_FILL = ["3559C7","3D8753","C68612","8A4F9E","1E8585","B4493B","8D99A6"];
+// cell styles: 0 normal, 1 header, 2 date, 3 bold, 4 muted, 5-10 phase fill, 11 neutral fill, 12 centred bold, 13 small muted centred
+function stylesXml(){
+  const xf = (o={}) => `<xf numFmtId="${o.n||0}" fontId="${o.f||0}" fillId="${o.fi||0}" borderId="${o.b||0}" xfId="0"${o.n?' applyNumberFormat="1"':""}${o.f?' applyFont="1"':""}${o.fi?' applyFill="1"':""}${o.b?' applyBorder="1"':""}${o.al?' applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>':"/>"}`;
+  const fills = XL_FILL.map(c=>`<fill><patternFill patternType="solid"><fgColor rgb="FF${c}"/><bgColor indexed="64"/></patternFill></fill>`).join("");
+  const xfs = [xf(), xf({f:1,fi:9,b:1}), xf({n:164}), xf({f:1}), xf({f:2}), ...[0,1,2,3,4,5].map(i=>xf({fi:2+i})), xf({fi:8}), xf({f:1,al:1}), xf({f:3,al:1})];
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="1"><numFmt numFmtId="164" formatCode="dd\\-mm\\-yyyy"/></numFmts><fonts count="4"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font><font><sz val="11"/><color rgb="FF5F6B78"/><name val="Calibri"/></font><font><sz val="9"/><color rgb="FF5F6B78"/><name val="Calibri"/></font></fonts><fills count="10"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill>${fills}<fill><patternFill patternType="solid"><fgColor rgb="FFF4F6F8"/><bgColor indexed="64"/></patternFill></fill></fills><borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border><left/><right/><top/><bottom style="thin"><color rgb="FFC7D0DA"/></bottom><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="${xfs.length}">${xfs.join("")}</cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>`;
+}
+function sheetXml(rows, o={}){
+  let x = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheetViews><sheetView workbookViewId="0"${o.selected?' tabSelected="1"':""}>`;
+  if (o.freeze){ const {r=0,c=0}=o.freeze; x += `<pane${c?` xSplit="${c}"`:""}${r?` ySplit="${r}"`:""} topLeftCell="${colName(c)}${r+1}" activePane="${r&&c?"bottomRight":r?"bottomLeft":"topRight"}" state="frozen"/>`; }
+  x += `</sheetView></sheetViews><sheetFormatPr defaultRowHeight="15"/>`;
+  if (o.widths) x += `<cols>${o.widths.map((w,i)=>`<col min="${i+1}" max="${i+1}" width="${w}" customWidth="1"/>`).join("")}</cols>`;
+  x += `<sheetData>`;
+  rows.forEach((row,ri)=>{
+    let cs="";
+    row.forEach((cell,ci)=>{
+      const o2 = (cell!==null && typeof cell==="object") ? cell : {v:cell};
+      const ref = colName(ci)+(ri+1), st = o2.s ? ` s="${o2.s}"` : "", v=o2.v;
+      if (v===null || v===undefined || v===""){ if (o2.s) cs += `<c r="${ref}"${st}/>`; }
+      else if (typeof v==="number") cs += `<c r="${ref}"${st}><v>${v}</v></c>`;
+      else cs += `<c r="${ref}"${st} t="inlineStr"><is><t xml:space="preserve">${xesc(v)}</t></is></c>`;
+    });
+    x += `<row r="${ri+1}">${cs}</row>`;
+  });
+  x += `</sheetData>`;
+  if (o.filter) x += `<autoFilter ref="${o.filter}"/>`;
+  return x + `</worksheet>`;
+}
+function buildXlsx(){
+  normalize(); schedule(); computeLayout(false);
+  const num=L.num, serial=dn=>dn+25569, D=dn=>({v:serial(dn),s:2});
+  const phaseCi = new Map(); for (const r of L.rows) if (r.type==="phase") phaseCi.set(r.name, r.ci);
+  const ciOf = t => t.phase==="" ? null : phaseCi.get(t.phase);
+  const hasKids = new Set(S.tasks.filter(t=>t.parent).map(t=>t.parent));
+  const nameOf = t => t.name || T(t.parent?"newSub":"newTask");
+  const H=[T("nr"),T("phase"),T("name"),T("start"),T("end"),T("durX"),T("after"),T("milestone"),T("owner"),T("progressX"),T("deliv"),T("agreed")];
+  const plan=[H.map(v=>({v,s:1}))];
+  for (const t of S.tasks) plan.push([t.parent?num.get(t.id):+num.get(t.id), t.phase, {v:nameOf(t), s:t.parent?4:(hasKids.has(t.id)?3:0)}, D(t.start), D(fin(t)), t.ms?0:t.dur, depsStr(t,num), t.ms?T("yes"):T("no"), t.owner, t.progress, t.ms?t.deliv:"", (t.ms&&t.agreed!=null)?D(t.agreed):""]);
+  // deliverables
+  const del=[[T("nr"),T("milestone"),T("deliv"),T("expected"),T("agreed"),T("gap")].map(v=>({v,s:1}))];
+  for (const t of S.tasks) if (t.ms){ const g=gapInfo(t); del.push([String(num.get(t.id)), nameOf(t), t.deliv, D(t.start), t.agreed!=null?D(t.agreed):"", g?{v:T("gapLong")[g.k](g.n), s:g.k==="over"?3:0}:""]); }
+  // timeline with coloured cells
+  const tl=[]; let tlW=[5,32];
+  if (S.tasks.length){
+    let mn=Infinity,mx=-Infinity; for (const t of S.tasks){ mn=Math.min(mn,t.start); mx=Math.max(mx,fin(t)); if (t.ms&&t.agreed!=null) mx=Math.max(mx,t.agreed); }
+    const days=[]; for (let d=mn; d<=mx; d++) if (!isOff(d)) days.push(d);
+    const byDay = days.length<=130;
+    const slots = byDay ? days.map(d=>[d,d]) : (()=>{ const w=[]; for (let d=monday(mn); d<=mx; d+=7) w.push([d,d+6]); return w; })();
+    const r1=[{v:"",s:1},{v:T("name"),s:1}], r2=[{v:"",s:13},{v:"",s:13}];
+    let lastWk=null;
+    for (const [a] of slots){
+      const wk=isoWeek(a);
+      r1.push({v: (!byDay || wk!==lastWk) ? `${T("wk")} ${wk}` : "", s:1}); lastWk=wk;
+      r2.push({v: byDay ? String(ymd(a)[2]) : fmt(a,{day:"2-digit",month:"2-digit"}), s:13});
+    }
+    tl.push(r1, r2);
+    let ph=null;
+    for (const t of S.tasks){
+      if (!t.parent && t.phase && t.phase!==ph){ ph=t.phase; tl.push(["", {v:ph, s:3}]); }
+      const f=fin(t), ci=ciOf(t), fillS = ci==null ? 11 : 5+ci;
+      const row=[t.parent?num.get(t.id):+num.get(t.id), {v:(t.parent?"    ":"")+nameOf(t), s:t.parent?4:0}];
+      for (const [a,b] of slots){
+        if (t.ms){
+          if (t.start>=a && t.start<=b) row.push({v:"\u25C6", s:12});
+          else if (t.agreed!=null && t.agreed>=a && t.agreed<=b) row.push({v:"\u2691", s:12});
+          else row.push("");
+        } else row.push(t.start<=b && f>=a ? {v:"", s:fillS} : "");
+      }
+      tl.push(row);
+    }
+    tlW = [5,32, ...slots.map(()=>byDay?3.2:6.5)];
+  } else tl.push([T("emptyTitle")]);
+  const settings=[["title",S.title],["holidays",S.holidays?"true":"false"],["showOwner",S.showOwner?"true":"false"],["showProgress",S.showProgress?"true":"false"],["zoom",S.zoom],["format","h8xl-1"]];
+  const names=["Planning", T("deliveries"), T("timeline"), T("settings")];
+  const sheets=[
+    sheetXml(plan,{selected:true,freeze:{r:1},widths:[5,18,34,12,12,17,9,10,16,13,30,12],filter:`A1:L${plan.length}`}),
+    sheetXml(del,{freeze:{r:1},widths:[5,28,36,12,12,40]}),
+    sheetXml(tl,{freeze:{r:2,c:2},widths:tlW}),
+    sheetXml(settings,{widths:[14,40]})
+  ];
+  const NS="http://schemas.openxmlformats.org", CT="application/vnd.openxmlformats-officedocument.spreadsheetml";
+  const files=[
+    {name:"[Content_Types].xml", data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Types xmlns="${NS}/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="${CT}.sheet.main+xml"/>${sheets.map((_,i)=>`<Override PartName="/xl/worksheets/sheet${i+1}.xml" ContentType="${CT}.worksheet+xml"/>`).join("")}<Override PartName="/xl/styles.xml" ContentType="${CT}.styles+xml"/><Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/></Types>`},
+    {name:"_rels/.rels", data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="${NS}/package/2006/relationships"><Relationship Id="rId1" Type="${NS}/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/><Relationship Id="rId2" Type="${NS}/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/></Relationships>`},
+    {name:"docProps/core.xml", data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<cp:coreProperties xmlns:cp="${NS}/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>${xesc(S.title||T("untitled"))}</dc:title><dc:creator>H8XL</dc:creator></cp:coreProperties>`},
+    {name:"xl/workbook.xml", data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<workbook xmlns="${NS}/spreadsheetml/2006/main" xmlns:r="${NS}/officeDocument/2006/relationships"><bookViews><workbookView/></bookViews><sheets>${names.map((n,i)=>`<sheet name="${xesc(n)}" sheetId="${i+1}" r:id="rId${i+1}"/>`).join("")}</sheets><definedNames><definedName name="_xlnm._FilterDatabase" localSheetId="0" hidden="1">Planning!$A$1:$L$${plan.length}</definedName></definedNames></workbook>`},
+    {name:"xl/_rels/workbook.xml.rels", data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="${NS}/package/2006/relationships">${sheets.map((_,i)=>`<Relationship Id="rId${i+1}" Type="${NS}/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${i+1}.xml"/>`).join("")}<Relationship Id="rId${sheets.length+1}" Type="${NS}/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`},
+    {name:"xl/styles.xml", data:stylesXml()},
+    ...sheets.map((x,i)=>({name:`xl/worksheets/sheet${i+1}.xml`, data:x}))
+  ];
+  return zipStore(files, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+}
+
+/* ---------- pdf writer (one page, one JPEG) ---------- */
+function buildPdf(jpeg, iw, ih, PW, PH, dx, dy, dw, dh, title){
+  const enc=new TextEncoder(), chunks=[], offs=[]; let off=0;
+  const push = x => { const b = typeof x==="string" ? enc.encode(x) : x; chunks.push(b); off += b.length; };
+  const hexT = s => "<FEFF" + Array.from(s).map(ch=>{ const c=ch.codePointAt(0); if (c>0xFFFF){ const v=c-0x10000; return (0xD800+(v>>10)).toString(16).padStart(4,"0")+(0xDC00+(v&1023)).toString(16).padStart(4,"0"); } return c.toString(16).padStart(4,"0"); }).join("").toUpperCase() + ">";
+  const obj = (n, body) => { offs[n]=off; push(`${n} 0 obj\n`); body.forEach(push); push("\nendobj\n"); };
+  push("%PDF-1.4\n"); push(new Uint8Array([37,226,227,207,211,10]));
+  obj(1, ["<< /Type /Catalog /Pages 2 0 R >>"]);
+  obj(2, ["<< /Type /Pages /Kids [3 0 R] /Count 1 >>"]);
+  obj(3, [`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${PW} ${PH}] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>`]);
+  obj(4, [`<< /Type /XObject /Subtype /Image /Width ${iw} /Height ${ih} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpeg.length} >>\nstream\n`, jpeg, "\nendstream"]);
+  const cs = `q ${dw.toFixed(2)} 0 0 ${dh.toFixed(2)} ${dx.toFixed(2)} ${dy.toFixed(2)} cm /Im0 Do Q`;
+  obj(5, [`<< /Length ${cs.length} >>\nstream\n${cs}\nendstream`]);
+  obj(6, [`<< /Title ${hexT(title)} /Producer (H8XL) /Creator (H8XL) >>`]);
+  const xref=off; let x=`xref\n0 7\n0000000000 65535 f \n`;
+  for (let i=1;i<=6;i++) x += String(offs[i]).padStart(10,"0")+" 00000 n \n";
+  push(x); push(`trailer\n<< /Size 7 /Root 1 0 R /Info 6 0 R >>\nstartxref\n${xref}\n%%EOF\n`);
+  return new Blob(chunks, {type:"application/pdf"});
+}
+
+function buildExportSVG(){
+  normalize(); schedule(); computeLayout(false);
+  let mn,mx;
+  if (S.tasks.length){ mn=Infinity; mx=-Infinity; for (const t of S.tasks){ mn=Math.min(mn,t.start); mx=Math.max(mx,fin(t)); } }
+  let amn=mn, amx=mx; for (const t of S.tasks) if (t.ms && t.agreed!=null){ amn=Math.min(amn,t.agreed); amx=Math.max(amx,t.agreed); }
+  else { mn=todayDn(); mx=mn+27; }
+  const rs=monday(amn), span=monday(amx)+6-rs+1;
+  let re = monday(amx)+6 + 7; if (S.showOwner) re += 7;
+  const px = (S.zoom==="day" && span<=120) ? 28 : 13;
+  const pad=32, lw=250, titleH=70, hdrH=48, rowsH=L.rowsH, footH=8;
+  const dRows = S.tasks.filter(t=>t.ms && (t.deliv || t.agreed!=null));
+  const dH = dRows.length ? 56 + 28*(dRows.length+1) : 0;
+  const tw=(re-rs+1)*px, W=Math.max(pad*2+lw+tw, pad*2+860), H=pad*2+titleH+hdrH+rowsH+footH+dH;
+  const c=LIT, X0=pad+lw, Y0=pad+titleH;
+  const trunc = (s,n) => s.length>n ? s.slice(0,n-1)+"…" : s;
+  let s = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">`;
+  s += `<rect width="${W}" height="${H}" fill="#FFFFFF"/>`;
+  s += `<text x="${pad}" y="${pad+26}" font-size="24" font-weight="700" fill="${c.ink}">${esc(S.title||T("untitled"))}</text>`;
+  if (S.tasks.length) s += `<text x="${pad}" y="${pad+50}" font-size="13.5" fill="${c.muted}">${esc(fmt(mn,{day:"numeric",month:"long",year:"numeric"}))} – ${esc(fmt(mx,{day:"numeric",month:"long",year:"numeric"}))}, ${esc(T("workdays")(workCount(mn,mx)))}</text>`;
+  // frame
+  s += `<rect x="${pad-.5}" y="${Y0-.5}" width="${lw+tw+1}" height="${hdrH+rowsH+1}" fill="none" stroke="${c["line-strong"]}"/>`;
+  s += `<text x="${pad+14}" y="${Y0+40}" font-size="12" fill="${c.muted}">${esc(T("name"))}</text>`;
+  s += `<line x1="${pad}" y1="${Y0+47.5}" x2="${X0}" y2="${Y0+47.5}" stroke="${c["line-strong"]}"/>`;
+  s += `<g>${headerSVG("export", rs, re, px, X0, Y0)}</g>`;
+  s += `<g>${bodySVG("export", {rs,re,px,x0:X0,y0:Y0+hdrH,H:rowsH,interactive:false})}</g>`;
+  // labels
+  for (const r of L.rows){
+    const y = Y0+hdrH+r.y;
+    if (r.type==="phase"){
+      s += `<rect x="${pad}" y="${y}" width="${lw}" height="${r.h}" fill="${c.paper}"/>`;
+      s += `<rect x="${pad+14}" y="${y+11}" width="10" height="10" rx="3" fill="${c[r.ci==null?"pn":"p"+r.ci]}"/>`;
+      s += `<text x="${pad+32}" y="${y+20.5}" font-size="12.5" font-weight="700" fill="${r.name?c.ink:c.muted}">${esc(trunc(r.name||T("noPhase"),30))}</text>`;
+    } else {
+      const yy = y + r.h/2 + 4.5, ix = r.sub ? 16 : 0;
+      s += `<text x="${pad+30+ix}" y="${yy}" font-size="11" text-anchor="end" fill="${c.muted}">${r.n}</text>`;
+      s += `<text x="${pad+40+ix}" y="${yy}" font-size="${r.sub?12:13}" fill="${r.sub?c.muted:c.ink}"${r.t.ms||r.kids?' font-weight="600"':""}>${esc(trunc(r.t.name||T(r.sub?"newSub":"newTask"),r.sub?28:30))}</text>`;
+    }
+    s += `<line x1="${pad}" y1="${y+r.h-.5}" x2="${X0}" y2="${y+r.h-.5}" stroke="${c.line}"/>`;
+  }
+  s += `<line x1="${X0+.5}" y1="${Y0}" x2="${X0+.5}" y2="${Y0+hdrH+rowsH}" stroke="${c.line}"/>`;
+  if (dRows.length){
+    let y = Y0+hdrH+rowsH+48;
+    s += `<text x="${pad}" y="${y}" font-size="16" font-weight="700" fill="${c.ink}">${esc(T("deliveries"))}</text>`;
+    const cols=[[pad,T("milestone")],[pad+200,T("deliv")],[pad+470,T("expected")],[pad+580,T("agreed")],[pad+690,T("gap")]];
+    y += 26;
+    for (const [x,h] of cols) s += `<text x="${x}" y="${y}" font-size="11.5" fill="${c.muted}">${esc(h)}</text>`;
+    s += `<line x1="${pad}" y1="${y+8.5}" x2="${W-pad}" y2="${y+8.5}" stroke="${c["line-strong"]}"/>`;
+    const fd = d => fmt(d,{day:"numeric",month:"short",year:"numeric"});
+    for (const t of dRows){
+      y += 28; const g = gapInfo(t);
+      const vals=[trunc(t.name||T("newTask"),26), trunc(t.deliv||"–",38), fd(t.start), t.agreed!=null?fd(t.agreed):"–", g?T("gapLong")[g.k](g.n):"–"];
+      vals.forEach((v,i)=>{ s += `<text x="${cols[i][0]}" y="${y}" font-size="12.5" fill="${c.ink}"${i===4&&g&&g.k==="over"?' font-weight="700"':""}>${esc(v)}</text>`; });
+      s += `<line x1="${pad}" y1="${y+9.5}" x2="${W-pad}" y2="${y+9.5}" stroke="${c.line}"/>`;
+    }
+  }
+  s += `<text x="${W-pad}" y="${H-pad+6}" font-size="11.5" text-anchor="end" fill="${c.muted}">${esc(T("madeWith"))}</text>`;
+  s += `</svg>`;
+  return {svg:s, W, H};
+}
+function svgToCanvas(svg, W, H){
+  return new Promise((res, rej)=>{
+    const img = new Image();
+    img.onload = ()=>{
+      let sc = 2; const lim=14000; if (W*sc>lim || H*sc>lim) sc = Math.max(.5, Math.min(lim/W, lim/H));
+      const cv=document.createElement("canvas"); cv.width=Math.round(W*sc); cv.height=Math.round(H*sc);
+      const x=cv.getContext("2d"); x.fillStyle="#fff"; x.fillRect(0,0,cv.width,cv.height); x.scale(sc,sc); x.drawImage(img,0,0,W,H); res(cv);
+    };
+    img.onerror = rej;
+    img.src = "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg);
+  });
+}
+const toBlob = cv => new Promise(r=>cv.toBlob(r,"image/png"));
+async function doExport(kind){
+  const name = slug(S.title||T("untitled"));
+  try {
+    if (kind==="xlsx"){ await saveFile(name+".xlsx", buildXlsx()); }
+    else {
+      const {svg,W,H} = buildExportSVG(); const cv = await svgToCanvas(svg,W,H);
+      if (kind==="png"){ await saveFile(name+".png", await toBlob(cv)); }
+      else {
+        const jpeg = new Uint8Array(await (await new Promise(r=>cv.toBlob(r,"image/jpeg",0.92))).arrayBuffer());
+        const ratio = W/H, big = (W>1900||H>1250);
+        let PW = big?1191:842, PH = big?842:595; if (ratio<1){ const t=PW; PW=PH; PH=t; }
+        const m=28; let w=PW-2*m, h=w/ratio; if (h>PH-2*m){ h=PH-2*m; w=h*ratio; }
+        await saveFile(name+".pdf", buildPdf(jpeg, cv.width, cv.height, PW, PH, (PW-w)/2, PH-m-h, w, h, S.title||T("untitled")));
+      }
+    }
+    renderAll();
+  } catch(err){ console.error(err); toast(T("exportFail")); }
+}
+
+/* ---------- toast ---------- */
+let toastT=null;
+function toast(msg){ const el=$("toast"); el.textContent=msg; el.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(()=>el.classList.remove("show"), 3600); }
+
+/* ---------- start ---------- */
+load();
+renderAll();
+})();
+</script>
+</body>
+</html>
