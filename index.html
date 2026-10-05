@@ -3,7 +3,7 @@
 <html lang="nl" data-theme="dark">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-yomeom5PRB/NkEVhN/m7dboHIJP+2/h/u/G69qmjt18=' https://cdnjs.cloudflare.com; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src data: blob:; connect-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-MR9XK5qaS31yXuhgTzqvBOojL7ihSPNjrrpFcSrgk/I=' https://cdnjs.cloudflare.com; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src data: blob:; connect-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>H8XL</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -117,7 +117,17 @@ main{padding:4px 24px 40px;max-width:100%}
 .nw{position:relative;flex:1;min-width:0;display:flex;align-items:center}
 .lr.selected{background:var(--sel)}
 .lr.selected .num{color:var(--focus)}
-.mode-panel .labels .del,.mode-panel .labels .mini{display:none}
+.labels .lr .del,.labels .lr .mini{display:none}
+.labels .lr.selected .del,.labels .lr.selected .mini{display:inline-flex;align-items:center;justify-content:center;opacity:1;pointer-events:auto}
+.labels .lr.selected .del:hover{color:var(--today)}
+.grip{display:none;flex:none;width:16px;height:26px;margin:0 -6px 0 -12px;border:0;border-radius:5px;background:none;color:var(--muted);cursor:grab;touch-action:none;padding:0;align-items:center;justify-content:center}
+.grip:hover{color:var(--ink);background:var(--hover)}
+.lr.selected .grip{display:inline-flex}
+.lr.row-lift{position:relative;z-index:6;background:var(--raised)!important;box-shadow:var(--shadow);pointer-events:none}
+.drop-line{position:absolute;left:8px;right:8px;height:2px;margin-top:-1px;background:var(--focus);border-radius:1px;pointer-events:none;box-shadow:0 0 calc(var(--glow)*8px) var(--focus);display:none;z-index:7}
+.drop-line span{position:absolute;right:0;top:-10px;font-size:11px;line-height:18px;padding:0 7px;border-radius:9px;background:var(--focus);color:var(--paper);white-space:nowrap}
+.toast.act{pointer-events:auto;display:flex;align-items:center;gap:14px}
+.toast-act{border:0;background:transparent;color:inherit;font:inherit;font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:2px 0}
 @media (max-width:720px){
   .mode-panel .panel{position:fixed;left:0;right:0;bottom:0;width:auto;max-height:64vh;min-height:0;border-left:0;border-top:1px solid var(--line-strong);border-radius:16px 16px 0 0;box-shadow:var(--shadow);z-index:60;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
   .mode-panel .panel.empty{display:none}
@@ -152,6 +162,8 @@ main{padding:4px 24px 40px;max-width:100%}
 .r-empty{height:72px;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px;font-size:13px;color:var(--muted)}
 .r-empty strong{color:var(--ink);font-weight:600;font-size:14px}
 .r-add{height:48px;border-bottom:0;gap:0;padding-left:6px;overflow:hidden}
+.ph-add{flex:none;width:24px;height:24px;margin-left:auto;border:1px solid var(--line);border-radius:7px;background:var(--raised);color:var(--muted);cursor:pointer;font-size:15px;line-height:1;padding:0;display:inline-flex;align-items:center;justify-content:center}
+.ph-add:hover{color:var(--ink);border-color:var(--line-strong)}
 .sw{width:8px;height:8px;border-radius:50%;flex:none;box-shadow:0 0 calc(var(--glow)*10px) currentColor}
 .num{width:22px;flex:none;color:var(--muted);font-size:11px;text-align:right;font-family:"Geist Mono",ui-monospace,Menlo,monospace}
 .name-in,.phase-in{flex:1;min-width:0;border:1px solid transparent;border-radius:6px;background:transparent;padding:3px 6px;font-size:14px}
@@ -357,7 +369,7 @@ nl:{
   nr:"Nr", phase:"Fase", name:"Activiteit", start:"Start", end:"Eind", dur:"Duur", durX:"Duur (werkdagen)", after:"Na", milestone:"Mijlpaal", owner:"Eigenaar", progress:"Voortgang", progressX:"Voortgang (%)",
   yes:"ja", no:"nee",
   afterHelp:"Nummer van de voorgaande activiteit, bijvoorbeeld 3 of 3.1, of 3+2 voor twee werkdagen wachttijd",
-  hint:"Klik op een balk of naam om een activiteit te selecteren; dubbelklik om de details te openen. Sleep een balk om hem te verschuiven en trek aan de rechterrand om de duur te wijzigen. Trek het bolletje achter een geselecteerde balk naar een andere activiteit om ze te koppelen.",
+  hint:"Klik op een balk of naam om een activiteit te selecteren; dubbelklik om de details te openen. Sleep een balk om hem te verschuiven en trek aan de rechterrand om de duur te wijzigen. Trek het bolletje achter een geselecteerde balk naar een andere activiteit om ze te koppelen. In een geselecteerde regel voegt + een subactiviteit toe en verwijdert \u00D7 de regel.",
   autosave:"Je planning blijft in deze browser",
   wk:"wk", workdays:n=>n===1?"1 werkdag":n+" werkdagen",
   removeLink:"Klik om deze koppeling te verwijderen", deleteTask:"Verwijderen", linkHandle:"Sleep naar een andere activiteit om te koppelen",
@@ -380,7 +392,7 @@ nl:{
   panelEmptyT:"Selecteer een activiteit", panelEmptyB:"Klik op een balk of een naam om de details hier te bewerken.",
   kindAct:"Activiteit", kindSub:"Subactiviteit", kindMs:"Mijlpaal", partOf:n=>"Hoort bij \u2018"+n+"\u2019",
   links:"Komt na", noLinks:"Nog niet gekoppeld", addLink:"Koppeling toevoegen\u2026", lockShort:"Vastleggen", clearShort:"Wissen", close:"Sluiten",
-  wd:"wd", collapsePanel:"Paneel inklappen", expandPanel:"Details tonen", lightTheme:"Licht thema", feedback:"Feedback", source:"Broncode", privacy:"Privacy",
+  wd:"wd", dragRow:"Sleep om te verplaatsen (of Alt+\u2191/\u2193)", movedTo:n=>"Verplaatst naar \u2018"+n+"\u2019", undo:"Ongedaan maken", deletedMsg:(n,k)=>"\u2018"+n+"\u2019"+(k?" en "+(k===1?"1 subactiviteit":k+" subactiviteiten"):"")+" verwijderd", addIn:n=>"Activiteit toevoegen aan \u2018"+n+"\u2019", addAfter:"Activiteit hierna", addSubAfter:"Subactiviteit hierna", collapsePanel:"Paneel inklappen", expandPanel:"Details tonen", lightTheme:"Licht thema", feedback:"Feedback", source:"Broncode", privacy:"Privacy",
   fbTitle:"Feedback voor H8XL", fbIntro:"Een idee, iets dat niet werkt of een vraag? Vul het hieronder in. Daarna opent je eigen mailprogramma met het bericht klaar om te versturen.",
   fbKind:"Soort", fbIdea:"Idee", fbBug:"Iets werkt niet", fbQuestion:"Vraag", fbSubject:"Onderwerp", fbMessage:"Bericht",
   fbTech:"Browser en versie meesturen (nooit je planning)", fbNote:"H8XL verstuurt zelf niets: het bericht gaat alleen via je eigen mail of GitHub.",
@@ -405,7 +417,7 @@ en:{
   nr:"No", phase:"Phase", name:"Activity", start:"Start", end:"End", dur:"Duration", durX:"Duration (workdays)", after:"After", milestone:"Milestone", owner:"Owner", progress:"Progress", progressX:"Progress (%)",
   yes:"yes", no:"no",
   afterHelp:"Number of the preceding activity, for example 3 or 3.1, or 3+2 for a two-workday gap",
-  hint:"Click a bar or name to select an activity; double-click to open its details. Drag a bar to move it and pull its right edge to change the duration. Drag the dot behind a selected bar onto another activity to link them.",
+  hint:"Click a bar or name to select an activity; double-click to open its details. Drag a bar to move it and pull its right edge to change the duration. Drag the dot behind a selected bar onto another activity to link them. In a selected row, + adds a sub-activity and \u00D7 deletes the row.",
   autosave:"Your plan stays in this browser",
   wk:"wk", workdays:n=>n===1?"1 workday":n+" workdays",
   removeLink:"Click to remove this link", deleteTask:"Delete", linkHandle:"Drag onto another activity to link",
@@ -428,7 +440,7 @@ en:{
   panelEmptyT:"Select an activity", panelEmptyB:"Click a bar or a name to edit its details here.",
   kindAct:"Activity", kindSub:"Sub-activity", kindMs:"Milestone", partOf:n=>"Part of \u2018"+n+"\u2019",
   links:"Comes after", noLinks:"Not linked yet", addLink:"Add link\u2026", lockShort:"Lock in", clearShort:"Clear", close:"Close",
-  wd:"wd", collapsePanel:"Collapse panel", expandPanel:"Show details", lightTheme:"Light theme", feedback:"Feedback", source:"Source code", privacy:"Privacy",
+  wd:"wd", dragRow:"Drag to move (or Alt+\u2191/\u2193)", movedTo:n=>"Moved to \u2018"+n+"\u2019", undo:"Undo", deletedMsg:(n,k)=>"\u2018"+n+"\u2019"+(k?" and "+(k===1?"1 sub-activity":k+" sub-activities"):"")+" deleted", addIn:n=>"Add activity to \u2018"+n+"\u2019", addAfter:"Activity after this", addSubAfter:"Sub-activity after this", collapsePanel:"Collapse panel", expandPanel:"Show details", lightTheme:"Light theme", feedback:"Feedback", source:"Source code", privacy:"Privacy",
   fbTitle:"Feedback for H8XL", fbIntro:"An idea, something broken or a question? Fill it in below. Your own mail app then opens with the message ready to send.",
   fbKind:"Type", fbIdea:"Idea", fbBug:"Something\u2019s broken", fbQuestion:"Question", fbSubject:"Subject", fbMessage:"Message",
   fbTech:"Include browser and version (never your plan)", fbNote:"H8XL sends nothing itself: the message only goes through your own email or GitHub.",
@@ -813,18 +825,18 @@ function paintGantt(){
   $("corner").textContent = tops ? T("tasksN")(tops) : T("task");
   let html="";
   for (const r of L.rows){
-    if (r.type==="phase") html += `<div class="lr r-phase"><span class="sw" style="background:var(--${r.ci==null?"pn":"p"+r.ci});color:var(--${r.ci==null?"pn":"p"+r.ci})"></span><input class="phase-in" data-f="phase:${esc(r.name)}" value="${esc(r.name)}" placeholder="${esc(T("noPhase"))}" aria-label="${esc(T("phase"))}"></div>`;
+    if (r.type==="phase") html += `<div class="lr r-phase"><span class="sw" style="background:var(--${r.ci==null?"pn":"p"+r.ci});color:var(--${r.ci==null?"pn":"p"+r.ci})"></span><input class="phase-in" data-f="phase:${esc(r.name)}" value="${esc(r.name)}" placeholder="${esc(T("noPhase"))}" aria-label="${esc(T("phase"))}"><button class="ph-add" data-addin="${esc(r.name)}" title="${esc(T("addIn")(r.name||T("noPhase")))}" aria-label="${esc(T("addIn")(r.name||T("noPhase")))}">+</button></div>`;
     else {
       const t=r.t;
       const tg = r.kids ? `<button class="tg" data-toggle="${t.id}" aria-expanded="${!t.collapsed}" title="${esc(T(t.collapsed?"expand":"collapse"))}" aria-label="${esc(T(t.collapsed?"expand":"collapse"))}">${t.collapsed?"\u25B8":"\u25BE"}</button>` : `<span class="tg-sp"></span>`;
-      const addSub = (!r.sub && !t.ms) ? `<button class="mini" data-addsub="${t.id}" title="${esc(T("addSub"))}" aria-label="${esc(T("addSub"))}">+</button>`
-        : t.ms ? `<button class="mini${t.agreed!=null?" on":""}" data-agree="${t.id}" title="${esc(T(t.agreed!=null?"clearAgreed":"setAgreed"))}" aria-label="${esc(T(t.agreed!=null?"clearAgreed":"setAgreed"))}" aria-pressed="${t.agreed!=null}">\u2691</button>` : "";
-      html += `<div class="lr r-task${r.sub?" r-sub":""}${t.id===selId?" selected":""}" data-sel="${t.id}">${r.sub?`<span class="tg-sp"></span>`:""}<span class="num">${r.n}</span>${r.sub?"":tg}<span class="nw"><input class="name-in" data-f="name:${t.id}" value="${esc(t.name)}" placeholder="${esc(T(r.sub?"newSub":"newTask"))}" aria-label="${esc(T("name"))} ${r.n}">${r.kids&&t.collapsed?`<span class="cnt">${r.kids}</span>`:""}${addSub}<button class="del" data-del="${t.id}" title="${esc(T("deleteTask"))}" aria-label="${esc(T("deleteTask"))}">×</button></span></div>`;
+      const addSub = r.sub ? `<button class="mini" data-addafter="${t.id}" title="${esc(T("addSubAfter"))}" aria-label="${esc(T("addSubAfter"))}">+</button>`
+        : (!t.ms ? `<button class="mini" data-addsub="${t.id}" title="${esc(T("addSub"))}" aria-label="${esc(T("addSub"))}">+</button>` : "");
+      html += `<div class="lr r-task${r.sub?" r-sub":""}${t.id===selId?" selected":""}" data-sel="${t.id}"><button class="grip" data-grip="${t.id}" title="${esc(T("dragRow"))}" aria-label="${esc(T("dragRow"))}"><svg width="10" height="14" viewBox="0 0 10 14" aria-hidden="true"><g fill="currentColor"><circle cx="3" cy="3" r="1.3"/><circle cx="7" cy="3" r="1.3"/><circle cx="3" cy="7" r="1.3"/><circle cx="7" cy="7" r="1.3"/><circle cx="3" cy="11" r="1.3"/><circle cx="7" cy="11" r="1.3"/></g></svg></button>${r.sub?`<span class="tg-sp"></span>`:""}<span class="num">${r.n}</span>${r.sub?"":tg}<span class="nw"><input class="name-in" data-f="name:${t.id}" value="${esc(t.name)}" placeholder="${esc(T(r.sub?"newSub":"newTask"))}" aria-label="${esc(T("name"))} ${r.n}">${r.kids&&t.collapsed?`<span class="cnt">${r.kids}</span>`:""}${addSub}<button class="del" data-del="${t.id}" title="${esc(T("deleteTask"))}" aria-label="${esc(T("deleteTask"))}">×</button></span></div>`;
     }
   }
   if (!S.tasks.length) html += `<div class="lr r-empty"><strong>${esc(T("emptyTitle"))}</strong><span>${esc(T("emptyBody"))}</span></div>`;
   html += `<div class="lr r-add"><button class="add" data-act="addTask"><span class="plus" aria-hidden="true">+</span>${esc(T("addTask"))}</button><button class="add sub" data-act="addPhase" title="${esc(T("addPhase"))}">+ ${esc(T("phase"))}</button></div>`;
-  $("labels").innerHTML = html;
+  $("labels").innerHTML = html + `<div class="drop-line" id="dropLine"><span></span></div>`;
   paintBody();
 }
 function paintPanel(){
@@ -868,7 +880,7 @@ function paintPanel(){
   if (opts.length) h += `<select data-adddep="${id}" aria-label="${esc(T("addLink"))}"><option value="">${esc(T("addLink"))}</option>${opts.map(x=>`<option value="${x.id}">${esc(L.num.get(x.id))}  ${esc(x.name||T(x.parent?"newSub":"newTask"))}</option>`).join("")}</select>`;
   h += `</div>`;
   h += `<div class="p-sec"><div class="p-two"><div class="p-row"><label for="pf-owner">${esc(T("owner"))}</label><input id="pf-owner" type="text" data-f="towner:${id}" value="${esc(t.owner)}"></div><div class="p-row"><label for="pf-prog">${esc(T("progressX"))}</label><input id="pf-prog" type="number" min="0" max="100" step="5" data-f="tprog:${id}" value="${t.progress}"></div></div></div>`;
-  h += `<div class="p-acts">${(!par && !t.ms)?`<button class="btn" data-addsub="${id}">+ ${esc(T("addSub"))}</button>`:""}<button class="btn danger" data-del="${id}">${esc(T("deleteTask"))}</button></div>`;
+  h += `<div class="p-acts">${par ? `<button class="btn" data-addafter="${id}">+ ${esc(T("addSubAfter"))}</button>` : `<button class="btn" data-addafter="${id}">+ ${esc(T("addAfter"))}</button>${!t.ms?`<button class="btn" data-addsub="${id}">+ ${esc(T("addSub"))}</button>`:""}`}<button class="btn danger" data-del="${id}">${esc(T("deleteTask"))}</button></div>`;
   el.innerHTML = h;
 }
 function select(id){
@@ -936,10 +948,17 @@ function addPhase(){
   selId=t.id; renderAll("name:"+t.id);
 }
 function deleteTask(id){
+  const t0 = byId(id); if (!t0) return;
+  const snap = JSON.stringify(S.tasks), kids = kidsOf(id).length;
   const gone = new Set([id, ...kidsOf(id).map(c=>c.id)]);
+  const order = L ? L.rows.filter(r=>r.type==="task").map(r=>r.t.id) : S.tasks.map(t=>t.id);
+  const at = order.indexOf(id);
+  const next = order.slice(at+1).find(x=>!gone.has(x)) || order.slice(0,Math.max(0,at)).reverse().find(x=>!gone.has(x)) || null;
   S.tasks = S.tasks.filter(t=>!gone.has(t.id));
   for (const t of S.tasks) t.deps = t.deps.filter(d=>!gone.has(d.id));
+  if (selId===id || gone.has(selId)) selId = next;
   renderAll();
+  toast(T("deletedMsg")(t0.name||T(t0.parent?"newSub":"newTask"), kids), {label:T("undo"), run(){ S.tasks = JSON.parse(snap); selId = id; renderAll(); }});
 }
 function maxKidFin(t){ let mx=-Infinity; for (const c of kidsOf(t.id)) mx=Math.max(mx,fin(c)); return mx; }
 function handleField(el){
@@ -994,6 +1013,9 @@ document.addEventListener("change", e=>{
 document.addEventListener("keydown", e=>{
   const el=e.target;
   if (e.key==="Escape"){ const hadOv = document.querySelector(".ov.open, .menu.open"); closeMenus(); document.querySelectorAll(".ov.open").forEach(o=>o.classList.remove("open")); if (!hadOv && selId){ selId=null; renderAll(); } return; }
+  if (e.altKey && (e.key==="ArrowUp" || e.key==="ArrowDown") && selId && !document.querySelector(".ov.open")){ e.preventDefault(); const t=byId(selId); if (t){ if (el && el.dataset && el.dataset.f) handleField(el); moveByKey(t, e.key==="ArrowUp"?-1:1); } return; }
+  const editing = el && (el.tagName==="INPUT" || el.tagName==="TEXTAREA" || el.tagName==="SELECT" || el.isContentEditable);
+  if ((e.key==="Delete" || e.key==="Backspace") && !editing && selId && !document.querySelector(".ov.open")){ e.preventDefault(); deleteTask(selId); return; }
   if (e.key!=="Enter" || !el.dataset || !el.dataset.f || el.type==="checkbox") return;
   const k=el.dataset.f, f=k.slice(0,k.indexOf(":")), id=k.slice(k.indexOf(":")+1);
   e.preventDefault();
@@ -1010,6 +1032,8 @@ document.addEventListener("click", e=>{
   if (a){ if (a.dataset.act==="addTask") addTask(); else addPhase(); return; }
   const d = e.target.closest("[data-del]"); if (d){ deleteTask(d.dataset.del); return; }
   const as = e.target.closest("[data-addsub]"); if (as){ addSub(as.dataset.addsub); return; }
+  const ai = e.target.closest("[data-addin]"); if (ai){ const ph=ai.dataset.addin; const ref=S.tasks.filter(t=>!t.parent && t.phase===ph).at(-1); const t=newTaskAfter(ref, ph); selId=t.id; renderAll("name:"+t.id); return; }
+  const aa = e.target.closest("[data-addafter]"); if (aa){ const cur=byId(aa.dataset.addafter); if (cur){ const t = cur.parent ? newSubAfter(byId(cur.parent), cur) : newTaskAfter(cur); selId=t.id; renderAll("name:"+t.id); } return; }
   if (e.target.closest("[data-desel]")){ selId=null; renderAll(); return; }
   if (e.target.closest("[data-ptoggle]")){ S.panelOpen=!S.panelOpen; renderAll(); const f=$("panel").querySelector("[data-ptoggle]"); if (f) f.focus(); return; }
   const ud = e.target.closest("[data-undep]"); if (ud){ const [tid,pid]=ud.dataset.undep.split("|"); const t=byId(tid); if (t){ t.deps=t.deps.filter(d=>d.id!==pid); renderAll(); } return; }
@@ -1067,6 +1091,92 @@ $("pasteReplace").addEventListener("click", ()=>doPaste(true));
 $("pasteAppend").addEventListener("click", ()=>doPaste(false));
 $("file").addEventListener("change", async e=>{ const f=e.target.files[0]; e.target.value=""; if (f) await importFile(f); });
 window.addEventListener("resize", ()=>{ clearTimeout(window.__rz); window.__rz=setTimeout(()=>renderAll(),150); });
+
+/* ---------- reordering rows ---------- */
+function blockOf(t){ return t.parent ? [t] : [t, ...kidsOf(t.id)]; }
+// possible drop positions for task t, ordered top to bottom
+function rowSlots(t){
+  const slots=[];
+  if (t.parent){
+    const sibRows = L.rows.filter(r=>r.type==="task" && r.t.parent===t.parent);
+    for (const r of sibRows) slots.push({y:r.y, before:r.t.id, phase:t.phase});
+    const last = sibRows.at(-1); if (last) slots.push({y:last.y+last.h, before:null, endParent:t.parent, phase:t.phase});
+    return slots;
+  }
+  let groupEnd=null, cur=undefined;
+  const flush = () => { if (groupEnd) slots.push(groupEnd); groupEnd=null; };
+  for (const r of L.rows){
+    if (r.type==="phase"){ flush(); cur=r.name; continue; }
+    if (r.t.parent){ if (groupEnd) groupEnd.y = r.y+r.h; continue; }
+    if (cur===undefined || r.t.phase!==cur){ flush(); cur=r.t.phase; }
+    slots.push({y:r.y, before:r.t.id, phase:r.t.phase});
+    groupEnd = {y:r.y+r.h, before:null, endPhase:r.t.phase, phase:r.t.phase};
+  }
+  flush();
+  return slots;
+}
+function applySlot(t, slot){
+  const block = blockOf(t), ids = new Set(block.map(x=>x.id));
+  if (slot.before && ids.has(slot.before)) return false;
+  const rest = S.tasks.filter(x=>!ids.has(x.id));
+  let at;
+  if (slot.before) at = rest.findIndex(x=>x.id===slot.before);
+  else if (slot.endParent){ const sib = rest.filter(x=>x.parent===slot.endParent); at = sib.length ? rest.indexOf(sib.at(-1))+1 : rest.findIndex(x=>x.id===slot.endParent)+1; }
+  else { let last=-1; rest.forEach((x,i)=>{ if (x.phase===slot.endPhase) last=i; }); at = last+1; }
+  if (at<0) at = rest.length;
+  const before = S.tasks.map(x=>x.id).join();
+  const oldPhase = t.phase;
+  rest.splice(at, 0, ...block);
+  S.tasks = rest;
+  if (!t.parent) t.phase = slot.phase;
+  return before!==S.tasks.map(x=>x.id).join() || oldPhase!==t.phase;
+}
+function moveRow(t, slot){
+  const snap = JSON.stringify(S.tasks), oldPhase = t.phase;
+  if (!applySlot(t, slot)) return;
+  renderAll();
+  if (!t.parent && oldPhase!==t.phase) toast(T("movedTo")(t.phase||T("noPhase")), {label:T("undo"), run(){ S.tasks=JSON.parse(snap); selId=t.id; renderAll(); }});
+}
+function moveByKey(t, dir){
+  const slots = rowSlots(t), block = blockOf(t), ids = new Set(block.map(x=>x.id));
+  const i0 = slots.findIndex(s=>s.before===t.id);
+  // first slot after our own block
+  let i1 = slots.findIndex((s,i)=>i>i0 && !(s.before && ids.has(s.before)));
+  if (dir<0 && i0>0) moveRow(t, slots[i0-1]);
+  if (dir>0 && i1>=0 && i1+1<slots.length) moveRow(t, slots[i1+1]);
+  const el=document.querySelector(`[data-grip="${CSS.escape(t.id)}"]`); if (el) el.focus();
+}
+let rdrag=null;
+$("labels").addEventListener("pointerdown", e=>{
+  const g = e.target.closest("[data-grip]"); if (!g || e.button!==0) return;
+  const t = byId(g.dataset.grip); if (!t) return;
+  e.preventDefault(); try { $("labels").setPointerCapture(e.pointerId); } catch(_){}
+  const ids = new Set(blockOf(t).map(x=>x.id));
+  const els = [...document.querySelectorAll("#labels .lr[data-sel]")].filter(el=>ids.has(el.dataset.sel));
+  rdrag = {t, y0:e.clientY, els, slots:rowSlots(t), slot:null, moved:false};
+});
+$("labels").addEventListener("pointermove", e=>{
+  if (!rdrag) return;
+  const dy = e.clientY - rdrag.y0;
+  if (!rdrag.moved && Math.abs(dy)<3) return;
+  if (!rdrag.moved){ rdrag.moved=true; rdrag.els.forEach(el=>el.classList.add("row-lift")); }
+  rdrag.els.forEach(el=>{ el.style.transform = `translateY(${dy}px)`; });
+  const g=$("gantt"), gr=g.getBoundingClientRect();
+  if (e.clientY < gr.top+70) g.scrollTop -= 10; else if (e.clientY > gr.bottom-30) g.scrollTop += 10;
+  const lr = $("labels").getBoundingClientRect(), y = e.clientY - lr.top;
+  let best=null, bd=Infinity; for (const sl of rdrag.slots){ const d=Math.abs(sl.y-y); if (d<bd){ bd=d; best=sl; } }
+  rdrag.slot = best;
+  const line=$("dropLine");
+  if (best){ line.style.display="block"; line.style.top=best.y+"px"; const sp=line.firstChild; const other = !rdrag.t.parent && best.phase!==rdrag.t.phase; sp.textContent = other ? "\u2192 "+(best.phase||T("noPhase")) : ""; sp.style.display = other ? "" : "none"; }
+});
+function endRowDrag(cancel){
+  if (!rdrag) return; const d=rdrag; rdrag=null;
+  d.els.forEach(el=>{ el.style.transform=""; el.classList.remove("row-lift"); });
+  const line=$("dropLine"); if (line) line.style.display="none";
+  if (!cancel && d.moved && d.slot) moveRow(d.t, d.slot);
+}
+$("labels").addEventListener("pointerup", ()=>endRowDrag(false));
+$("labels").addEventListener("pointercancel", ()=>endRowDrag(true));
 
 /* ---------- dragging ---------- */
 let drag=null, lastDragEnd=0, lastTap={};
@@ -1611,7 +1721,11 @@ async function doExport(kind){
 
 /* ---------- toast ---------- */
 let toastT=null;
-function toast(msg){ const el=$("toast"); el.textContent=msg; el.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(()=>el.classList.remove("show"), 3600); }
+function toast(msg, action){
+  const el=$("toast"); el.textContent=msg; el.classList.toggle("act", !!action);
+  if (action){ const b=document.createElement("button"); b.className="toast-act"; b.textContent=action.label; b.addEventListener("click", ()=>{ clearTimeout(toastT); el.classList.remove("show","act"); action.run(); }); el.appendChild(b); }
+  el.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(()=>el.classList.remove("show","act"), action?7000:3600);
+}
 
 /* ---------- start ---------- */
 load();
