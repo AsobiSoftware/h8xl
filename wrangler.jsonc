@@ -1,0 +1,10 @@
+// Cloudflare Workers met static assets: geen Worker-code, alleen de bestanden in deze map.
+{
+  "name": "h8xl",
+  "compatibility_date": "2025-09-01",
+  "assets": { "directory": "./" },
+  "routes": [
+    { "pattern": "h8xl.app", "custom_domain": true },
+    { "pattern": "www.h8xl.app", "custom_domain": true }
+  ]
+}

@@ -15,7 +15,7 @@ Eerlijkheid gaat voor een mooie claim. Dit zijn alle verzoeken die H8XL kan doen
 
 | Verzoek | Wanneer | Wat de ander ziet |
 |---|---|---|
-| Het laden van de pagina zelf | Bij openen van de gehoste versie | Je IP-adres en browser, zoals bij elke website. Dit ziet de hostingpartij. Gebruik je een lokale kopie van `index.html`, dan gebeurt dit niet. |
+| Het laden van de pagina zelf | Bij openen van de gehoste versie | Je IP-adres en browser, zoals bij elke website. Dit ziet de hostingpartij, Cloudflare. H8XL zet bij Cloudflare geen analytics of extra scripts aan. Gebruik je een lokale kopie van `index.html`, dan gebeurt dit niet. |
 | Lettertype (Google Fonts) | Bij openen | Je IP-adres en browser. *Gepland: het lettertype wordt in een volgende versie meegeleverd, zodat dit verzoek verdwijnt.* |
 | SheetJS (cdnjs.cloudflare.com) | Alleen als je een Excel-bestand opent dat de eigen lezer niet aankan, zoals een oud .xls-bestand | Je IP-adres en browser. Er wordt alleen code opgehaald; je bestand blijft in je browser. |
 

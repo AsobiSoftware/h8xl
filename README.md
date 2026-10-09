@@ -16,7 +16,7 @@ Gemaakt voor iedereen die zijn planning nu in Excel bijhoudt, en daar eigenlijk 
 
 ## Gebruiken
 
-Open `index.html` in een moderne browser (Chrome, Edge, Firefox of Safari), of gebruik de gehoste versie op `[JOUW-DOMEIN]`.
+Open `index.html` in een moderne browser (Chrome, Edge, Firefox of Safari), of gebruik de gehoste versie op [h8xl.app](https://h8xl.app).
 Er is niets te installeren.
 
 ## Privacy, in het kort

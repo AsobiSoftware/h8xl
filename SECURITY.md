@@ -35,7 +35,7 @@ H8XL is één bestand zonder bouwstap. De gehoste versie hoort dus byte voor byt
 
 ```sh
 shasum -a 256 index.html
-curl -s https://[JOUW-DOMEIN]/ | shasum -a 256
+curl -s https://h8xl.app/ | shasum -a 256
 ```
 
 Twee keer dezelfde uitkomst betekent dezelfde code.

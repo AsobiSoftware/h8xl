@@ -2,3 +2,5 @@
 *.xlsx
 *.pdf
 *.png
+.wrangler/
+node_modules/
