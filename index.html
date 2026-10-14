@@ -3,9 +3,17 @@
 <html lang="nl" data-theme="dark">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-MR9XK5qaS31yXuhgTzqvBOojL7ihSPNjrrpFcSrgk/I=' https://cdnjs.cloudflare.com; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src data: blob:; connect-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-bAyNCG3oV7ZZ3IVb4pd5uUE7qQbJD3Z6kKWAakyJWdg=' https://cdnjs.cloudflare.com; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src data: blob:; connect-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>H8XL</title>
+<title>H8XL – projectplanning door te slepen</title>
+<meta name="description" content="Lichtgewicht projectplanning in je browser. Sleep activiteiten op hun plek; gekoppeld werk schuift vanzelf mee, in werkdagen. Exporteert naar Excel. Geen account, geen server: je planning verlaat je computer niet.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://h8xl.app/">
+<meta property="og:title" content="H8XL – projectplanning door te slepen">
+<meta property="og:description" content="Lichtgewicht projectplanning in je browser. Sleep activiteiten op hun plek; gekoppeld werk schuift vanzelf mee, in werkdagen. Exporteert naar Excel. Geen account, geen server: je planning verlaat je computer niet.">
+<meta property="og:locale" content="nl_NL">
+<meta name="twitter:card" content="summary">
+<noscript><style>.top .vsep,.title-in,.tools,.board,.hint{display:none!important}</style></noscript>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -159,7 +167,7 @@ main{padding:4px 24px 40px;max-width:100%}
 .mini:hover{background:var(--ink);color:var(--surface);border-color:var(--ink)}
 .mini.on{background:var(--ink);color:var(--surface);border-color:var(--ink)}
 
-.r-empty{height:72px;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px;font-size:13px;color:var(--muted)}
+.r-empty{min-height:104px;padding-top:10px;padding-bottom:10px;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px;font-size:13px;color:var(--muted)}
 .r-empty strong{color:var(--ink);font-weight:600;font-size:14px}
 .r-add{height:48px;border-bottom:0;gap:0;padding-left:6px;overflow:hidden}
 .ph-add{flex:none;width:24px;height:24px;margin-left:auto;border:1px solid var(--line);border-radius:7px;background:var(--raised);color:var(--muted);cursor:pointer;font-size:15px;line-height:1;padding:0;display:inline-flex;align-items:center;justify-content:center}
@@ -221,6 +229,47 @@ main{padding:4px 24px 40px;max-width:100%}
 .modal .fb-field textarea{min-height:130px;resize:vertical;font-family:inherit;white-space:pre-wrap;font-size:14px;background:var(--paper)}
 .fb-field input:focus,.fb-field textarea:focus{outline:none;border-color:var(--focus)}
 .fb-note{font-size:12.5px;color:var(--muted);margin:2px 0 0}
+.nojs{max-width:62ch;margin:24px auto;padding:22px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.nojs h1{margin:0 0 8px;font-size:20px;letter-spacing:-.01em}
+.nojs p{margin:0 0 10px;color:var(--muted)}
+.nojs a{color:var(--focus)}
+.lnk{border:0;background:none;padding:0;font:inherit;color:var(--muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.lnk:hover{color:var(--ink)}
+.r-empty-acts{display:flex;flex-wrap:wrap;gap:2px 10px;margin-top:4px}
+.r-empty-acts .lnk{color:var(--focus)}
+
+/* Onboarding */
+.welcome ul{margin:0 0 16px;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.welcome li{display:flex;gap:10px;font-size:14px;line-height:1.4}
+.welcome li::before{content:"";flex:none;width:7px;height:7px;margin-top:7px;border-radius:50%;background:var(--focus);box-shadow:0 0 calc(var(--glow)*8px) var(--focus)}
+.welcome .w-own{font-size:13px;color:var(--muted);margin:14px 0 0;padding-top:12px;border-top:1px solid var(--line)}
+.welcome .w-own .lnk{color:var(--focus)}
+.keys{display:grid;grid-template-columns:200px 1fr;gap:7px 18px;margin:0 0 6px;font-size:14px}
+.keys dt{font-weight:500}
+.keys dd{margin:0;color:var(--muted)}
+.keys-h{margin:16px 0 8px;font-size:12px;font-weight:600;color:var(--muted)}
+.keys-h:first-child{margin-top:4px}
+kbd{font-family:"Geist Mono",ui-monospace,Menlo,monospace;font-size:12px;padding:1px 6px;border:1px solid var(--line-strong);border-bottom-width:2px;border-radius:6px;background:var(--paper)}
+@media (max-width:520px){.keys{grid-template-columns:1fr;gap:2px}.keys dd{margin-bottom:8px}}
+.tour{position:fixed;inset:0;z-index:150;pointer-events:none}
+.tour-block{position:fixed;pointer-events:auto}
+.tour-hole{position:fixed;border-radius:14px;box-shadow:0 0 0 max(200vw,200vh) rgba(8,11,16,.55);pointer-events:none;transition:left .2s,top .2s,width .2s,height .2s}
+.tour-ring{position:fixed;border:2px solid var(--focus);border-radius:10px;pointer-events:none;box-shadow:0 0 0 4px color-mix(in srgb,var(--focus) 22%,transparent),0 0 calc(var(--glow)*18px) var(--focus);animation:tourPulse 1.6s ease-in-out infinite}
+@keyframes tourPulse{50%{box-shadow:0 0 0 9px color-mix(in srgb,var(--focus) 0%,transparent),0 0 calc(var(--glow)*18px) var(--focus)}}
+.tour-pop{position:fixed;width:min(370px,calc(100vw - 24px));background:var(--raised);border:1px solid var(--line-strong);border-radius:14px;box-shadow:var(--shadow);padding:16px 18px 14px;pointer-events:auto;transition:left .2s,top .2s}
+.tour-pop h3{margin:2px 0 6px;font-size:17px;font-weight:600;letter-spacing:-.01em}
+.tour-pop p{margin:0;font-size:14px;color:var(--muted)}
+.tour-n{font-family:"Geist Mono",ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--focus);letter-spacing:.04em}
+.tour-bar{height:3px;border-radius:2px;background:var(--line);margin:8px 0 10px;overflow:hidden}
+.tour-bar span{display:block;height:100%;background:var(--focus);border-radius:2px;transition:width .2s}
+.tour-pop .tour-try{margin-top:10px;padding:8px 10px;border-radius:9px;background:var(--sel);color:var(--ink);font-size:13.5px}
+.tour-pop .tour-try.ok{background:color-mix(in srgb,var(--p1) 16%,transparent);color:var(--ink)}
+.tour-try:empty{display:none}
+.tour-acts{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:14px}
+.tour-acts .grow{flex:1}
+.touring .tip{z-index:160}
+.touring .panel{transition:none}
+.touring .menu.open{z-index:170}
 
 
 /* Modal & toast */
@@ -243,7 +292,7 @@ main{padding:4px 24px 40px;max-width:100%}
   .tools{order:3}
   .gantt{max-height:calc(100vh - 300px)}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
@@ -256,7 +305,7 @@ main{padding:4px 24px 40px;max-width:100%}
       <button data-zoom="day" data-i="day"></button><button data-zoom="week" data-i="week"></button>
     </div>
     <div class="menu-wrap">
-      <button class="btn" data-menu="viewMenu" aria-haspopup="true" aria-expanded="false"><span data-i="view"></span> ▾</button>
+      <button class="btn" data-menu="viewMenu" aria-haspopup="true" aria-expanded="false"><span data-i="view"></span> <span aria-hidden="true">▾</span></button>
       <div class="menu" id="viewMenu">
         <label><input type="checkbox" id="optHol"><span data-i="holidays"></span></label>
         <label><input type="checkbox" id="optOwner"><span data-i="ownerCol"></span></label>
@@ -269,7 +318,7 @@ main{padding:4px 24px 40px;max-width:100%}
     <button class="btn" id="btnOpen" data-i="open"></button>
     <button class="btn" id="btnPaste" data-i="paste"></button>
     <div class="menu-wrap">
-      <button class="btn primary" data-menu="exportMenu" aria-haspopup="true" aria-expanded="false"><span data-i="export"></span> ▾</button>
+      <button class="btn primary" data-menu="exportMenu" aria-haspopup="true" aria-expanded="false"><span data-i="export"></span> <span aria-hidden="true">▾</span></button>
       <div class="menu" id="exportMenu">
         <button data-export="xlsx"><span><span data-i="xlsx"></span><small data-i="xlsxSub"></small></span></button>
         <button data-export="pdf"><span><span data-i="pdf"></span><small data-i="pdfSub"></small></span></button>
@@ -277,6 +326,13 @@ main{padding:4px 24px 40px;max-width:100%}
       </div>
     </div>
     <button class="btn ghost" id="btnFeedback" data-i="feedback"></button>
+    <div class="menu-wrap">
+      <button class="btn ghost" data-menu="helpMenu" aria-haspopup="true" aria-expanded="false"><span data-i="help"></span> <span aria-hidden="true">▾</span></button>
+      <div class="menu" id="helpMenu">
+        <button id="helpTour"><span><span data-i="tourStart"></span><small data-i="tourStartSub"></small></span></button>
+        <button id="helpKeys"><span><span data-i="controls"></span><small data-i="controlsSub"></small></span></button>
+      </div>
+    </div>
     <div class="seg" role="group" aria-label="Taal / Language">
       <button data-lang="nl">NL</button><button data-lang="en">EN</button>
     </div>
@@ -285,6 +341,12 @@ main{padding:4px 24px 40px;max-width:100%}
 </header>
 
 <main>
+  <noscript><div class="nojs">
+    <h1>H8XL: projectplanning door te slepen</h1>
+    <p>Sleep activiteiten op hun plek; wat ervan afhangt, schuift vanzelf mee, in werkdagen en met Nederlandse feestdagen. Exporteer naar Excel, PDF of PNG, en open je Excel-bestand later gewoon weer.</p>
+    <p>Geen account, geen server: je planning blijft in je eigen browser en verlaat je computer niet. <a href="https://github.com/AsobiSoftware/h8xl">Broncode</a> · <a href="https://github.com/AsobiSoftware/h8xl/blob/main/PRIVACY.md">Privacy</a></p>
+    <p>Zet JavaScript aan om H8XL te gebruiken. <span lang="en">Drag-and-drop project planning that never leaves your computer. Enable JavaScript to use it.</span></p>
+  </div></noscript>
   <div class="board mode-panel" id="board">
     <div class="gantt" id="gantt">
       <div class="corner" id="corner"></div>
@@ -295,7 +357,7 @@ main{padding:4px 24px 40px;max-width:100%}
     <aside class="panel" id="panel" aria-label="Details"></aside>
     <div class="tip" id="tip"></div>
   </div>
-  <div class="hint"><p data-i="hint"></p><p><span data-i="autosave"></span> · <a id="lnkSource" target="_blank" rel="noopener" data-i="source"></a> · <a id="lnkPrivacy" target="_blank" rel="noopener" data-i="privacy"></a></p></div>
+  <div class="hint"><p><span data-i="hint"></span> <button class="lnk" id="hintHelp" data-i="allControls"></button></p><p><span data-i="autosave"></span> · <a id="lnkSource" target="_blank" rel="noopener" data-i="source"></a> · <a id="lnkPrivacy" target="_blank" rel="noopener" data-i="privacy"></a></p></div>
 
 </main>
 
@@ -343,6 +405,41 @@ main{padding:4px 24px 40px;max-width:100%}
     </div>
   </div>
 </div>
+<div class="ov" id="ovWelcome" role="dialog" aria-modal="true" aria-labelledby="wH">
+  <div class="modal welcome">
+    <h3 id="wH" data-i="wTitle"></h3>
+    <p data-i="wIntro"></p>
+    <ul><li data-i="wP1"></li><li data-i="wP2"></li><li data-i="wP3"></li></ul>
+    <div class="acts">
+      <button class="btn" id="wSelf" data-i="wSelf"></button>
+      <button class="btn primary" id="wTour" data-i="wTour"></button>
+    </div>
+    <p class="w-own"><span data-i="wOwn"></span> <button class="lnk" id="wOpen" data-i="wOpen"></button> · <button class="lnk" id="wPaste" data-i="wPaste"></button></p>
+  </div>
+</div>
+<div class="ov" id="ovHelp" role="dialog" aria-modal="true" aria-labelledby="helpH">
+  <div class="modal">
+    <h3 id="helpH" data-i="controls"></h3>
+    <div id="helpList"></div>
+    <div class="acts">
+      <button class="btn" id="helpTour2" data-i="tourStart"></button>
+      <button class="btn primary" data-close data-i="close"></button>
+    </div>
+  </div>
+</div>
+<div class="tour" id="tour" hidden>
+  <div class="tour-hole" id="tourHole"></div>
+  <div class="tour-block"></div><div class="tour-block"></div><div class="tour-block"></div><div class="tour-block"></div>
+  <div class="tour-ring"></div><div class="tour-ring"></div>
+  <div class="tour-pop" id="tourPop" role="dialog" aria-labelledby="tourH" aria-describedby="tourB">
+    <div class="tour-n" id="tourN"></div>
+    <div class="tour-bar"><span id="tourBar"></span></div>
+    <h3 id="tourH"></h3>
+    <p id="tourB"></p>
+    <p class="tour-try" id="tourTry" aria-live="polite"></p>
+    <div class="tour-acts" id="tourActs"></div>
+  </div>
+</div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -369,7 +466,7 @@ nl:{
   nr:"Nr", phase:"Fase", name:"Activiteit", start:"Start", end:"Eind", dur:"Duur", durX:"Duur (werkdagen)", after:"Na", milestone:"Mijlpaal", owner:"Eigenaar", progress:"Voortgang", progressX:"Voortgang (%)",
   yes:"ja", no:"nee",
   afterHelp:"Nummer van de voorgaande activiteit, bijvoorbeeld 3 of 3.1, of 3+2 voor twee werkdagen wachttijd",
-  hint:"Klik op een balk of naam om een activiteit te selecteren; dubbelklik om de details te openen. Sleep een balk om hem te verschuiven en trek aan de rechterrand om de duur te wijzigen. Trek het bolletje achter een geselecteerde balk naar een andere activiteit om ze te koppelen. In een geselecteerde regel voegt + een subactiviteit toe en verwijdert \u00D7 de regel.",
+  hint:"Klik om te selecteren, sleep om te plannen, dubbelklik voor details.", allControls:"Alle bediening",
   autosave:"Je planning blijft in deze browser",
   wk:"wk", workdays:n=>n===1?"1 werkdag":n+" werkdagen",
   removeLink:"Klik om deze koppeling te verwijderen", deleteTask:"Verwijderen", linkHandle:"Sleep naar een andere activiteit om te koppelen",
@@ -404,6 +501,26 @@ nl:{
   gapLong:{slack:n=>(n===1?"1 werkdag":n+" werkdagen")+" speling", over:n=>"planning "+(n===1?"1 werkdag":n+" werkdagen")+" na afspraak", on:()=>"planning valt op de afgesproken datum"},
   agreedOn:d=>"Afgesproken: "+d,
   h:{newyear:"Nieuwjaarsdag",easter1:"Eerste Paasdag",easter2:"Tweede Paasdag",kings:"Koningsdag",liberation:"Bevrijdingsdag",ascension:"Hemelvaartsdag",pent1:"Eerste Pinksterdag",pent2:"Tweede Pinksterdag",xmas1:"Eerste Kerstdag",xmas2:"Tweede Kerstdag"},
+  emptyPaste:"Plakken uit Excel", emptyOpen:"Bestand openen", emptySample:"Voorbeeld laden",
+  help:"Hulp", tourStart:"Rondleiding", tourStartSub:"In 1 minuut leren plannen, op een voorbeeld", controls:"Bediening", controlsSub:"Alle muisacties en sneltoetsen op een rij",
+  wTitle:"Welkom bij H8XL", wIntro:"Plan je project door te slepen, in plaats van cellen bij te houden in Excel.",
+  wP1:"Sleep activiteiten op hun plek. Wat ervan afhangt, schuift vanzelf mee.", wP2:"H8XL rekent in werkdagen en slaat weekenden en feestdagen over.", wP3:"Je planning verlaat je computer niet: geen account, geen server.",
+  wSelf:"Zelf rondkijken", wTour:"Rondleiding starten", wOwn:"Al een planning in Excel?", wOpen:"Bestand openen", wPaste:"Plakken uit Excel",
+  tourLater:"De rondleiding vind je altijd terug onder Hulp.", tourNew:"Nieuw: een rondleiding door H8XL", tourNewAct:"Bekijken",
+  tourOf:(i,n)=>"STAP "+i+" / "+n, tourNext:"Volgende", tourBack:"Terug", tourStop:"Stoppen", tourSkip:"Sla over", tourDone:"Klaar", tourOk:"Goed zo! Ga verder wanneer je wilt.",
+  tourSample:"Voorbeeld: nieuwe website", tourEmpty:"Lege planning", tourOpen:"Excel inlezen", tourKeep:"Voorbeeld bekijken",
+  tour:{
+    move:{t:"Verschuiven", b:(p,own)=>"Je oefent op een voorbeeld"+(own?"; je eigen planning komt daarna terug":"")+". Sleep de balk van ‘"+nm(p.move)+"’ naar rechts: alles wat erop wacht, schuift automatisch mee. Klikken selecteert, dubbelklikken opent de details.", try:"Probeer het: sleep de balk een paar dagen op."},
+    resize:{t:"Langer of korter maken", b:p=>"Trek aan de rechterrand van ‘"+nm(p.resize)+"’ om de duur te veranderen. Weekenden en feestdagen tellen niet mee.", try:"Probeer het: trek de omlijnde rand naar rechts."},
+    link:{t:"Koppelen", b:p=>"Sleep het bolletje achter ‘"+nm(p.link[0])+"’ naar ‘"+nm(p.link[1])+"’. Dan kan ‘"+nm(p.link[1])+"’ pas beginnen als ‘"+nm(p.link[0])+"’ klaar is. Klik op een pijl om een koppeling weer weg te halen.", try:"Probeer het: sleep het bolletje naar de andere omlijnde balk."},
+    milestone:{t:"Mijlpalen en afspraken", b:p=>"‘"+nm(p.ms)+"’ is een mijlpaal: het moment waarop iets wordt opgeleverd. Het oranje vlaggetje is de datum die je hebt afgesproken. Ernaast zie je of de planning daarbinnen past.", try:"Probeer het: sleep het vlaggetje en kijk hoe het verschil verandert."},
+    save:{t:"Opslaan is exporteren", b:(p,own)=>"Je planning blijft vanzelf in deze browser, maar die opslag kan gewist worden. Exporteer daarom naar Excel: dat bestand is je echte opslag en open je later weer met Openen. De rest van de bediening vind je onder Hulp."+(own?" Je eigen planning staat zo weer klaar.":"")},
+  },
+  keys:[
+    ["Met de muis",[["Klik op balk of naam","Activiteit selecteren"],["Dubbelklik","Details openen"],["Sleep een balk","Verschuiven; wat ervan afhangt, schuift mee"],["Sleep de rechterrand","Duur wijzigen, in werkdagen"],["Sleep het bolletje achter een balk","Koppelen aan een andere activiteit"],["Klik op een pijl","Koppeling verwijderen"],["Sleep het oranje vlaggetje","Afgesproken datum van een mijlpaal wijzigen"],["Sleep ⋮⋮ voor een regel","Regel verplaatsen, ook naar een andere fase"]]],
+    ["Met het toetsenbord",[["[Enter] in een naam","Nieuwe regel eronder"],["[Alt] + [↑] / [↓]","Geselecteerde regel verplaatsen"],["[Delete] of [Backspace]","Geselecteerde regel verwijderen (ongedaan te maken)"],["[Esc]","Selectie opheffen of venster sluiten"]]],
+    ["Bestanden",[["Exporteren → Excel","Opslaan om te delen en later weer te openen"],["Openen","Een H8XL-export of eigen .xlsx of .csv inlezen"],["Plakken","Kolommen uit Excel kopiëren en plakken"]]]
+  ],
   locale:"nl-NL"
 },
 en:{
@@ -417,7 +534,7 @@ en:{
   nr:"No", phase:"Phase", name:"Activity", start:"Start", end:"End", dur:"Duration", durX:"Duration (workdays)", after:"After", milestone:"Milestone", owner:"Owner", progress:"Progress", progressX:"Progress (%)",
   yes:"yes", no:"no",
   afterHelp:"Number of the preceding activity, for example 3 or 3.1, or 3+2 for a two-workday gap",
-  hint:"Click a bar or name to select an activity; double-click to open its details. Drag a bar to move it and pull its right edge to change the duration. Drag the dot behind a selected bar onto another activity to link them. In a selected row, + adds a sub-activity and \u00D7 deletes the row.",
+  hint:"Click to select, drag to plan, double-click for details.", allControls:"All controls",
   autosave:"Your plan stays in this browser",
   wk:"wk", workdays:n=>n===1?"1 workday":n+" workdays",
   removeLink:"Click to remove this link", deleteTask:"Delete", linkHandle:"Drag onto another activity to link",
@@ -452,8 +569,29 @@ en:{
   gapLong:{slack:n=>(n===1?"1 workday":n+" workdays")+" of slack", over:n=>"plan is "+(n===1?"1 workday":n+" workdays")+" past the agreed date", on:()=>"plan matches the agreed date"},
   agreedOn:d=>"Agreed: "+d,
   h:{newyear:"New Year\u2019s Day",easter1:"Easter Sunday",easter2:"Easter Monday",kings:"King\u2019s Day",liberation:"Liberation Day",ascension:"Ascension Day",pent1:"Whit Sunday",pent2:"Whit Monday",xmas1:"Christmas Day",xmas2:"Boxing Day"},
+  emptyPaste:"Paste from Excel", emptyOpen:"Open a file", emptySample:"Load example",
+  help:"Help", tourStart:"Guided tour", tourStartSub:"Learn to plan in 1 minute, on an example", controls:"Controls", controlsSub:"Every mouse action and shortcut at a glance",
+  wTitle:"Welcome to H8XL", wIntro:"Plan your project by dragging, instead of maintaining cells in Excel.",
+  wP1:"Drag activities into place. Whatever depends on them moves along automatically.", wP2:"H8XL counts in workdays and skips weekends and public holidays.", wP3:"Your plan never leaves your computer: no account, no server.",
+  wSelf:"Look around myself", wTour:"Start the tour", wOwn:"Already have a plan in Excel?", wOpen:"Open a file", wPaste:"Paste from Excel",
+  tourLater:"You can always find the tour under Help.", tourNew:"New: a guided tour of H8XL", tourNewAct:"Show me",
+  tourOf:(i,n)=>"STEP "+i+" / "+n, tourNext:"Next", tourBack:"Back", tourStop:"Stop", tourSkip:"Skip", tourDone:"Done", tourOk:"Nice! Continue whenever you’re ready.",
+  tourSample:"Example: new website", tourEmpty:"Empty plan", tourOpen:"Import Excel", tourKeep:"Explore the example",
+  tour:{
+    move:{t:"Move", b:(p,own)=>"You’re practising on an example"+(own?"; your own plan comes back afterwards":"")+". Drag the bar of ‘"+nm(p.move)+"’ to the right: everything waiting for it moves along automatically. Click to select, double-click to open the details.", try:"Try it: drag the bar a few days later."},
+    resize:{t:"Make it longer or shorter", b:p=>"Pull the right edge of ‘"+nm(p.resize)+"’ to change its duration. Weekends and holidays don’t count.", try:"Try it: pull the outlined edge to the right."},
+    link:{t:"Link", b:p=>"Drag the dot behind ‘"+nm(p.link[0])+"’ onto ‘"+nm(p.link[1])+"’. Then ‘"+nm(p.link[1])+"’ can only start once ‘"+nm(p.link[0])+"’ is done. Click an arrow to remove a link again.", try:"Try it: drag the dot onto the other outlined bar."},
+    milestone:{t:"Milestones and commitments", b:p=>"‘"+nm(p.ms)+"’ is a milestone: the moment something gets delivered. The orange flag is the date you agreed on. Next to it you see whether the plan fits.", try:"Try it: drag the flag and watch the difference change."},
+    save:{t:"Saving means exporting", b:(p,own)=>"Your plan stays in this browser automatically, but that storage can be cleared. So export to Excel: that file is your real storage, and you open it again later with Open. You’ll find all other controls under Help."+(own?" Your own plan is back in a moment.":"")},
+  },
+  keys:[
+    ["With the mouse",[["Click a bar or name","Select an activity"],["Double-click","Open details"],["Drag a bar","Move it; whatever depends on it moves along"],["Drag the right edge","Change the duration, in workdays"],["Drag the dot behind a bar","Link to another activity"],["Click an arrow","Remove the link"],["Drag the orange flag","Change a milestone’s agreed date"],["Drag ⋮⋮ in front of a row","Move the row, also to another phase"]]],
+    ["With the keyboard",[["[Enter] in a name","New row below"],["[Alt] + [↑] / [↓]","Move the selected row"],["[Delete] or [Backspace]","Delete the selected row (can be undone)"],["[Esc]","Clear selection or close a window"]]],
+    ["Files",[["Export → Excel","Save to share and open again later"],["Open","Import an H8XL export or your own .xlsx or .csv"],["Paste","Copy columns from Excel and paste them"]]]
+  ],
   locale:"en-GB"
 }};
+const nm = t => t ? (t.name || T(t.parent?"newSub":"newTask")) : "";
 const T = k => I[S.lang][k];
 
 /* ---------- dates (day numbers, UTC) ---------- */
@@ -517,10 +655,16 @@ function sample(lang){
     mk(8,3,1,true,7,"",0)
   ];
 }
-function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }
+// during the tour the plan is a sandbox: nothing is written, the stored plan stays as it was
+function save(){ if (tour) return; try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }
+// returns true on a first visit (nothing stored yet)
 function load(){
   let raw=null; try { raw = localStorage.getItem(KEY); } catch(e){}
-  if (raw){ try { const o = JSON.parse(raw); if (o && Array.isArray(o.tasks)) { S = Object.assign(S, o); return; } } catch(e){} }
+  if (raw){ try { const o = JSON.parse(raw); if (o && Array.isArray(o.tasks)) { S = Object.assign(S, o); return false; } } catch(e){} }
+  loadSample();
+  return !raw;
+}
+function loadSample(){
   S.tasks = sample(S.lang);
   normalize(); schedule();
   const ms = S.tasks.filter(t=>t.ms);
@@ -633,6 +777,7 @@ function addDep(src, tgt){
   if (src.id===tgt.id || tgt.deps.some(d=>d.id===src.id)) return;
   if (wouldCycle(src, tgt)) { toast(T("cycle")); return; }
   const D = tgt.start; tgt.deps.push({id:src.id, lag:0}); setStart(tgt, D);
+  tourEv("link");
 }
 function gapInfo(t){
   if (!t.ms || t.agreed==null) return null;
@@ -686,7 +831,7 @@ function computeLayout(keepRange){
   let y=0; const pos=new Map();
   for (const r of rows){ r.y=y; r.h = r.type==="phase"?32:(r.sub?30:36); if (r.type==="task") pos.set(r.t.id,r); y+=r.h; }
   for (const [id,pid] of hidden) pos.set(id, pos.get(pid));
-  const rowsH = y, emptyH = S.tasks.length?0:72;
+  const rowsH = y, emptyH = S.tasks.length?0:104;
   L = {rows,num,rs,re,px,W:(re-rs+1)*px,rowsH,H:rowsH+emptyH+48,pos};
 }
 
@@ -816,6 +961,7 @@ let dragId=null, snapId=null, selId=null;
 function paintBody(){
   const b=$("body"); b.setAttribute("width",L.W); b.setAttribute("height",L.H);
   b.innerHTML = bodySVG("screen",{rs:L.rs,re:L.re,px:L.px,H:L.H,interactive:true});
+  tourSync();
 }
 function paintGantt(){
   $("gantt").style.gridTemplateColumns = LW()+"px "+L.W+"px";
@@ -834,7 +980,7 @@ function paintGantt(){
       html += `<div class="lr r-task${r.sub?" r-sub":""}${t.id===selId?" selected":""}" data-sel="${t.id}"><button class="grip" data-grip="${t.id}" title="${esc(T("dragRow"))}" aria-label="${esc(T("dragRow"))}"><svg width="10" height="14" viewBox="0 0 10 14" aria-hidden="true"><g fill="currentColor"><circle cx="3" cy="3" r="1.3"/><circle cx="7" cy="3" r="1.3"/><circle cx="3" cy="7" r="1.3"/><circle cx="7" cy="7" r="1.3"/><circle cx="3" cy="11" r="1.3"/><circle cx="7" cy="11" r="1.3"/></g></svg></button>${r.sub?`<span class="tg-sp"></span>`:""}<span class="num">${r.n}</span>${r.sub?"":tg}<span class="nw"><input class="name-in" data-f="name:${t.id}" value="${esc(t.name)}" placeholder="${esc(T(r.sub?"newSub":"newTask"))}" aria-label="${esc(T("name"))} ${r.n}">${r.kids&&t.collapsed?`<span class="cnt">${r.kids}</span>`:""}${addSub}<button class="del" data-del="${t.id}" title="${esc(T("deleteTask"))}" aria-label="${esc(T("deleteTask"))}">×</button></span></div>`;
     }
   }
-  if (!S.tasks.length) html += `<div class="lr r-empty"><strong>${esc(T("emptyTitle"))}</strong><span>${esc(T("emptyBody"))}</span></div>`;
+  if (!S.tasks.length) html += `<div class="lr r-empty"><strong>${esc(T("emptyTitle"))}</strong><span>${esc(T("emptyBody"))}</span><span class="r-empty-acts"><button class="lnk" data-empty="paste">${esc(T("emptyPaste"))}</button><button class="lnk" data-empty="open">${esc(T("emptyOpen"))}</button><button class="lnk" data-empty="sample">${esc(T("emptySample"))}</button></span></div>`;
   html += `<div class="lr r-add"><button class="add" data-act="addTask"><span class="plus" aria-hidden="true">+</span>${esc(T("addTask"))}</button><button class="add sub" data-act="addPhase" title="${esc(T("addPhase"))}">+ ${esc(T("phase"))}</button></div>`;
   $("labels").innerHTML = html + `<div class="drop-line" id="dropLine"><span></span></div>`;
   paintBody();
@@ -888,7 +1034,7 @@ function select(id){
   selId = id;
   document.querySelectorAll(".lr.selected").forEach(n=>n.classList.remove("selected"));
   if (id){ const row=document.querySelector(`.lr[data-sel="${CSS.escape(id)}"]`); if (row) row.classList.add("selected"); }
-  paintBody(); paintPanel();
+  paintBody(); paintPanel(); tourSync();
 }
 function paintChrome(){
   document.documentElement.lang = S.lang;
@@ -918,6 +1064,7 @@ function renderAll(focusKey){
     if (el){ if (keepVal!==null) el.value = keepVal; el.focus({preventScroll:!focusKey}); if (sel) try{ el.setSelectionRange(sel[0],sel[1]); }catch(e){} }
   }
   if (firstPaint){ firstPaint=false; }
+  tourSync();
 }
 const queue = () => setTimeout(()=>renderAll(),0);
 
@@ -1028,6 +1175,8 @@ document.addEventListener("keydown", e=>{
 });
 $("title").addEventListener("keydown", e=>{ if (e.key==="Enter") e.target.blur(); });
 document.addEventListener("click", e=>{
+  const em = e.target.closest("[data-empty]");
+  if (em){ const k=em.dataset.empty; if (k==="paste") $("btnPaste").click(); else if (k==="open") $("file").click(); else { loadSample(); selId=null; renderAll(); } return; }
   const a = e.target.closest("[data-act]");
   if (a){ if (a.dataset.act==="addTask") addTask(); else addPhase(); return; }
   const d = e.target.closest("[data-del]"); if (d){ deleteTask(d.dataset.del); return; }
@@ -1090,7 +1239,7 @@ $("pasteTa").addEventListener("keydown", e=>{ if (e.key==="Tab"){ e.preventDefau
 $("pasteReplace").addEventListener("click", ()=>doPaste(true));
 $("pasteAppend").addEventListener("click", ()=>doPaste(false));
 $("file").addEventListener("change", async e=>{ const f=e.target.files[0]; e.target.value=""; if (f) await importFile(f); });
-window.addEventListener("resize", ()=>{ clearTimeout(window.__rz); window.__rz=setTimeout(()=>renderAll(),150); });
+window.addEventListener("resize", ()=>{ clearTimeout(window.__rz); window.__rz=setTimeout(()=>{ renderAll(); tourPlace(); },150); });
 
 /* ---------- reordering rows ---------- */
 function blockOf(t){ return t.parent ? [t] : [t, ...kidsOf(t.id)]; }
@@ -1253,6 +1402,7 @@ function endDrag(e, cancel){
     if (tt && tt.id!==d.t.id) addDep(d.t, tt);
   }
   renderAll();
+  if (!cancel && d.moved) tourEv(d.mode);
 }
 body.addEventListener("pointerup", e=>endDrag(e,false));
 function openDetails(id, focusName){
@@ -1727,9 +1877,195 @@ function toast(msg, action){
   el.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(()=>el.classList.remove("show","act"), action?7000:3600);
 }
 
+/* ---------- onboarding: welcome, guided tour, controls ---------- */
+const TOUR_KEY = "h8xl.tour";
+function tourSeen(){ try { return !!localStorage.getItem(TOUR_KEY); } catch(e){ return true; } }
+function markTourSeen(){ try { localStorage.setItem(TOUR_KEY, "1"); } catch(e){} }
+let tour = null;
+const box = (l,t,r,b) => ({left:l, top:t, right:r, bottom:b, width:r-l, height:b-t});
+const rectOf = el => { if (!el) return null; const r = el.getBoundingClientRect(); return (r.width||r.height) ? box(r.left,r.top,r.right,r.bottom) : null; };
+const grow = (r,n) => r && box(r.left-n, r.top-n, r.right+n, r.bottom+n);
+const clipTo = (r,c) => { if (!r || !c) return r; const b = box(Math.max(r.left,c.left), Math.max(r.top,c.top), Math.min(r.right,c.right), Math.min(r.bottom,c.bottom)); return (b.width>4 && b.height>4) ? b : null; };
+const union = rs => { rs = rs.filter(Boolean); return rs.length ? box(Math.min(...rs.map(r=>r.left)), Math.min(...rs.map(r=>r.top)), Math.max(...rs.map(r=>r.right)), Math.max(...rs.map(r=>r.bottom))) : null; };
+const taskEl = (t, part) => t && document.querySelector(`#body g.task[data-id="${CSS.escape(t.id)}"]${part?" "+part:""}`);
+const ganttR = () => rectOf($("gantt"));
+const bodyArea = () => { const g = ganttR(); return g && box(g.left+LW(), g.top+48, g.right, g.bottom); };
+// scroll the timeline so these rows are in view, plus the dates d0..d1 (default: the activities themselves);
+// endFirst keeps the end in view when it all doesn't fit, for the resize handle and the link dot
+function reveal(ts, d0, d1, endFirst){
+  ts = ts.filter(Boolean); if (!ts.length || !L) return;
+  const g = $("gantt"), X = d => (d-L.rs)*L.px;
+  let x0=Infinity, x1=-Infinity, y0=Infinity, y1=-Infinity;
+  for (const t of ts){ const r=L.pos.get(t.id); if (!r) continue; x0=Math.min(x0,X(t.start)); x1=Math.max(x1,X(fin(t))+L.px+40); y0=Math.min(y0,r.y); y1=Math.max(y1,r.y+r.h); }
+  if (x0===Infinity) return;
+  if (d0!=null){ x0=X(d0); x1=X(d1)+L.px+40; }
+  const vw = g.clientWidth-LW(), vh = g.clientHeight-48;
+  g.scrollLeft = Math.max(0, x1-x0<vw ? x0-Math.min(90,(vw-(x1-x0))/2) : endFirst ? x1-vw : x0-30);
+  if (y0<g.scrollTop || y1>g.scrollTop+vh) g.scrollTop = Math.max(0, y0-Math.max(0,(vh-(y1-y0))/3));
+}
+// the activities the tour points at; chosen from the plan so the tour also survives a changed example
+function tourPicks(){
+  const top = S.tasks.filter(t=>!t.parent && !t.ms && !kidsOf(t.id).length);
+  const hasNext = t => S.tasks.some(x=>x.deps.some(d=>d.id===t.id));
+  const move = top.find(t=>t.deps.length && hasNext(t) && t.dur>=3) || top.find(hasNext) || top[0] || null;
+  const resize = top.find(t=>t!==move && t.dur>=3) || move;
+  const link = linkPick();
+  const ms = S.tasks.find(t=>t.ms && t.agreed!=null) || null;
+  return {move, resize, link, ms};
+}
+// a pair to link: preferably one that fits on screen, starting from an activity nothing waits for yet, close together
+function linkPick(){
+  const top = S.tasks.filter(t=>!t.parent && !t.ms && !kidsOf(t.id).length);
+  const hasNext = t => S.tasks.some(x=>x.deps.some(d=>d.id===t.id));
+  const room = $("gantt").clientWidth-LW() + (S.panelOpen && !isMob() ? 282 : 0);
+  const fit = (gap,px) => (gap+3)*px+80 <= room;
+  let best = null, bestKey = null;
+  for (const a of top) for (const b of S.tasks){
+    if (b.parent || b===a || kidsOf(b.id).length || b.start<=fin(a) || b.deps.some(d=>d.id===a.id) || wouldCycle(a,b)) continue;
+    const ra = L.pos.get(a.id), rb = L.pos.get(b.id); if (!ra || !rb) continue;
+    const gap = b.start-fin(a), dy = Math.abs(ra.y-rb.y), near = dy <= ($("gantt").clientHeight-48)*.35;
+    const key = [near && fit(gap,34) ? 0 : near && fit(gap,14) ? 1 : 2, hasNext(a)?1:0, gap+dy/36];
+    const better = !bestKey || key[0]<bestKey[0] || (key[0]===bestKey[0] && (key[1]<bestKey[1] || (key[1]===bestKey[1] && key[2]<bestKey[2])));
+    if (better){ best=[a,b]; bestKey=key; }
+  }
+  return best;
+}
+const TOUR = [
+  {id:"move", when:p=>p.move, hole:ganttR, pad:0, ring:p=>[rectOf(taskEl(p.move,".bar"))], clip:bodyArea, wait:"move", prep:p=>{ selId=p.move.id; }, scroll:p=>reveal([p.move])},
+  {id:"resize", when:p=>p.resize, hole:ganttR, pad:0, ring:p=>[rectOf(taskEl(p.resize,".handle"))], clip:bodyArea, wait:"resize", prep:p=>{ selId=p.resize.id; }, scroll:p=>reveal([p.resize], p.resize.start, fin(p.resize), true)},
+  {id:"link", when:p=>p.link, hole:ganttR, pad:0, ring:p=>[rectOf(taskEl(p.link[0],".dot")), rectOf(taskEl(p.link[1],".bar"))], clip:bodyArea, wait:"link",
+    prep:p=>{ p.link = linkPick() || p.link; selId = p.link[0].id; },
+    scroll:p=>{ // make room for dot and target: fold the panel away, and if that's not enough, zoom out to weeks
+      const vis = () => $("gantt").clientWidth-LW(), need = () => (Math.abs(p.link[1].start-fin(p.link[0]))+3)*L.px+80;
+      if (need()>vis() && S.panelOpen && !isMob()){ S.panelOpen = false; renderAll(); }
+      if (need()>vis()){ S.zoom = "week"; renderAll(); }
+      reveal(p.link, Math.min(fin(p.link[0]),p.link[1].start), Math.max(fin(p.link[0]),p.link[1].start+1), true);
+    }},
+  {id:"milestone", when:p=>p.ms, hole:ganttR, pad:0, ring:p=>[rectOf(taskEl(p.ms))], clip:bodyArea, wait:"agreed", prep:p=>{ selId=p.ms.id; }, scroll:p=>reveal([p.ms], Math.min(p.ms.start,p.ms.agreed), Math.max(p.ms.start,p.ms.agreed)+4)},
+  {id:"save", hole:()=>rectOf(document.querySelector('[data-menu="exportMenu"]')), pad:6},
+];
+function startTour(fromWelcome){
+  if (tour) return;
+  closeMenus(); document.querySelectorAll(".ov.open").forEach(o=>o.classList.remove("open"));
+  // snapshot first: from here on save() is a no-op, so the stored plan cannot be touched
+  tour = {snap:JSON.stringify(S), own:!fromWelcome, i:0, ok:false};
+  loadSample(); S.title = T("tourSample"); S.zoom = "day"; selId = null;
+  renderAll();
+  tour.p = tourPicks();
+  tour.steps = TOUR.filter(s=>!s.when || s.when(tour.p));
+  document.documentElement.classList.add("touring"); $("tour").hidden = false;
+  showStep(0);
+}
+function endTour(act){
+  if (!tour) return;
+  const snap = tour.snap; tour = null;
+  drag = null; dragId = null; hideTip();
+  $("tour").hidden = true; document.documentElement.classList.remove("touring");
+  const lang = S.lang; S = JSON.parse(snap); S.lang = lang; selId = null;
+  if (act==="empty"){ S.tasks = []; S.title = ""; }
+  markTourSeen(); renderAll();
+  if (act==="open") $("file").click();
+  else if (act==="stop") toast(T("tourLater"));
+}
+function showStep(i){
+  const s = tour.steps[i], p = tour.p, tx = T("tour")[s.id], n = tour.steps.length;
+  tour.i = i; tour.ok = false;
+  S.panelOpen = !isMob(); S.zoom = "day";
+  if (s.prep) s.prep(p);
+  renderAll();
+  if (s.scroll) s.scroll(p);
+  $("tourN").textContent = T("tourOf")(i+1, n);
+  $("tourBar").style.width = ((i+1)/n*100)+"%";
+  $("tourH").textContent = tx.t;
+  $("tourB").textContent = tx.b(p, tour.own);
+  const tr = $("tourTry"); tr.classList.remove("ok"); tr.textContent = s.wait ? tx.try : "";
+  tourButtons(); tourSync(); tourPlace();
+  const f = $("tourActs").querySelector(".primary") || $("tourActs").querySelector('[data-tour="next"]');
+  if (f) f.focus({preventScroll:true});
+}
+function tourButtons(){
+  const s = tour.steps[tour.i], i = tour.i, last = i===tour.steps.length-1;
+  const b = (act, label, cls) => `<button class="btn${cls?" "+cls:""}" data-tour="${act}">${esc(label)}</button>`;
+  $("tourActs").innerHTML = last
+    ? (tour.own ? `<span class="grow"></span>${b("done",T("tourDone"),"primary")}` : `${b("empty",T("tourEmpty"))}${b("open",T("tourOpen"))}<span class="grow"></span>${b("done",T("tourKeep"),"primary")}`)
+    : `${b("stop",T("tourStop"),"ghost")}<span class="grow"></span>${i?b("back",T("tourBack")):""}${s.wait && !tour.ok ? b("next",T("tourSkip")) : b("next",T("tourNext"),"primary")}`;
+}
+// called from the app whenever the user does something the tour may be waiting for
+function tourEv(kind){
+  if (!tour || tour.ok || !tour.steps || tour.steps[tour.i].wait!==kind) return;
+  tour.ok = true;
+  const tr = $("tourTry"); tr.textContent = "✓ "+T("tourOk"); tr.classList.add("ok");
+  tourButtons(); tourPlace();
+}
+// position the dimmed overlay, its hole, the click blockers around it and the highlight rings
+function tourSync(){
+  if (!tour || !tour.steps) return;
+  const s = tour.steps[tour.i], p = tour.p, vw = innerWidth, vh = innerHeight;
+  const put = (el,r) => { el.style.left=r.left+"px"; el.style.top=r.top+"px"; el.style.width=Math.max(0,r.width)+"px"; el.style.height=Math.max(0,r.height)+"px"; };
+  const h = s.hole ? clipTo(grow(s.hole(p), s.pad ?? 6), box(0,0,vw,vh)) : null;
+  put($("tourHole"), h || box(vw/2,vh/2,vw/2,vh/2));
+  const B = h ? [box(0,0,vw,h.top), box(0,h.bottom,vw,vh), box(0,h.top,h.left,h.bottom), box(h.right,h.top,vw,h.bottom)] : [box(0,0,vw,vh), box(0,0,0,0), box(0,0,0,0), box(0,0,0,0)];
+  document.querySelectorAll(".tour-block").forEach((el,k)=>put(el,B[k]));
+  const rings = s.ring ? s.ring(p).map(r=>clipTo(grow(r,5), s.clip ? s.clip() : h)) : [];
+  document.querySelectorAll(".tour-ring").forEach((el,k)=>{ const r=rings[k]; el.style.display = r ? "" : "none"; if (r) put(el,r); });
+  tour.anchor = union(rings) || h;
+}
+// put the explanation next to what it explains, without covering it
+function tourPlace(){
+  if (!tour || !tour.steps) return;
+  const pop = $("tourPop"), a = tour.anchor, vw = innerWidth, vh = innerHeight, m = 12, pw = pop.offsetWidth, ph = pop.offsetHeight;
+  const cl = (v,lo,hi) => Math.max(lo, Math.min(hi, v));
+  let x = (vw-pw)/2, y = (vh-ph)/2;
+  if (a){
+    const cx = cl(a.left+a.width/2-pw/2, m, vw-pw-m), cy = cl(a.top+a.height/2-ph/2, m, vh-ph-m);
+    if (a.bottom+m+ph <= vh-m){ x=cx; y=a.bottom+m; }
+    else if (a.top-m-ph >= m){ x=cx; y=a.top-m-ph; }
+    else if (!isMob() && a.right+m+pw <= vw-m){ x=a.right+m; y=cy; }
+    else if (!isMob() && a.left-m-pw >= m){ x=a.left-m-pw; y=cy; }
+    else { // nothing fits next to it: use the top or bottom edge, whichever hides less of it
+      const hid = top => Math.max(0, Math.min(top+ph, a.bottom) - Math.max(top, a.top));
+      x = isMob() ? m : vw-pw-m*2; y = hid(m) < hid(vh-ph-m) ? m : vh-ph-m; }
+  }
+  pop.style.left = Math.max(m,x)+"px"; pop.style.top = Math.max(m,y)+"px";
+}
+$("tourActs").addEventListener("click", e=>{
+  const b = e.target.closest("[data-tour]"); if (!b || !tour) return;
+  const a = b.dataset.tour;
+  if (a==="next") showStep(tour.i+1); else if (a==="back") showStep(tour.i-1); else endTour(a);
+});
+document.addEventListener("keydown", e=>{
+  if (tour && e.key==="Escape"){ e.preventDefault(); e.stopImmediatePropagation(); endTour("stop"); }
+}, true);
+$("gantt").addEventListener("scroll", ()=>tourSync(), {passive:true});
+// the panel animates open/closed; follow the timeline while its size settles
+if (window.ResizeObserver) new ResizeObserver(()=>{ if (tour && tour.steps && !drag){ tourSync(); tourPlace(); } }).observe($("gantt"));
+window.addEventListener("scroll", ()=>tourSync(), {passive:true});
+
+function openHelp(){
+  closeMenus();
+  $("helpList").innerHTML = T("keys").map(([h,rows])=>`<h4 class="keys-h">${esc(h)}</h4><dl class="keys">${rows.map(([k,v])=>`<dt>${esc(k).replace(/\[([^\]]+)\]/g,"<kbd>$1</kbd>")}</dt><dd>${esc(v)}</dd>`).join("")}</dl>`).join("");
+  $("ovHelp").classList.add("open"); setTimeout(()=>$("ovHelp").querySelector("[data-close]").focus(),30);
+}
+$("helpKeys").addEventListener("click", openHelp);
+$("hintHelp").addEventListener("click", openHelp);
+$("helpTour").addEventListener("click", ()=>startTour(false));
+$("helpTour2").addEventListener("click", ()=>startTour(false));
+$("wTour").addEventListener("click", ()=>startTour(true));
+$("wSelf").addEventListener("click", ()=>{ $("ovWelcome").classList.remove("open"); toast(T("tourLater")); });
+$("wOpen").addEventListener("click", ()=>{ $("ovWelcome").classList.remove("open"); $("file").click(); });
+$("wPaste").addEventListener("click", ()=>{ $("ovWelcome").classList.remove("open"); $("btnPaste").click(); });
+// first visit: welcome screen; existing users get one gentle pointer to the tour
+function onboard(fresh){
+  if (tourSeen()) return;
+  markTourSeen();
+  if (fresh){ $("ovWelcome").classList.add("open"); setTimeout(()=>$("wTour").focus(),30); }
+  else toast(T("tourNew"), {label:T("tourNewAct"), run(){ startTour(false); }});
+}
+
 /* ---------- start ---------- */
-load();
+const fresh = load();
 renderAll();
+onboard(fresh);
 })();
 </script>
 </body>

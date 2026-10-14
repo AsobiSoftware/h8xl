@@ -5,6 +5,7 @@ Deze pagina beschrijft precies welke gegevens H8XL gebruikt en waar die blijven.
 ## Je planning
 
 - **Waar staat je planning?** In de lokale opslag (`localStorage`) van je eigen browser, op je eigen computer. En in de bestanden die je zelf exporteert (Excel, PDF, PNG).
+- **Wat staat er verder in die opslag?** Alleen of je het welkomstscherm al hebt gezien (`h8xl.tour`), zodat het niet elke keer terugkomt. Dat blijft ook op je eigen computer. Tijdens de rondleiding wordt er niets opgeslagen: je oefent op een voorbeeld en je eigen planning blijft onaangeroerd.
 - **Wie kan erbij?** Alleen jij, op dat apparaat, in die browser. H8XL heeft geen server, geen database en geen accounts.
 - **Wordt je planning ergens heen gestuurd?** Nee. De pagina bevat een Content Security Policy met `connect-src 'none'`. Daarmee weigert de browser zelf elk verzoek waarmee data verstuurd zou kunnen worden (fetch, XMLHttpRequest, beacons, websockets). Ook afbeeldingen van externe adressen worden geblokkeerd, zodat data niet via een omweg weg kan.
 - **Let op:** lokale browseropslag kan door jou, je browser of je organisatie worden gewist. Sla belangrijke planningen daarom op als Excel-bestand.
